@@ -1,25 +1,31 @@
 <template>
-  <div class="fixed bottom-5 right-5 z-50 flex flex-col space-y-3 max-w-sm w-full pointer-events-none">
-    <transition-group name="toast">
+  <div class="fixed top-4 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-4 sm:bottom-4 sm:top-auto z-50 flex flex-col gap-2 w-full max-w-sm pointer-events-none px-4 sm:px-0">
+    <transition-group name="toast-slide">
       <div
-        v-for="toast in notificationStore.toasts"
-        :key="toast.id"
-        class="pointer-events-auto p-4 rounded-xl shadow-2xl backdrop-blur-md border flex items-start space-x-3 transition-all duration-300 transform"
-        :class="{
-          'bg-slate-900/90 border-emerald-500/40 text-emerald-300': toast.type === 'success',
-          'bg-slate-900/90 border-rose-500/40 text-rose-300': toast.type === 'error',
-          'bg-slate-900/90 border-indigo-500/40 text-indigo-300': toast.type === 'info',
-        }"
+        v-for="t in toasts"
+        :key="t.id"
+        class="pointer-events-auto w-full flex gap-3 p-4 rounded-xl border bg-card/90 backdrop-blur-md shadow-lg text-sm leading-relaxed transition-all duration-300"
+        :class="getBorderClass(t.type)"
       >
-        <div class="flex-1">
-          <h4 v-if="toast.title" class="font-semibold text-sm text-white mb-0.5">{{ toast.title }}</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">{{ toast.message }}</p>
+        <!-- Icon based on type -->
+        <component 
+          :is="getIcon(t.type)" 
+          class="h-4 w-4 shrink-0 mt-0.5" 
+          :class="getIconColorClass(t.type)"
+        />
+
+        <!-- Title & Description -->
+        <div class="flex-1 space-y-1">
+          <h4 class="font-bold text-neutral-900 dark:text-neutral-50">{{ t.title }}</h4>
+          <p v-if="t.description" class="text-[13px] text-muted-foreground">{{ t.description }}</p>
         </div>
-        <button
-          @click="notificationStore.removeToast(toast.id)"
-          class="text-slate-400 hover:text-white p-1 rounded-md transition-colors"
+
+        <!-- Close Button -->
+        <button 
+          class="h-4 w-4 shrink-0 flex items-center justify-center rounded text-muted-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors"
+          @click="dismiss(t.id)"
         >
-          &times;
+          <X class="h-3 w-3" />
         </button>
       </div>
     </transition-group>
@@ -27,22 +33,72 @@
 </template>
 
 <script setup>
-import { useNotificationStore } from '@/stores/useNotificationStore';
+import { useToast } from '@/Composables/useToast';
+import { 
+  CheckCircle2, 
+  AlertCircle, 
+  AlertTriangle, 
+  Info, 
+  X 
+} from 'lucide-vue-next';
 
-const notificationStore = useNotificationStore();
+const { toasts, dismiss } = useToast();
+
+const getIcon = (type) => {
+  switch (type) {
+    case 'success': return CheckCircle2;
+    case 'warning': return AlertCircle;
+    case 'error': return AlertTriangle;
+    default: return Info;
+  }
+};
+
+const getIconColorClass = (type) => {
+  switch (type) {
+    case 'success': return 'text-emerald-600 dark:text-emerald-400';
+    case 'warning': return 'text-amber-500 dark:text-amber-400';
+    case 'error': return 'text-rose-600 dark:text-rose-400';
+    default: return 'text-indigo-600 dark:text-indigo-400';
+  }
+};
+
+const getBorderClass = (type) => {
+  switch (type) {
+    case 'success': return 'border-emerald-500/20 dark:border-emerald-500/10';
+    case 'warning': return 'border-amber-500/20 dark:border-amber-500/10';
+    case 'error': return 'border-rose-500/20 dark:border-rose-500/10';
+    default: return 'border-border';
+  }
+};
 </script>
 
 <style scoped>
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s ease;
+.toast-slide-enter-active,
+.toast-slide-leave-active {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.toast-enter-from {
+
+.toast-slide-enter-from {
   opacity: 0;
-  transform: translateY(20px) scale(0.95);
+  transform: translateY(-1rem) scale(0.95);
 }
-.toast-leave-to {
+
+.toast-slide-leave-to {
   opacity: 0;
-  transform: translateX(100px);
+  transform: translateY(-1rem) scale(0.95);
+}
+
+@media (min-width: 640px) {
+  .toast-slide-enter-from {
+    transform: translateY(1rem) scale(0.95);
+  }
+  .toast-slide-leave-to {
+    transform: translateY(1rem) scale(0.95);
+  }
+}
+
+.toast-slide-leave-active {
+  position: absolute;
+  width: 100%;
 }
 </style>
