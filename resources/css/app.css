@@ -107,3 +107,61 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.4);
 }
+
+/* Rich Text HTML Rendering (.prose-custom) */
+.prose-custom h1 {
+  @apply text-2xl sm:text-3xl font-extrabold text-white mt-8 mb-4 tracking-tight border-b border-slate-800 pb-3;
+}
+.prose-custom h2 {
+  @apply text-xl sm:text-2xl font-bold text-slate-100 mt-6 mb-3 tracking-tight;
+}
+.prose-custom h3 {
+  @apply text-lg font-semibold text-slate-200 mt-5 mb-2;
+}
+.prose-custom p {
+  @apply text-sm text-slate-300 leading-relaxed mb-4 font-normal;
+}
+.prose-custom ul {
+  list-style-type: disc !important;
+  padding-left: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  margin-top: 0.5rem !important;
+}
+.prose-custom ol {
+  list-style-type: decimal !important;
+  padding-left: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  margin-top: 0.5rem !important;
+}
+.prose-custom li {
+  display: list-item !important;
+  color: #cbd5e1 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.625 !important;
+  margin-bottom: 0.375rem !important;
+}
+.prose-custom li p {
+  display: inline !important;
+  margin: 0 !important;
+}
+.prose-custom strong {
+  @apply font-bold text-white;
+}
+.prose-custom em {
+  @apply italic text-slate-200;
+}
+.prose-custom blockquote {
+  @apply border-l-4 border-blue-500 pl-4 py-2 my-4 bg-slate-900/60 rounded-r-lg text-slate-300 italic text-sm;
+}
+.prose-custom code {
+  @apply px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-blue-300 font-mono text-xs;
+}
+.prose-custom pre {
+  @apply p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-200 overflow-x-auto my-5 leading-relaxed shadow-inner whitespace-pre-wrap;
+}
+.prose-custom pre code {
+  @apply p-0 bg-transparent border-none text-slate-200 text-xs;
+}
+.prose-custom a {
+  @apply text-blue-400 underline hover:text-blue-300 transition-colors;
+}
