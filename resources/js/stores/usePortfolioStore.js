@@ -4,6 +4,7 @@ export const usePortfolioStore = defineStore('portfolio', {
   state: () => ({
     activeProjectCategory: 'All',
     activeSkillCategory: 'All',
+    skillSearchQuery: '',
     selectedProject: null,
     isProjectModalOpen: false,
     isDarkMode: true,
@@ -19,6 +20,9 @@ export const usePortfolioStore = defineStore('portfolio', {
     },
     setSkillCategory(category) {
       this.activeSkillCategory = category;
+    },
+    setSkillSearchQuery(query) {
+      this.skillSearchQuery = query;
     },
     openProjectModal(project) {
       this.selectedProject = project;
