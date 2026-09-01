@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProjectShowController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public Portfolio Routes
 Route::get('/', LandingController::class)->name('home');
+Route::get('/projects/{project}', [ProjectShowController::class, 'show'])->name('projects.show');
 Route::post('/contact', ContactController::class)->name('contact.store');
 
 // Legacy /dashboard redirect alias
@@ -25,7 +27,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     // Projects CRUD
-    Route::resource('projects', ProjectController::class)->except(['create', 'edit', 'show']);
+    Route::resource('projects', ProjectController::class)->except(['show']);
 
     // Skills CRUD
     Route::resource('skills', SkillController::class)->except(['create', 'edit', 'show']);

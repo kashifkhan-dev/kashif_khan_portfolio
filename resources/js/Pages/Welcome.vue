@@ -136,7 +136,7 @@
           class="glass-card rounded-2xl overflow-hidden group flex flex-col transition-all duration-300 hover:-translate-y-1.5"
         >
           <!-- Thumbnail Image -->
-          <div class="relative h-48 overflow-hidden bg-slate-900">
+          <Link :href="route('projects.show', project.slug || project.id)" class="relative h-48 overflow-hidden bg-slate-900 block">
             <img
               :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
               :alt="project.title"
@@ -152,14 +152,16 @@
             <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-slate-900/80 text-blue-300 text-xs font-medium backdrop-blur-md border border-slate-700/50">
               {{ project.category }}
             </span>
-          </div>
+          </Link>
 
           <!-- Content Body -->
           <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
             <div>
-              <h4 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1">
-                {{ project.title }}
-              </h4>
+              <Link :href="route('projects.show', project.slug || project.id)">
+                <h4 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1">
+                  {{ project.title }}
+                </h4>
+              </Link>
               <p class="text-slate-300 text-xs mt-2 line-clamp-2 leading-relaxed">
                 {{ project.summary || project.description }}
               </p>
@@ -178,13 +180,13 @@
 
             <!-- Actions Buttons -->
             <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
-              <button
-                @click="portfolioStore.openProjectModal(project)"
+              <Link
+                :href="route('projects.show', project.slug || project.id)"
                 class="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center space-x-1"
               >
                 <span>View Details</span>
                 <span>&rarr;</span>
-              </button>
+              </Link>
               <div class="flex items-center space-x-3">
                 <a
                   v-if="project.github_url"
@@ -208,75 +210,6 @@
         </div>
       </div>
     </section>
-
-    <!-- PROJECT DETAIL MODAL -->
-    <div
-      v-if="portfolioStore.isProjectModalOpen && portfolioStore.selectedProject"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
-      @click.self="portfolioStore.closeProjectModal()"
-    >
-      <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto space-y-6 border border-slate-700 shadow-2xl relative">
-        <button
-          @click="portfolioStore.closeProjectModal()"
-          class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition-colors"
-        >
-          &times;
-        </button>
-
-        <div class="space-y-3">
-          <span class="px-3 py-1 rounded-full bg-blue-600/30 text-blue-300 text-xs font-semibold">
-            {{ portfolioStore.selectedProject.category }}
-          </span>
-          <h3 class="text-2xl font-extrabold text-white">
-            {{ portfolioStore.selectedProject.title }}
-          </h3>
-        </div>
-
-        <img
-          :src="portfolioStore.selectedProject.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80'"
-          class="w-full h-64 object-cover rounded-2xl border border-slate-800"
-        />
-
-        <div class="space-y-3">
-          <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Project Overview</h4>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            {{ portfolioStore.selectedProject.description || portfolioStore.selectedProject.summary }}
-          </p>
-        </div>
-
-        <div class="space-y-3">
-          <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Technologies Used</h4>
-          <div class="flex flex-wrap gap-2">
-            <span
-              v-for="(tech, i) in (portfolioStore.selectedProject.tech_stack || [])"
-              :key="i"
-              class="px-3 py-1 rounded-lg bg-blue-950/50 text-blue-300 text-xs font-semibold border border-blue-800/40"
-            >
-              {{ tech }}
-            </span>
-          </div>
-        </div>
-
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-end space-x-4">
-          <a
-            v-if="portfolioStore.selectedProject.github_url"
-            :href="portfolioStore.selectedProject.github_url"
-            target="_blank"
-            class="px-4 py-2 rounded-xl glass-card text-xs font-semibold text-slate-300 hover:text-white"
-          >
-            Repository
-          </a>
-          <a
-            v-if="portfolioStore.selectedProject.demo_url"
-            :href="portfolioStore.selectedProject.demo_url"
-            target="_blank"
-            class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-lg"
-          >
-            Launch Live Demo
-          </a>
-        </div>
-      </div>
-    </div>
 
     <!-- 3. SKILLS MATRIX SECTION -->
     <section id="skills" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/80">
@@ -423,7 +356,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { usePortfolioStore } from '@/stores/usePortfolioStore';
 import { useNotificationStore } from '@/stores/useNotificationStore';
