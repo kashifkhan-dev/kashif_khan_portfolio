@@ -66,11 +66,14 @@
           <div class="pt-6 border-t border-slate-800 flex justify-end">
             <button
               type="submit"
-              :disabled="form.processing"
-              class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs shadow-xl shadow-indigo-600/30 transition-all"
+              :disabled="isSubmitting"
+              class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs shadow-xl shadow-indigo-600/30 transition-all flex items-center space-x-2 disabled:opacity-50 cursor-pointer"
             >
-              <span v-if="form.processing">Saving Settings...</span>
-              <span v-else>Save All Profile Settings</span>
+              <svg v-if="isSubmitting" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>{{ isSubmitting ? 'Saving Settings...' : 'Save All Profile Settings' }}</span>
             </button>
           </div>
         </form>
@@ -80,15 +83,18 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { useNotificationStore } from '@/stores/useNotificationStore';
+import { useToast } from '@/Composables/useToast';
 
 const props = defineProps({
   settings: Object,
 });
 
-const notificationStore = useNotificationStore();
+const { toast } = useToast();
+const isSubmitting = ref(false);
 
 const form = useForm({
   hero_title: props.settings?.hero_title || '',
@@ -104,16 +110,35 @@ const form = useForm({
   satisfied_clients: props.settings?.satisfied_clients || '18+',
 });
 
-function submitForm() {
-  form.post(route('admin.settings.update'), {
-    preserveScroll: true,
-    onSuccess: () => {
-      notificationStore.addToast({
-        title: 'Settings Saved',
-        message: 'Your profile details have been updated live on the landing page.',
-        type: 'success',
-      });
-    },
-  });
+async function submitForm() {
+  isSubmitting.value = true;
+  try {
+    await axios.post(route('admin.settings.update'), {
+      hero_title: form.hero_title,
+      hero_subtitle: form.hero_subtitle,
+      bio: form.bio,
+      availability_status: form.availability_status,
+      github_url: form.github_url,
+      linkedin_url: form.linkedin_url,
+      twitter_url: form.twitter_url,
+      resume_url: form.resume_url,
+      years_experience: form.years_experience,
+      completed_projects: form.completed_projects,
+      satisfied_clients: form.satisfied_clients,
+    });
+    toast({
+      title: 'Settings Saved',
+      description: 'Your site settings have been updated live.',
+      type: 'success',
+    });
+  } catch (error) {
+    toast({
+      title: 'Save Failed',
+      description: 'An error occurred while saving settings.',
+      type: 'error',
+    });
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 </script>

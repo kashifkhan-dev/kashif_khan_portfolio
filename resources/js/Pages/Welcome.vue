@@ -1,365 +1,464 @@
 <template>
   <GuestLayout :canLogin="canLogin" :settings="settings">
-    <Head title="Kashif Khan - Portfolio & Full-Stack Showcase" />
+    <Head title="Kashif Khan - Full-Stack Engineer" />
 
     <!-- 1. HERO SECTION -->
-    <section id="about" class="relative pt-16 pb-24 lg:pt-24 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-7 space-y-6 text-left">
-          <!-- Availability Badge -->
-          <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full glass-card border-emerald-500/30 text-emerald-400 text-xs font-semibold shadow-inner">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>{{ settings.availability_status || 'Available for Freelance & Full-time Roles' }}</span>
-          </div>
-
-          <!-- Headline -->
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15]">
-            Architecting <span class="gradient-text">Modern Web Apps</span> & Scalable Systems.
-          </h1>
-
-          <!-- Subtitle / Bio -->
-          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
-            {{ settings.hero_subtitle || 'Building enterprise SaaS platforms, responsive web applications, and interactive dashboards with Laravel, Vue 3, Inertia.js, and Tailwind CSS.' }}
-          </p>
-
-          <!-- CTAs -->
-          <div class="pt-4 flex flex-wrap items-center gap-4">
-            <a
-              href="#projects"
-              class="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-200 text-slate-950 font-bold text-sm shadow-xl shadow-white/10 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2"
-            >
-              <span>Explore Selected Work</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </a>
-            <a
-              href="#contact"
-              class="px-6 py-3.5 rounded-xl glass-panel text-slate-200 hover:text-white font-semibold text-sm hover:border-slate-700 transition-all shadow-md"
-            >
-              Get In Touch
-            </a>
-          </div>
-
-          <!-- Social Handles -->
-          <div class="pt-6 flex items-center space-x-5 text-slate-400">
-            <span class="text-xs uppercase tracking-wider font-semibold text-slate-500">Connect:</span>
-            <a :href="settings.github_url || '#'" target="_blank" class="hover:text-blue-400 transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            </a>
-            <a :href="settings.linkedin_url || '#'" target="_blank" class="hover:text-blue-400 transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-            </a>
-            <a :href="settings.twitter_url || '#'" target="_blank" class="hover:text-blue-400 transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-          </div>
+    <section id="about" class="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-24 bg-black">
+      <div class="w-full text-center space-y-8">
+        <!-- Status Pill -->
+        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-300 text-sm font-mono">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>{{ settings.availability_status || 'Available for Full-time Roles & Contracts' }}</span>
         </div>
 
-        <!-- Metrics Side Card -->
-        <div class="lg:col-span-5 relative">
-          <div class="glass-panel p-8 rounded-3xl relative z-10 shadow-2xl border border-slate-800 space-y-6 animate-float">
-            <div class="flex items-center space-x-4 pb-4 border-b border-slate-800">
-              <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-700 p-0.5 shadow-lg">
-                <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center font-bold text-xl text-white">
-                  KK
-                </div>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-lg">Kashif Khan</h3>
-                <p class="text-xs text-blue-400 font-medium">Senior Software Engineer</p>
-              </div>
-            </div>
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-white">
+          <span>{{ settings.hero_title_1 || "Hi, I'm Kashif Khan." }}</span> <br v-if="settings.hero_title_2 || !settings.hero_title_1" />
+          <span class="text-neutral-300">{{ settings.hero_title_2 || "Full-Stack Web Engineer." }}</span>
+        </h1>
 
-            <!-- Stats grid -->
-            <div class="grid grid-cols-3 gap-4 text-center">
-              <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
-                <span class="block text-2xl font-black text-white">{{ settings.years_experience || '5+' }}</span>
-                <span class="text-[11px] text-slate-400 font-medium">Years Exp.</span>
-              </div>
-              <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
-                <span class="block text-2xl font-black text-blue-400">{{ settings.completed_projects || '24+' }}</span>
-                <span class="text-[11px] text-slate-400 font-medium">Projects</span>
-              </div>
-              <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-800">
-                <span class="block text-2xl font-black text-emerald-400">{{ settings.satisfied_clients || '18+' }}</span>
-                <span class="text-[11px] text-slate-400 font-medium">Clients</span>
-              </div>
-            </div>
+        <!-- Subtitle -->
+        <p class="text-lg sm:text-xl text-neutral-300 leading-relaxed max-w-3xl mx-auto">
+          {{ settings.hero_subtitle || 'Specializing in React.js, Next.js, Vue 3, Laravel, Tailwind CSS, and modern web applications. Over 5+ years of experience building fast, reliable digital products.' }}
+        </p>
 
-            <!-- Code snippet feature card -->
-            <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 font-mono text-xs text-slate-300 space-y-1.5">
-              <div class="flex items-center space-x-2 pb-2 border-b border-slate-800 text-[11px] text-slate-400">
-                <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                <span class="ml-2 font-sans font-medium text-slate-400">portfolio_stack.config.ts</span>
-              </div>
-              <p class="text-blue-400"><span class="text-cyan-400">const</span> stack = {</p>
-              <p class="pl-4">backend: <span class="text-emerald-400">'Laravel 11'</span>,</p>
-              <p class="pl-4">frontend: <span class="text-emerald-400">'Vue 3 + Inertia'</span>,</p>
-              <p class="pl-4">styling: <span class="text-emerald-400">'Tailwind + Shadcn'</span>,</p>
-              <p class="pl-4">database: <span class="text-emerald-400">'MySQL'</span>,</p>
-              <p>};</p>
-            </div>
+        <!-- CTA Buttons -->
+        <div class="pt-4 flex flex-wrap items-center justify-center gap-5">
+          <a
+            :href="settings.hero_cta_primary_link || '#projects'"
+            class="px-8 py-4 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-base shadow-xl transition-all transform hover:scale-[1.02]"
+          >
+            {{ settings.hero_cta_primary_text || 'View My Projects' }}
+          </a>
+          <a
+            :href="settings.hero_cta_secondary_link || '#contact'"
+            class="px-8 py-4 rounded-md bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-200 font-semibold text-base transition-all"
+          >
+            {{ settings.hero_cta_secondary_text || 'Get in Touch' }}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CLEAN INFINITE MARQUEE TECH STACK SECTION -->
+    <section id="skills" class="py-20 bg-black overflow-hidden relative border-t border-neutral-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 mb-12">
+        <h2 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Technical Capability</h2>
+        <h3 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Skills &amp; Technologies</h3>
+        <p class="text-neutral-300 text-base sm:text-lg max-w-xl mx-auto">Frameworks, languages, and modern tools I engineer solutions with.</p>
+      </div>
+
+      <!-- Infinite Logo Ticker Ribbon -->
+      <div class="relative w-full overflow-hidden border-y border-neutral-800 bg-neutral-950/80 py-7">
+        <div class="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-neutral-950 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-neutral-950 to-transparent z-10 pointer-events-none"></div>
+
+        <div class="animate-marquee space-x-8">
+          <div
+            v-for="(item, idx) in marqueeItems"
+            :key="idx"
+            class="px-6 py-3 rounded-md bg-neutral-900/90 border border-neutral-800 text-white text-sm font-semibold font-sans tracking-wide flex items-center space-x-3.5 shrink-0 hover:border-neutral-600 transition-colors cursor-default shadow-md"
+          >
+            <TechIcon :name="item.icon || 'api'" />
+            <span>{{ item.name }}</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 2. PROJECTS SECTION -->
-    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/60">
-      <div class="text-center space-y-4 mb-12">
-        <h2 class="text-xs uppercase tracking-widest font-bold text-blue-400">Portfolio Showcase</h2>
-        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Featured Projects & Applications</h3>
-        <p class="text-slate-400 text-sm max-w-2xl mx-auto">Explore recent applications, cloud dashboards, and interactive digital products built with Laravel, Vue 3, and modern frontend tools.</p>
+    <!-- 3. PROJECTS SHOWCASE -->
+    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-800 bg-black">
+      <div class="text-center space-y-4 mb-16">
+        <h2 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Portfolio</h2>
+        <h3 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Featured Projects</h3>
+        <p class="text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">A selection of recent web applications and platforms.</p>
 
         <!-- Category Filters -->
-        <div class="pt-6 flex flex-wrap items-center justify-center gap-2">
+        <div class="pt-6 flex flex-wrap items-center justify-center gap-3">
           <button
             v-for="cat in portfolioStore.availableCategories"
             :key="cat"
             @click="portfolioStore.setProjectCategory(cat)"
-            class="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
+            class="px-5 py-2 rounded-md text-sm font-medium transition-all"
             :class="portfolioStore.activeProjectCategory === cat
-              ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-              : 'glass-card text-slate-400 hover:text-white hover:border-slate-700'"
+              ? 'bg-white text-black font-bold shadow-md'
+              : 'bg-neutral-900 text-neutral-300 hover:text-white hover:bg-neutral-800 border border-neutral-800'"
           >
             {{ cat }}
           </button>
         </div>
       </div>
 
-      <!-- Projects Grid -->
+      <!-- Project Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div
           v-for="project in filteredProjects"
           :key="project.id"
-          class="glass-card rounded-2xl overflow-hidden group flex flex-col transition-all duration-300 hover:-translate-y-1.5"
+          class="bg-neutral-950 border border-neutral-800 rounded-md overflow-hidden hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-lg"
         >
-          <!-- Thumbnail Image -->
-          <Link :href="route('projects.show', project.slug || project.id)" class="relative h-48 overflow-hidden bg-slate-900 block">
-            <img
-              :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
-              :alt="project.title"
-              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
-            <span
-              v-if="project.is_featured"
-              class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-blue-600/90 text-white text-[10px] font-bold tracking-wider uppercase shadow-md backdrop-blur-md"
+          <div>
+            <!-- Image Header -->
+            <div
+              @click="openModal(project)"
+              class="relative h-56 w-full overflow-hidden bg-black cursor-pointer"
             >
-              Featured
-            </span>
-            <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-slate-900/80 text-blue-300 text-xs font-medium backdrop-blur-md border border-slate-700/50">
-              {{ project.category }}
-            </span>
-          </Link>
+              <img
+                :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
+                :alt="project.title"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-85 group-hover:opacity-100"
+              />
+              <div class="absolute top-4 left-4 flex items-center space-x-2">
+                <span
+                  v-if="project.is_featured"
+                  class="px-2.5 py-1 rounded-md bg-white text-black text-xs font-bold uppercase"
+                >
+                  Featured
+                </span>
+                <span class="px-2.5 py-1 rounded-md bg-black/80 text-neutral-200 text-xs font-mono border border-neutral-800">
+                  {{ project.category }}
+                </span>
+              </div>
+            </div>
 
-          <!-- Content Body -->
-          <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-            <div>
-              <Link :href="route('projects.show', project.slug || project.id)">
-                <h4 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-1">
-                  {{ project.title }}
-                </h4>
-              </Link>
-              <p class="text-slate-300 text-xs mt-2 line-clamp-2 leading-relaxed">
+            <!-- Content Body -->
+            <div class="p-7 space-y-4">
+              <h4
+                @click="openModal(project)"
+                class="text-xl sm:text-2xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer"
+              >
+                {{ project.title }}
+              </h4>
+              <p class="text-neutral-300 text-sm sm:text-base leading-relaxed line-clamp-3">
                 {{ project.summary || project.description }}
               </p>
-            </div>
 
-            <!-- Tech Stack Badges -->
-            <div class="flex flex-wrap gap-1.5 pt-2">
-              <span
-                v-for="(tech, i) in (project.tech_stack || [])"
-                :key="i"
-                class="px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 text-[11px] border border-slate-800"
-              >
-                {{ tech }}
-              </span>
-            </div>
-
-            <!-- Actions Buttons -->
-            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
-              <Link
-                :href="route('projects.show', project.slug || project.id)"
-                class="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center space-x-1"
-              >
-                <span>View Details</span>
-                <span>&rarr;</span>
-              </Link>
-              <div class="flex items-center space-x-3">
-                <a
-                  v-if="project.github_url"
-                  :href="project.github_url"
-                  target="_blank"
-                  class="text-slate-400 hover:text-white text-xs font-medium"
+              <!-- Tech Pills -->
+              <div class="flex flex-wrap gap-2 pt-2">
+                <span
+                  v-for="(tech, i) in (project.tech_stack || [])"
+                  :key="i"
+                  class="px-2.5 py-1 rounded-md bg-neutral-900 text-neutral-200 text-xs font-mono border border-neutral-800"
                 >
-                  GitHub
-                </a>
-                <a
-                  v-if="project.demo_url"
-                  :href="project.demo_url"
-                  target="_blank"
-                  class="px-3 py-1.5 rounded-lg bg-blue-600/20 text-blue-300 hover:bg-blue-600 hover:text-white text-xs font-semibold transition-colors"
-                >
-                  Live Demo
-                </a>
+                  {{ tech }}
+                </span>
               </div>
+            </div>
+          </div>
+
+          <!-- Card Actions / Footer -->
+          <div class="px-7 py-5 flex items-center justify-between border-t border-neutral-800/80 bg-neutral-950/60 mt-auto">
+            <button
+              @click="openModal(project)"
+              class="text-sm font-bold text-white hover:underline flex items-center space-x-1.5"
+            >
+              <span>View Details</span>
+              <span>→</span>
+            </button>
+            <div class="flex items-center space-x-3 text-sm">
+              <a
+                v-if="project.github_url"
+                :href="project.github_url"
+                target="_blank"
+                class="text-neutral-300 hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+                <span>GitHub</span>
+              </a>
+              <a
+                v-if="project.demo_url"
+                :href="project.demo_url"
+                target="_blank"
+                class="px-3.5 py-2 rounded-md bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
+              >
+                <span>Demo</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. SKILLS MATRIX SECTION -->
-    <section id="skills" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/80">
-      <div class="text-center space-y-4 mb-16">
-        <h2 class="text-xs uppercase tracking-widest font-bold text-blue-400">Technical Expertise</h2>
-        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Core Skills & Proficiency</h3>
+    <!-- 4. NOTION / LINEAR NESTED COLLAPSIBLE EXPERIENCE SECTION -->
+    <section id="experience" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-black border-t border-neutral-800/60">
+      <!-- Section Title -->
+      <div class="mb-10">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Experience</h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Main Experience Accordion List (Borderless Canvas) -->
+      <div class="space-y-10 divide-y divide-neutral-900">
         <div
-          v-for="cat in skillCategories"
-          :key="cat"
-          class="glass-panel p-6 rounded-2xl space-y-6"
+          v-for="(company, cIdx) in companyExperiences"
+          :key="company.id"
+          :class="{ 'pt-10': cIdx > 0 }"
+          class="space-y-6"
         >
-          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h4 class="font-bold text-white text-base">{{ cat }}</h4>
-            <span class="text-xs text-blue-400 font-medium">{{ getSkillsForCategory(cat).length }} Skills</span>
+          <!-- Company Header -->
+          <div class="flex items-center space-x-3">
+            <!-- Company Logo Badge -->
+            <div
+              class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 shadow-sm"
+              :class="company.logoBg"
+            >
+              <span>{{ company.logoText }}</span>
+            </div>
+
+            <!-- Company Name & Active Status Dot -->
+            <div class="flex items-center space-x-2">
+              <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight">
+                {{ company.company }}
+              </h3>
+              <span
+                v-if="company.isActive"
+                class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"
+                title="Current Employer"
+              ></span>
+            </div>
           </div>
 
+          <!-- Nested Roles Under Company -->
+          <div class="space-y-6 pl-2 sm:pl-4">
+            <div
+              v-for="(role, rIdx) in company.roles"
+              :key="role.id"
+              class="space-y-3 border-l-2 border-neutral-900 pl-4 sm:pl-6 transition-colors"
+              :class="{ 'border-neutral-700': role.isOpen }"
+            >
+              <!-- Role Header Row -->
+              <div
+                @click="toggleRole(cIdx, rIdx)"
+                class="flex items-start justify-between cursor-pointer group py-1 select-none"
+              >
+                <div class="flex items-start space-x-3">
+                  <!-- Code Icon Badge -->
+                  <div class="w-7 h-7 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-white group-hover:border-neutral-700 text-xs font-mono flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                    <span>&lt;/&gt;</span>
+                  </div>
+
+                  <div>
+                    <h4 class="text-base sm:text-lg font-bold text-white group-hover:text-neutral-200 transition-colors">
+                      {{ role.role }}
+                    </h4>
+                    <p class="text-xs font-mono text-neutral-400 mt-0.5 flex items-center space-x-2">
+                      <span>{{ role.employmentType }}</span>
+                      <span>&bull;</span>
+                      <span>{{ role.period }}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Chevron Collapse Button -->
+                <button
+                  class="p-1.5 text-neutral-400 group-hover:text-white transition-colors"
+                  :aria-label="role.isOpen ? 'Collapse details' : 'Expand details'"
+                >
+                  <svg
+                    class="w-4 h-4 transform transition-transform duration-200"
+                    :class="{ 'rotate-180': role.isOpen }"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Expanded Role Details (Bullet Points & Tech Stack Tags) -->
+              <div v-if="role.isOpen" class="pt-2 pb-2 space-y-5">
+                <!-- Bullet List -->
+                <ul class="space-y-2.5 text-sm text-neutral-300 font-sans leading-relaxed pl-2 sm:pl-4">
+                  <li
+                    v-for="(bullet, bIdx) in role.bullets"
+                    :key="bIdx"
+                    class="flex items-start space-x-3"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full bg-neutral-500 mt-2 shrink-0"></span>
+                    <span>{{ bullet }}</span>
+                  </li>
+                </ul>
+
+                <!-- Tech Stack Pills -->
+                <div v-if="role.tags && role.tags.length" class="flex flex-wrap gap-2 pt-2">
+                  <span
+                    v-for="(tag, tIdx) in role.tags"
+                    :key="tIdx"
+                    class="px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs font-mono hover:border-neutral-700 transition-colors"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CREATIVE 2-COLUMN EXECUTIVE CONTACT SECTION -->
+    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-800 bg-black">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        
+        <!-- LEFT COLUMN: Engaging Contact Pitch & Info -->
+        <div class="lg:col-span-6 space-y-8">
           <div class="space-y-4">
-            <div v-for="skill in getSkillsForCategory(cat)" :key="skill.id" class="space-y-1.5">
-              <div class="flex justify-between text-xs">
-                <span class="font-medium text-slate-200">{{ skill.name }}</span>
-                <span class="text-slate-400 font-mono">{{ skill.proficiency }}%</span>
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Let's build something <span class="text-neutral-300">extraordinary</span> together.
+            </h2>
+            <p class="text-neutral-400 text-base sm:text-lg leading-relaxed">
+              Have a project in mind, a software engineering role to discuss, or just want to talk tech? Drop a message or connect directly.
+            </p>
+          </div>
+
+          <!-- Contact Cards -->
+          <div class="space-y-3 pt-1 max-w-md">
+            <!-- Email Item -->
+            <a
+              :href="`mailto:${settings.contact_email || 'kashifkhan.dev@gmail.com'}`"
+              class="p-4 rounded-md bg-neutral-950 border border-neutral-800 hover:border-neutral-700 flex items-center space-x-4 transition-all group w-full"
+            >
+              <div class="w-10 h-10 rounded-md bg-neutral-900 border border-neutral-800 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
               </div>
-              <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
-                <div
-                  class="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transition-all duration-1000"
-                  :style="{ width: skill.proficiency + '%' }"
-                ></div>
+              <div>
+                <div class="text-xs font-sans font-semibold text-neutral-400 uppercase tracking-wider">Direct Email</div>
+                <div class="text-sm sm:text-base font-bold text-white font-sans group-hover:text-neutral-200 transition-colors">
+                  {{ settings.contact_email || 'kashifkhan.dev@gmail.com' }}
+                </div>
+              </div>
+            </a>
+
+            <!-- Availability & Location Item -->
+            <div class="p-4 rounded-md bg-neutral-950 border border-neutral-800 flex items-center space-x-4 w-full">
+              <div class="w-10 h-10 rounded-md bg-neutral-900 border border-neutral-800 text-emerald-400 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-xs font-sans font-semibold text-neutral-400 uppercase tracking-wider">Location &amp; Work</div>
+                <div class="text-sm font-bold text-white">
+                  Worldwide (Remote / On-site)
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- 4. EXPERIENCE & EDUCATION TIMELINE SECTION -->
-    <section id="experience" class="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-slate-800/80">
-      <div class="text-center space-y-4 mb-16">
-        <h2 class="text-xs uppercase tracking-widest font-bold text-blue-400">Career Journey</h2>
-        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Experience & Education</h3>
-      </div>
-
-      <div class="relative border-l-2 border-slate-800 ml-4 md:ml-32 space-y-12">
-        <div v-for="exp in experiences" :key="exp.id" class="relative pl-8 md:pl-10 group">
-          <!-- Timeline point dot -->
-          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-950 border-2 border-blue-500 group-hover:bg-blue-500 transition-colors"></div>
-
-          <!-- Date badge -->
-          <span class="md:absolute md:-left-32 md:top-1 text-xs font-semibold text-blue-400 bg-blue-950/40 px-3 py-1 rounded-full border border-blue-800/40 inline-block mb-2 md:mb-0">
-            {{ exp.period }}
-          </span>
-
-          <!-- Card Box -->
-          <div class="glass-card p-6 rounded-2xl space-y-3">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <h4 class="text-lg font-bold text-white">{{ exp.role }}</h4>
-              <span class="text-xs text-slate-400 font-medium">{{ exp.company }} &bull; {{ exp.location }}</span>
-            </div>
-            <p class="text-xs text-slate-300 leading-relaxed">{{ exp.description }}</p>
-
-            <ul v-if="exp.highlights && exp.highlights.length" class="space-y-1 pt-2">
-              <li v-for="(item, idx) in exp.highlights" :key="idx" class="text-xs text-slate-400 flex items-start space-x-2">
-                <span class="text-blue-400 font-bold">&check;</span>
-                <span>{{ item }}</span>
-              </li>
-            </ul>
+          <!-- Response Guarantee Pill -->
+          <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-xs font-sans font-medium text-neutral-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Typical Response Time: &lt; 24 Hours</span>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 5. CONTACT & INQUIRIES SECTION -->
-    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-slate-800/80">
-      <div class="glass-panel p-8 sm:p-12 rounded-3xl space-y-8 relative overflow-hidden">
-        <div class="text-center space-y-3">
-          <h2 class="text-xs uppercase tracking-widest font-bold text-blue-400">Get In Touch</h2>
-          <h3 class="text-3xl font-extrabold text-white">Let's Work Together</h3>
-          <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">Have a project in mind or looking for a full-stack engineer? Send me a message and I'll get back to you promptly.</p>
-        </div>
-
-        <form @submit.prevent="submitContactForm" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- RIGHT COLUMN: Clean Compact Message Form -->
+        <div class="lg:col-span-6">
+          <div class="bg-neutral-950 border border-neutral-800 p-6 sm:p-8 rounded-md space-y-6 shadow-xl w-full">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-2">Your Name</label>
-              <input
-                v-model="form.sender_name"
-                type="text"
-                required
-                placeholder="John Doe"
-                class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
-              />
-              <span v-if="form.errors.sender_name" class="text-xs text-rose-400 mt-1 block">{{ form.errors.sender_name }}</span>
+              <h3 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Send a Message</h3>
             </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-2">Email Address</label>
-              <input
-                v-model="form.sender_email"
-                type="email"
-                required
-                placeholder="john@example.com"
-                class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
-              />
-              <span v-if="form.errors.sender_email" class="text-xs text-rose-400 mt-1 block">{{ form.errors.sender_email }}</span>
-            </div>
-          </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-2">Subject</label>
-            <input
-              v-model="form.subject"
-              type="text"
-              placeholder="Project Inquiry / Job Opportunity"
-              class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
-            />
-          </div>
+            <form @submit.prevent="submitContactForm" class="space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Your Name</label>
+                  <input
+                    v-model="form.sender_name"
+                    type="text"
+                    required
+                    placeholder="John Doe"
+                    class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Your Email</label>
+                  <input
+                    v-model="form.sender_email"
+                    type="email"
+                    required
+                    placeholder="john@example.com"
+                    class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                  />
+                </div>
+              </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-2">Message</label>
-            <textarea
-              v-model="form.body"
-              rows="5"
-              required
-              placeholder="Tell me about your project, timeline, or requirements..."
-              class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
-            ></textarea>
-            <span v-if="form.errors.body" class="text-xs text-rose-400 mt-1 block">{{ form.errors.body }}</span>
-          </div>
+              <div>
+                <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Subject</label>
+                <input
+                  v-model="form.subject"
+                  type="text"
+                  placeholder="Project Inquiry"
+                  class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                />
+              </div>
 
-          <button
-            type="submit"
-            :disabled="form.processing"
-            class="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-xl shadow-blue-600/20 transition-all disabled:opacity-50"
-          >
-            <span v-if="form.processing">Sending Message...</span>
-            <span v-else>Send Inquiry Message</span>
-          </button>
-        </form>
+              <div>
+                <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Message</label>
+                <textarea
+                  v-model="form.body"
+                  rows="4"
+                  required
+                  placeholder="Your message..."
+                  class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                :disabled="isSubmitting || form.processing"
+                class="w-full py-3.5 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-75 flex items-center justify-center space-x-2 shadow-md cursor-pointer"
+              >
+                <!-- Inline Spinner Icon -->
+                <svg
+                  v-if="isSubmitting || form.processing"
+                  class="animate-spin h-4 w-4 text-black shrink-0"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+
+                <span v-if="isSubmitting || form.processing">Transmitting Message...</span>
+                <span v-else>Send Message</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
       </div>
     </section>
+
+    <!-- Modal Popup -->
+    <ProjectModal
+      :isOpen="portfolioStore.isProjectModalOpen"
+      :project="portfolioStore.selectedProject"
+      @close="portfolioStore.closeProjectModal()"
+    />
   </GuestLayout>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import axios from 'axios';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import ProjectModal from '@/Components/ProjectModal.vue';
+import TechIcon from '@/Components/TechIcon.vue';
 import { usePortfolioStore } from '@/stores/usePortfolioStore';
-import { useNotificationStore } from '@/stores/useNotificationStore';
+import { useToast } from '@/Composables/useToast';
+
+const isSubmitting = ref(false);
+const { toast } = useToast();
 
 const props = defineProps({
   projects: Array,
@@ -370,7 +469,175 @@ const props = defineProps({
 });
 
 const portfolioStore = usePortfolioStore();
-const notificationStore = useNotificationStore();
+
+function openModal(project) {
+  portfolioStore.openProjectModal(project);
+}
+
+// Master Fallback Tech Stack
+const fullTechStack = [
+  { name: 'React.js', icon: 'react' },
+  { name: 'Next.js', icon: 'next' },
+  { name: 'Vue.js 3', icon: 'vue' },
+  { name: 'Laravel 11', icon: 'laravel' },
+  { name: 'Tailwind CSS', icon: 'tailwind' },
+  { name: 'TypeScript', icon: 'typescript' },
+  { name: 'Inertia.js', icon: 'inertia' },
+  { name: 'Node.js', icon: 'node' },
+  { name: 'PHP 8.2+', icon: 'php' },
+  { name: 'MySQL', icon: 'mysql' },
+  { name: 'Docker', icon: 'docker' },
+  { name: 'Git & GitHub', icon: 'git' },
+  { name: 'Vite', icon: 'vite' },
+  { name: 'REST & GraphQL', icon: 'api' },
+];
+
+// Active Skills from database or fallback stack
+const activeSkillsList = computed(() => {
+  if (props.skills && props.skills.length > 0) {
+    return props.skills.map(s => ({
+      id: s.id,
+      name: s.name,
+      icon: s.icon ? s.icon.toLowerCase() : 'api',
+      category: s.category || 'General',
+      proficiency: s.proficiency,
+    }));
+  }
+  return fullTechStack;
+});
+
+const marqueeItems = computed(() => [
+  ...activeSkillsList.value,
+  ...activeSkillsList.value,
+  ...activeSkillsList.value
+]);
+
+const groupedSkills = computed(() => {
+  if (props.skills && props.skills.length > 0) {
+    return props.skills.reduce((acc, skill) => {
+      const cat = skill.category || 'General';
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(skill);
+      return acc;
+    }, {});
+  }
+  return {};
+});
+
+// Notion / Linear Style Nested Collapsible Experience Data
+const defaultExperiences = [
+  {
+    id: 'apex',
+    company: 'Apex Cloud Systems',
+    logoText: 'AC',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-white',
+    isActive: true,
+    roles: [
+      {
+        id: 'lead-dev',
+        role: 'Lead Full-Stack Engineer',
+        employmentType: 'Full-time',
+        period: '07.2024 — Present',
+        isOpen: true,
+        bullets: [
+          'Develop scalable SaaS applications using modern web technologies including Laravel 11, Vue 3, and Inertia.js.',
+          'Build cross-platform applications, custom API integrations, and real-time dashboard notification systems.',
+          'Architect and develop full-stack solutions with high-performance MySQL databases and Redis queues.',
+          'Design and implement RESTful APIs with PHP 8.2+, Node.js, Express, and microservices architecture.',
+          'Build responsive, performant frontend applications with Vue 3, Tailwind CSS, and Pinia state management.',
+          'Integrate third-party APIs, webhooks, and real-time features using WebSockets.',
+          'Collaborate with cross-functional teams in a remote environment to drive architecture and design decisions.',
+          'Optimize application performance, SQL query execution plans, and ensure overall code quality.'
+        ],
+        tags: [
+          'Laravel 11', 'Vue.js 3', 'Inertia.js', 'Tailwind CSS', 'TypeScript',
+          'MySQL', 'Redis', 'RESTful APIs', 'SaaS Development', 'Remote Work', 'WebSockets', 'Problem-solving'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'digital-hub',
+    company: 'Digital Innovations Hub',
+    logoText: 'DH',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-blue-400',
+    isActive: false,
+    roles: [
+      {
+        id: 'pos-dev',
+        role: 'Senior Frontend & Laravel Specialist',
+        employmentType: 'Full-time',
+        period: '01.2022 — 01.2024',
+        isOpen: false,
+        bullets: [
+          'Developed custom web portals, customer management systems, and interactive client dashboards.',
+          'Built custom payment integrations with Stripe and automated billing workflows.'
+        ],
+        tags: ['React.js', 'Next.js', 'Laravel Breeze', 'Tailwind CSS', 'Stripe', 'PostgreSQL']
+      }
+    ]
+  },
+  {
+    id: 'education',
+    company: 'University of Computer Science',
+    logoText: 'BS',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-emerald-400',
+    isActive: false,
+    roles: [
+      {
+        id: 'web-inst',
+        role: 'B.S. in Software Engineering',
+        employmentType: 'Honor Graduate',
+        period: '09.2018 — 06.2022',
+        isOpen: false,
+        bullets: [
+          'Focused on Data Structures, Object-Oriented Design, Relational Database Systems, and Distributed Computing.',
+          'Completed senior capstone project on automated application security auditing and web performance optimization.'
+        ],
+        tags: ['Software Architecture', 'Algorithms', 'Databases', 'Git', 'System Design']
+      }
+    ]
+  }
+];
+
+const companyExperiences = ref(defaultExperiences);
+
+// Dynamically bind DB experiences if provided from Laravel
+if (props.experiences && props.experiences.length) {
+  const dbCompanies = props.experiences.map((exp, idx) => {
+    const logoInitials = exp.company
+      ? exp.company.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
+      : 'EXP';
+      
+    const bulletsList = exp.description
+      ? exp.description.split('. ').map(b => b.trim()).filter(Boolean)
+      : [];
+
+    return {
+      id: exp.id || `db-exp-${idx}`,
+      company: exp.company || 'Company Name',
+      logoText: logoInitials,
+      logoBg: 'bg-neutral-900 border border-neutral-800 text-white',
+      isActive: idx === 0,
+      roles: [
+        {
+          id: `role-${exp.id || idx}`,
+          role: exp.role || exp.title || 'Software Engineer',
+          employmentType: exp.location || 'Full-time',
+          period: exp.period || '2024 — Present',
+          isOpen: idx === 0,
+          bullets: bulletsList.length ? bulletsList : [exp.description],
+          tags: exp.technologies || exp.tech_stack || exp.skills || ['Laravel', 'Vue.js', 'Tailwind CSS']
+        }
+      ]
+    };
+  });
+  companyExperiences.value = dbCompanies;
+}
+
+function toggleRole(companyIdx, roleIdx) {
+  companyExperiences.value[companyIdx].roles[roleIdx].isOpen = !companyExperiences.value[companyIdx].roles[roleIdx].isOpen;
+}
 
 const form = useForm({
   sender_name: '',
@@ -379,40 +646,41 @@ const form = useForm({
   body: '',
 });
 
-// Category filtering for Projects
 const filteredProjects = computed(() => {
   if (portfolioStore.activeProjectCategory === 'All') {
-    return props.projects;
+    return props.projects || [];
   }
-  return props.projects.filter(p => p.category === portfolioStore.activeProjectCategory);
+  return (props.projects || []).filter(p => p.category === portfolioStore.activeProjectCategory);
 });
 
-// Skill categories
-const skillCategories = ['Frontend', 'Backend', 'Database/DevOps', 'Tools'];
-
-function getSkillsForCategory(cat) {
-  return (props.skills || []).filter(s => s.category === cat);
-}
-
-// Contact form submission
 function submitContactForm() {
-  form.post(route('contact.store'), {
-    preserveScroll: true,
-    onSuccess: () => {
-      form.reset();
-      notificationStore.addToast({
-        title: 'Message Sent!',
-        message: 'Thank you for reaching out. Your message has been stored in my inbox.',
-        type: 'success',
-      });
-    },
-    onError: () => {
-      notificationStore.addToast({
-        title: 'Form Error',
-        message: 'Please check your form inputs and try again.',
-        type: 'error',
-      });
-    },
+  if (isSubmitting.value) return;
+
+  isSubmitting.value = true;
+
+  axios.post(route('contact.store'), {
+    sender_name: form.sender_name,
+    sender_email: form.sender_email,
+    subject: form.subject,
+    body: form.body,
+  })
+  .then(() => {
+    form.reset();
+    toast({
+      title: 'Message Sent Successfully!',
+      description: 'Thank you for reaching out. Your message has been received.',
+      type: 'success',
+    });
+  })
+  .catch((err) => {
+    toast({
+      title: 'Form Error',
+      description: err.response?.data?.message || 'Please check your inputs and try again.',
+      type: 'error',
+    });
+  })
+  .finally(() => {
+    isSubmitting.value = false;
   });
 }
 </script>

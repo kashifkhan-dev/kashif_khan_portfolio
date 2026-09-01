@@ -199,6 +199,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import {
   LayoutDashboard,
+  Sparkles,
   FolderGit2,
   Cpu,
   Briefcase,
@@ -226,6 +227,7 @@ const userInitials = computed(() => {
 
 const currentRouteTitle = computed(() => {
   if (route().current('admin.dashboard')) return 'Admin Dashboard';
+  if (route().current('admin.hero.*')) return 'Hero Section Editor';
   if (route().current('admin.projects.*')) return 'Projects Manager';
   if (route().current('admin.skills.*')) return 'Skills Matrix';
   if (route().current('admin.experiences.*')) return 'Experience Timeline';
@@ -236,6 +238,7 @@ const currentRouteTitle = computed(() => {
 
 const navItems = computed(() => [
   { name: 'Dashboard', route: route('admin.dashboard'), active: route().current('admin.dashboard'), icon: LayoutDashboard },
+  { name: 'Hero Section', route: route('admin.hero.index'), active: route().current('admin.hero.*'), icon: Sparkles },
   { name: 'Projects Manager', route: route('admin.projects.index'), active: route().current('admin.projects.*'), icon: FolderGit2 },
   { name: 'Skills Matrix', route: route('admin.skills.index'), active: route().current('admin.skills.*'), icon: Cpu },
   { name: 'Experience Timeline', route: route('admin.experiences.index'), active: route().current('admin.experiences.*'), icon: Briefcase },

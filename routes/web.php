@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,10 @@ Route::middleware(['auth'])->get('/dashboard', function () {
 // Admin Panel Routes (Protected by Auth middleware)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    // Hero Section Content Editor
+    Route::get('/hero', [HeroController::class, 'index'])->name('hero.index');
+    Route::post('/hero', [HeroController::class, 'update'])->name('hero.update');
 
     // Projects CRUD
     Route::resource('projects', ProjectController::class)->except(['show']);

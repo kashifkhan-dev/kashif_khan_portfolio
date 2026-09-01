@@ -1,31 +1,31 @@
 <template>
-  <div class="fixed top-4 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-4 sm:bottom-4 sm:top-auto z-50 flex flex-col gap-2 w-full max-w-sm pointer-events-none px-4 sm:px-0">
+  <div class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-sm pointer-events-none px-4 sm:px-0">
     <transition-group name="toast-slide">
       <div
         v-for="t in toasts"
         :key="t.id"
-        class="pointer-events-auto w-full flex gap-3 p-4 rounded-xl border bg-card/90 backdrop-blur-md shadow-lg text-sm leading-relaxed transition-all duration-300"
+        class="pointer-events-auto w-full flex items-start gap-3 p-4 rounded-md border border-neutral-800 bg-neutral-950/95 backdrop-blur-md shadow-2xl text-sm leading-relaxed transition-all duration-300"
         :class="getBorderClass(t.type)"
       >
         <!-- Icon based on type -->
         <component 
           :is="getIcon(t.type)" 
-          class="h-4 w-4 shrink-0 mt-0.5" 
+          class="h-5 w-5 shrink-0 mt-0.5" 
           :class="getIconColorClass(t.type)"
         />
 
         <!-- Title & Description -->
-        <div class="flex-1 space-y-1">
-          <h4 class="font-bold text-neutral-900 dark:text-neutral-50">{{ t.title }}</h4>
-          <p v-if="t.description" class="text-[13px] text-muted-foreground">{{ t.description }}</p>
+        <div class="flex-1 space-y-0.5">
+          <h4 class="font-bold text-white text-sm tracking-tight">{{ t.title }}</h4>
+          <p v-if="t.description" class="text-xs text-neutral-400 leading-normal">{{ t.description }}</p>
         </div>
 
         <!-- Close Button -->
         <button 
-          class="h-4 w-4 shrink-0 flex items-center justify-center rounded text-muted-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors"
+          class="h-5 w-5 shrink-0 flex items-center justify-center rounded-md text-neutral-500 hover:bg-neutral-900 hover:text-white transition-colors"
           @click="dismiss(t.id)"
         >
-          <X class="h-3 w-3" />
+          <X class="h-3.5 w-3.5" />
         </button>
       </div>
     </transition-group>
