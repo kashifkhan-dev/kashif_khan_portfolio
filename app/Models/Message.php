@@ -12,9 +12,14 @@ class Message extends Model
         'subject',
         'body',
         'is_read',
+        'replied_at',
+        'reply_body',
+        'replies',
     ];
 
     protected $casts = [
         'is_read' => 'boolean',
+        'replied_at' => 'datetime',
+        'replies' => 'array',
     ];
 }

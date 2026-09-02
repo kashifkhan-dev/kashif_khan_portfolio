@@ -17,6 +17,24 @@
   }
 }
 
+@layer utilities {
+  .admin-page-container {
+    @apply space-y-8 pb-16;
+    animation: adminFadeIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@keyframes adminFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -254,4 +272,38 @@
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════════════
+   RICH TEXT LANDING PAGE PROSE STYLING
+   ═══════════════════════════════════════════════════ */
+.prose-experience {
+  @apply text-sm text-neutral-300 leading-relaxed font-sans;
+}
+.prose-experience p {
+  @apply mb-3 text-neutral-300 leading-relaxed;
+}
+.prose-experience ul {
+  @apply space-y-2.5 my-3 pl-5 list-disc marker:text-neutral-500;
+}
+.prose-experience ol {
+  @apply space-y-2.5 my-3 pl-5 list-decimal marker:text-neutral-500;
+}
+.prose-experience li {
+  @apply text-neutral-300 leading-relaxed pl-1;
+}
+.prose-experience strong, .prose-experience b {
+  @apply font-bold text-white;
+}
+.prose-experience em, .prose-experience i {
+  @apply italic text-neutral-200;
+}
+.prose-experience h1, .prose-experience h2, .prose-experience h3 {
+  @apply font-bold text-white text-base my-2 tracking-tight;
+}
+.prose-experience a {
+  @apply text-indigo-400 hover:text-indigo-300 underline transition-colors;
+}
+.prose-experience code {
+  @apply px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-xs text-indigo-300;
 }

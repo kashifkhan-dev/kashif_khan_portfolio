@@ -269,17 +269,27 @@
                 </button>
               </div>
 
-              <!-- Expanded Role Details (Bullet Points & Tech Stack Tags) -->
-              <div v-if="role.isOpen" class="pt-2 pb-2 space-y-5">
-                <!-- Bullet List -->
-                <ul class="space-y-2.5 text-sm text-neutral-300 font-sans leading-relaxed pl-2 sm:pl-4">
+              <!-- Expanded Role Details (Bullet Points & Rich Text Description & Tech Stack Tags) -->
+              <div v-if="role.isOpen" class="pt-2 pb-2 space-y-4">
+                <!-- Rich Text Description (if HTML) -->
+                <div 
+                  v-if="role.rawDescription" 
+                  v-html="role.rawDescription" 
+                  class="prose-experience"
+                ></div>
+
+                <!-- Bullet Highlights List (if highlights exist) -->
+                <ul 
+                  v-if="role.bullets && role.bullets.length" 
+                  class="space-y-2.5 text-sm text-neutral-300 font-sans leading-relaxed pl-2 sm:pl-4 pt-1"
+                >
                   <li
                     v-for="(bullet, bIdx) in role.bullets"
                     :key="bIdx"
                     class="flex items-start space-x-3"
                   >
                     <span class="w-1.5 h-1.5 rounded-full bg-neutral-500 mt-2 shrink-0"></span>
-                    <span>{{ bullet }}</span>
+                    <span v-html="bullet"></span>
                   </li>
                 </ul>
 
@@ -602,6 +612,29 @@ const defaultExperiences = [
 
 const companyExperiences = ref(defaultExperiences);
 
+// Known technology keywords for auto-tagging
+const knownTechs = [
+  'Laravel', 'Vue.js', 'Vue 3', 'Tailwind CSS', 'React.js', 'React', 'Next.js', 
+  'TypeScript', 'JavaScript', 'Node.js', 'PHP', 'MySQL', 'PostgreSQL', 'Redis', 
+  'Docker', 'AWS S3', 'AWS', 'Stripe', 'SendGrid', 'Inertia.js', 'WebSockets', 
+  'RESTful APIs', 'GraphQL', 'Git', 'Vite', 'Express', 'Microservices'
+];
+
+function extractTechTags(exp) {
+  let techs = exp.technologies;
+  if (typeof techs === 'string' && techs.trim()) {
+    try {
+      techs = JSON.parse(techs);
+    } catch (e) {
+      techs = techs.split(',').map(s => s.trim()).filter(Boolean);
+    }
+  }
+  if (Array.isArray(techs) && techs.length) return techs;
+
+  // Strict rule: If no technologies entered in Admin, show NOTHING on frontend!
+  return [];
+}
+
 // Dynamically bind DB experiences if provided from Laravel
 if (props.experiences && props.experiences.length) {
   const dbCompanies = props.experiences.map((exp, idx) => {
@@ -609,9 +642,27 @@ if (props.experiences && props.experiences.length) {
       ? exp.company.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
       : 'EXP';
       
-    const bulletsList = exp.description
-      ? exp.description.split('. ').map(b => b.trim()).filter(Boolean)
-      : [];
+    // Handle highlights array or string
+    let highlightsArr = [];
+    if (Array.isArray(exp.highlights)) {
+      highlightsArr = exp.highlights;
+    } else if (typeof exp.highlights === 'string' && exp.highlights.trim()) {
+      try {
+        highlightsArr = JSON.parse(exp.highlights);
+      } catch (e) {
+        highlightsArr = exp.highlights.split(',').map(s => s.trim()).filter(Boolean);
+      }
+    }
+
+    const hasHtml = exp.description && /<[a-z][\s\S]*>/i.test(exp.description);
+    const tagsList = extractTechTags(exp);
+
+    // Format location + work type (e.g. "Peshawar • Remote")
+    let empType = exp.location || '';
+    if (exp.work_type) {
+      empType = empType ? `${empType} • ${exp.work_type}` : exp.work_type;
+    }
+    if (!empType) empType = 'Full-time';
 
     return {
       id: exp.id || `db-exp-${idx}`,
@@ -623,11 +674,14 @@ if (props.experiences && props.experiences.length) {
         {
           id: `role-${exp.id || idx}`,
           role: exp.role || exp.title || 'Software Engineer',
-          employmentType: exp.location || 'Full-time',
+          employmentType: empType,
           period: exp.period || '2024 — Present',
           isOpen: idx === 0,
-          bullets: bulletsList.length ? bulletsList : [exp.description],
-          tags: exp.technologies || exp.tech_stack || exp.skills || ['Laravel', 'Vue.js', 'Tailwind CSS']
+          rawDescription: hasHtml ? exp.description : null,
+          bullets: highlightsArr.length 
+            ? highlightsArr 
+            : (!hasHtml && exp.description ? exp.description.split('. ').map(b => b.trim()).filter(Boolean) : []),
+          tags: tagsList
         }
       ]
     };

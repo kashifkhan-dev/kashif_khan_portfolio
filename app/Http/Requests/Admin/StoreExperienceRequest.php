@@ -18,8 +18,10 @@ class StoreExperienceRequest extends FormRequest
             'role' => 'required|string|max:255',
             'period' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
+            'work_type' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'highlights' => 'nullable|array',
+            'technologies' => 'nullable|array',
             'type' => 'required|string|in:work,education',
             'order' => 'integer',
         ];
