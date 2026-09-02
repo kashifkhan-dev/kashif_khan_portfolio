@@ -5,7 +5,7 @@
       type="button"
       @click="isOpen = !isOpen"
       :class="[
-        'w-full px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs font-medium flex items-center justify-between transition-all focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 cursor-pointer',
+        'w-full px-3.5 rounded-[6px] border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs font-medium flex items-center justify-between transition-all focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 cursor-pointer',
         triggerClass || 'h-10',
         isOpen ? 'border-indigo-500 ring-1 ring-indigo-500' : ''
       ]"
@@ -33,7 +33,7 @@
     >
       <div
         v-if="isOpen"
-        class="absolute left-0 right-0 top-full mt-1.5 z-[9999] rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-2xl p-1.5 space-y-0.5 max-h-60 overflow-y-auto"
+        class="absolute left-0 right-0 top-full mt-1.5 z-[9999] rounded-[8px] border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-2xl p-1.5 space-y-0.5 max-h-60 overflow-y-auto"
       >
         <button
           v-for="opt in formattedOptions"
@@ -41,7 +41,7 @@
           type="button"
           @click="selectOption(opt.value)"
           :class="[
-            'w-full px-3 py-2 rounded-lg text-xs flex items-center justify-between transition-all text-left cursor-pointer',
+            'w-full px-3 py-2 rounded-[6px] text-xs flex items-center justify-between transition-all text-left cursor-pointer',
             modelValue === opt.value 
               ? 'bg-neutral-200/80 dark:bg-neutral-800/90 text-neutral-950 dark:text-neutral-50 font-bold border border-neutral-300 dark:border-neutral-700/60 shadow-xs' 
               : 'text-neutral-700 dark:text-neutral-300 font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800/60 hover:text-neutral-950 dark:hover:text-neutral-50'

@@ -27,21 +27,36 @@
 
 ---
 
-## 3. Email & Contact Integration (Optional Mailer Setup)
+## 3. Email & Gmail SMTP Integration
 
-- **Local Driver**: `log` driver configured during development to inspect contact form notifications in `storage/logs/laravel.log`.
-- **Production Drivers**: SMTP, Mailgun, Postmark, or Resend.
-- **Mailer Configuration in `.env`**:
-  ```env
-  MAIL_MAILER=smtp
-  MAIL_HOST=smtp.mailtrap.io
-  MAIL_PORT=2525
-  MAIL_USERNAME=null
-  MAIL_PASSWORD=null
-  MAIL_ENCRYPTION=null
-  MAIL_FROM_ADDRESS="no-reply@kashifkhan.dev"
-  MAIL_FROM_NAME="${APP_NAME}"
-  ```
+The portfolio includes an administrative Gmail-style inbox supporting direct email replies sent directly via your Gmail account using SMTP.
+
+### A. Environment Configuration (`.env`)
+To enable direct email sending from the dashboard, set the following parameters in your `.env` file:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_email@gmail.com
+MAIL_PASSWORD=your_16_character_app_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="your_email@gmail.com"
+MAIL_FROM_NAME="Kashif Khan Dev"
+```
+
+### B. How to Obtain a Gmail App Password:
+1. Go to your [Google Account Security](https://myaccount.google.com/security) page.
+2. Ensure **2-Step Verification** is enabled for your Google account.
+3. In the search bar at the top of Google Account, search for **App Passwords**.
+4. Create a new App Password (App name: `Portfolio Dashboard`).
+5. Copy the generated 16-character password (e.g. `abcd efgh ijkl mnop`) and paste it into `MAIL_PASSWORD` in your `.env` file without spaces.
+
+### C. Inquiry Dispatch Workflow:
+- When a client sends a message via the contact form on your portfolio landing page, it is stored in the database.
+- Admin opens the **Gmail Inquiries** inbox in the dashboard and writes a response in the built-in email composer canvas.
+- Clicking **Send** dispatches an HTML email response directly to the client's email address via Gmail SMTP.
+- The complete message thread (original inquiry + all sequential replies) is saved in the database.
 
 ---
 

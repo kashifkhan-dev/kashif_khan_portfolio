@@ -194,9 +194,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
+import { useToast } from '@/Composables/useToast';
 import {
   LayoutDashboard,
   Sparkles,
@@ -212,9 +213,31 @@ import {
 } from 'lucide-vue-next';
 
 const page = usePage();
+const { toast } = useToast();
 const isCollapsed = ref(false);
 const showNotifications = ref(false);
 const showUserMenu = ref(false);
+
+watch(
+  () => page.props.flash,
+  (flash) => {
+    if (flash?.success) {
+      toast({
+        title: 'Success',
+        description: flash.success,
+        type: 'success',
+      });
+    }
+    if (flash?.error) {
+      toast({
+        title: 'Error',
+        description: flash.error,
+        type: 'error',
+      });
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const userInitials = computed(() => {
   const name = page.props.auth.user?.name || 'KK';

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Services\MessageService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,6 +27,17 @@ class MessageController extends Controller
         $this->messageService->toggleReadStatus($message);
 
         return redirect()->back()->with('success', 'Message status updated.');
+    }
+
+    public function reply(Request $request, Message $message)
+    {
+        $validated = $request->validate([
+            'reply_body' => 'required|string|min:2',
+        ]);
+
+        $this->messageService->sendReply($message, $validated['reply_body']);
+
+        return redirect()->back()->with('success', "Email reply successfully sent to {$message->sender_email}!");
     }
 
     public function destroy(Message $message)

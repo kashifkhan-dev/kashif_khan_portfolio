@@ -11,14 +11,17 @@ class Experience extends Model
         'role',
         'period',
         'location',
+        'work_type',
         'description',
         'highlights',
+        'technologies',
         'type',
         'order',
     ];
 
     protected $casts = [
         'highlights' => 'array',
+        'technologies' => 'array',
         'order' => 'integer',
     ];
 }

@@ -3,7 +3,7 @@
     <template #header>Edit Project</template>
     <Head title="Edit Project - Kashif Khan Dev" />
 
-    <div class="space-y-8 pb-16 animate-in fade-in-50 duration-300">
+    <div class="admin-page-container">
       
       <!-- Top Action Bar -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-5">

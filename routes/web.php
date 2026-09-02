@@ -38,11 +38,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('skills', SkillController::class)->except(['create', 'edit', 'show']);
 
     // Experiences CRUD
-    Route::resource('experiences', ExperienceController::class)->except(['create', 'edit', 'show']);
+    Route::resource('experiences', ExperienceController::class)->except(['show']);
 
     // Messages Inbox
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::patch('/messages/{message}/toggle-read', [MessageController::class, 'toggleRead'])->name('messages.toggle-read');
+    Route::post('/messages/{message}/reply', [MessageController::class, 'reply'])->name('messages.reply');
     Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 
     // Site Settings Editor

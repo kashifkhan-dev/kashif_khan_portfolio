@@ -23,18 +23,30 @@ class ExperienceController extends Controller
         ]);
     }
 
+    public function create(): Response
+    {
+        return Inertia::render('Admin/Experiences/Create');
+    }
+
     public function store(StoreExperienceRequest $request)
     {
         $this->experienceService->createExperience($request->validated());
 
-        return redirect()->back()->with('success', 'Experience record created successfully!');
+        return redirect()->route('admin.experiences.index')->with('success', 'Experience record created successfully!');
+    }
+
+    public function edit(Experience $experience): Response
+    {
+        return Inertia::render('Admin/Experiences/Edit', [
+            'experience' => $experience,
+        ]);
     }
 
     public function update(UpdateExperienceRequest $request, Experience $experience)
     {
         $this->experienceService->updateExperience($experience, $request->validated());
 
-        return redirect()->back()->with('success', 'Experience record updated successfully!');
+        return redirect()->route('admin.experiences.index')->with('success', 'Experience record updated successfully!');
     }
 
     public function destroy(Experience $experience)
