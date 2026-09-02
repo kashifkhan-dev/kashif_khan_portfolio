@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Message;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -34,6 +35,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'unreadInquiries' => fn () => $request->user() 
+                ? Message::where('is_read', false)->latest()->take(6)->get(['id', 'sender_name', 'sender_email', 'subject', 'body', 'created_at'])
+                : [],
+            'unreadInquiriesCount' => fn () => $request->user() 
+                ? Message::where('is_read', false)->count()
+                : 0,
         ];
     }
 }

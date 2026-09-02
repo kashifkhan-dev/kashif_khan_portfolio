@@ -29,6 +29,13 @@ class MessageController extends Controller
         return redirect()->back()->with('success', 'Message status updated.');
     }
 
+    public function markAllRead()
+    {
+        $this->messageService->markAllAsRead();
+
+        return redirect()->back()->with('success', 'All messages marked as read.');
+    }
+
     public function reply(Request $request, Message $message)
     {
         $validated = $request->validate([

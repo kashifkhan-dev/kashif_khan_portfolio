@@ -103,48 +103,90 @@
         <div class="flex items-center gap-2">
           <!-- Global Search Button -->
           <button
-            class="relative h-9 w-9 md:w-60 md:justify-start px-3 text-muted-foreground text-sm font-normal rounded-lg border bg-background hover:bg-muted flex items-center transition-colors"
+            @click="showSearchModal = true"
+            class="relative h-9 w-9 md:w-60 md:justify-start px-3 text-neutral-400 hover:text-white text-xs font-medium rounded-[6px] border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
           >
-            <Search class="h-4 w-4 md:mr-2 shrink-0" />
+            <Search class="h-4 w-4 md:mr-2 shrink-0 text-neutral-400" />
             <span class="hidden md:inline-flex">Search dashboard...</span>
-            <kbd class="hidden md:inline-flex absolute right-1.5 top-1/2 -translate-y-1/2 h-5 pointer-events-none items-center justify-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
+            <kbd class="hidden md:inline-flex absolute right-1.5 top-1/2 -translate-y-1/2 h-5 pointer-events-none items-center justify-center gap-1 rounded border border-neutral-800 bg-neutral-950 px-1.5 font-mono text-[10px] font-medium text-neutral-400 opacity-100 select-none">
               ⌘K
             </kbd>
           </button>
 
           <!-- Notifications Dropdown Button -->
-          <div class="relative">
+          <div ref="notificationRef" class="relative">
             <button
               @click="showNotifications = !showNotifications"
-              class="h-9 w-9 rounded-lg hover:bg-muted flex items-center justify-center relative text-muted-foreground hover:text-foreground transition-colors"
+              class="h-9 w-9 rounded-lg hover:bg-neutral-800/60 flex items-center justify-center relative text-neutral-400 hover:text-white transition-colors cursor-pointer"
+              title="Notifications"
             >
               <Bell class="h-4 w-4" />
-              <span class="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-indigo-600 dark:bg-indigo-400"></span>
+              <span 
+                v-if="$page.props.unreadInquiriesCount > 0"
+                class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[9px] font-black text-white shadow-sm animate-pulse"
+              >
+                {{ $page.props.unreadInquiriesCount > 9 ? '9+' : $page.props.unreadInquiriesCount }}
+              </span>
             </button>
 
-            <!-- Notifications Menu -->
+            <!-- Notifications Dropdown Menu -->
             <div
               v-if="showNotifications"
-              class="absolute right-0 mt-2 w-80 rounded-lg border bg-popover text-popover-foreground shadow-lg p-2 z-50 space-y-1"
+              class="absolute right-0 mt-2 w-80 sm:w-88 rounded-[8px] border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl p-3 z-50 space-y-2.5"
             >
-              <div class="flex items-center justify-between px-3 py-2 border-b pb-2 mb-1">
-                <span class="font-semibold text-xs text-foreground">Notifications</span>
-                <span class="text-[10px] font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white cursor-pointer">Mark all as read</span>
-              </div>
-              <div class="space-y-1">
-                <div class="flex flex-col gap-1 p-2 rounded-md hover:bg-muted cursor-pointer transition-colors text-xs">
-                  <div class="flex justify-between items-start gap-2">
-                    <span class="font-medium text-foreground text-xs leading-none">New contact inquiry</span>
-                    <span class="text-[9px] text-muted-foreground shrink-0">2m ago</span>
-                  </div>
-                  <p class="text-[11px] text-muted-foreground leading-normal">Marcus Aurelius sent a new message.</p>
+              <div class="flex items-center justify-between px-1 pb-2 border-b border-neutral-800/80">
+                <div class="flex items-center gap-2">
+                  <Mail class="h-3.5 w-3.5 text-indigo-400" />
+                  <span class="font-bold text-xs text-white">Notifications</span>
+                  <span v-if="$page.props.unreadInquiriesCount > 0" class="px-2 py-0.5 rounded-[6px] text-[10px] font-bold bg-indigo-950 text-indigo-400 border border-indigo-800/80">
+                    {{ $page.props.unreadInquiriesCount }} unread
+                  </span>
                 </div>
+                
+                <button 
+                  v-if="$page.props.unreadInquiriesCount > 0"
+                  @click="markAllNotificationsRead" 
+                  class="text-[10px] font-semibold text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  Mark all as read
+                </button>
+              </div>
+
+              <!-- Real Inquiry Notifications List -->
+              <div v-if="$page.props.unreadInquiries && $page.props.unreadInquiries.length" class="space-y-1.5 max-h-72 overflow-y-auto pr-0.5">
+                <Link
+                  v-for="inquiry in $page.props.unreadInquiries"
+                  :key="inquiry.id"
+                  :href="route('admin.messages.index')"
+                  @click="showNotifications = false"
+                  class="flex flex-col gap-1 p-2.5 rounded-[6px] bg-neutral-900/60 hover:bg-neutral-900 border border-neutral-800/80 transition-colors text-xs block group cursor-pointer"
+                >
+                  <div class="flex justify-between items-center gap-2">
+                    <span class="font-bold text-white text-xs truncate group-hover:text-indigo-400 transition-colors">
+                      {{ inquiry.sender_name }}
+                    </span>
+                    <span class="text-[10px] text-neutral-500 font-mono shrink-0">
+                      {{ formatRelativeTime(inquiry.created_at) }}
+                    </span>
+                  </div>
+                  <p class="text-[11px] text-neutral-400 leading-snug line-clamp-2">
+                    <span class="font-semibold text-neutral-300">{{ inquiry.subject || 'No Subject' }}</span>
+                    — {{ inquiry.body }}
+                  </p>
+                </Link>
+              </div>
+
+              <!-- Empty Notification State -->
+              <div v-else class="py-6 text-center">
+                <CheckCircle2 class="h-8 w-8 mx-auto text-neutral-600 mb-2" />
+                <p class="text-sm font-bold text-white">All caught up!</p>
+                <p class="text-xs text-neutral-400 mt-1 font-medium">No new unread client inquiries.</p>
               </div>
             </div>
           </div>
 
           <!-- User Avatar Menu -->
-          <div class="relative">
+          <div ref="userMenuRef" class="relative">
             <button
               @click="showUserMenu = !showUserMenu"
               class="h-9 w-9 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 text-xs font-semibold border border-transparent hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"
@@ -154,26 +196,30 @@
 
             <div
               v-if="showUserMenu"
-              class="absolute right-0 mt-2 w-56 rounded-lg border bg-popover text-popover-foreground shadow-lg p-2 z-50 text-xs space-y-1"
+              class="absolute right-0 mt-2 w-60 rounded-[8px] border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl p-2 z-50 text-xs space-y-1"
             >
-              <div class="flex flex-col gap-1 px-3 py-2 border-b mb-1">
-                <span class="font-semibold text-xs text-foreground">{{ $page.props.auth.user.name }}</span>
-                <span class="text-[10px] text-muted-foreground">{{ $page.props.auth.user.email }}</span>
+              <div class="flex flex-col gap-0.5 px-3 py-2 border-b border-neutral-800/80 mb-1">
+                <span class="font-bold text-xs text-white truncate">{{ $page.props.auth.user.name }}</span>
+                <span class="text-xs text-neutral-400 font-normal truncate">{{ $page.props.auth.user.email }}</span>
               </div>
               <Link
                 :href="route('home')"
                 target="_blank"
-                class="block px-3 py-1.5 rounded-md hover:bg-muted text-foreground transition-colors"
+                @click="showUserMenu = false"
+                class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-neutral-900 text-neutral-200 hover:text-white font-medium transition-colors"
               >
-                Public Portfolio &rarr;
+                <span>Public Portfolio</span>
+                <ExternalLink class="h-3.5 w-3.5 text-neutral-400" />
               </Link>
               <Link
                 :href="route('logout')"
                 method="post"
                 as="button"
-                class="w-full text-left px-3 py-1.5 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 font-medium transition-colors"
+                @click="showUserMenu = false"
+                class="w-full flex items-center justify-between px-3 py-2 rounded-[6px] text-red-400 hover:bg-red-950/30 hover:text-red-300 font-semibold transition-colors cursor-pointer"
               >
-                Log out
+                <span>Log out</span>
+                <LogOut class="h-3.5 w-3.5" />
               </Link>
             </div>
           </div>
@@ -190,12 +236,75 @@
 
     <!-- Global Toast Container -->
     <ToastNotification />
+
+    <!-- Command Palette / Global Search Modal -->
+    <div
+      v-if="showSearchModal"
+      class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/70 backdrop-blur-sm"
+      @click.self="showSearchModal = false"
+    >
+      <div class="w-full max-w-xl rounded-[10px] border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl overflow-hidden flex flex-col">
+        <!-- Search Input Bar -->
+        <div class="flex items-center px-4 py-3 border-b border-neutral-800 gap-3">
+          <Search class="h-4 w-4 text-indigo-400 shrink-0" />
+          <input
+            ref="searchInputRef"
+            v-model="searchQuery"
+            type="text"
+            placeholder="Search commands, pages, or tools..."
+            class="flex-1 bg-transparent text-sm text-white placeholder-neutral-500 outline-none focus:outline-none focus:ring-0 ring-0 border-0 focus:border-none p-0 shadow-none"
+          />
+          <kbd
+            @click="showSearchModal = false"
+            class="px-2 py-0.5 text-[10px] font-mono font-semibold text-neutral-400 bg-neutral-900 border border-neutral-800 rounded-[4px] cursor-pointer hover:text-white"
+          >
+            ESC
+          </kbd>
+        </div>
+
+        <!-- Search Results / Commands List -->
+        <div class="max-h-80 overflow-y-auto p-2 space-y-1">
+          <div v-if="filteredSearchActions.length" class="space-y-1">
+            <div class="px-2.5 py-1 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
+              Quick Navigation & Pages
+            </div>
+            <button
+              v-for="action in filteredSearchActions"
+              :key="action.title"
+              @click="navigateSearch(action)"
+              class="w-full flex items-center justify-between p-2.5 rounded-[6px] hover:bg-neutral-900 text-left group transition-colors cursor-pointer"
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="p-2 rounded-[6px] bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-indigo-400 group-hover:border-indigo-800/80 transition-colors shrink-0">
+                  <component :is="action.icon" class="h-4 w-4" />
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors truncate">
+                    {{ action.title }}
+                  </div>
+                  <div class="text-[11px] text-neutral-400 truncate">
+                    {{ action.desc }}
+                  </div>
+                </div>
+              </div>
+              <ChevronRight class="h-4 w-4 text-neutral-600 group-hover:text-neutral-300 transition-colors shrink-0 ml-2" />
+            </button>
+          </div>
+
+          <div v-else class="py-8 text-center text-neutral-500">
+            <Search class="h-6 w-6 mx-auto text-neutral-700 mb-2" />
+            <p class="text-xs font-bold text-neutral-300">No matching commands</p>
+            <p class="text-[11px] text-neutral-500 mt-0.5">Try searching for "Projects", "Skills", "Inbox", or "Settings"</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { Link, usePage, router } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import { useToast } from '@/Composables/useToast';
 import {
@@ -209,7 +318,10 @@ import {
   ChevronRight,
   ChevronLeft,
   Search,
-  Bell
+  Bell,
+  CheckCircle2,
+  ExternalLink,
+  LogOut
 } from 'lucide-vue-next';
 
 const page = usePage();
@@ -217,6 +329,95 @@ const { toast } = useToast();
 const isCollapsed = ref(false);
 const showNotifications = ref(false);
 const showUserMenu = ref(false);
+const showSearchModal = ref(false);
+const searchQuery = ref('');
+
+const notificationRef = ref(null);
+const userMenuRef = ref(null);
+const searchInputRef = ref(null);
+
+function handleClickOutside(event) {
+  if (notificationRef.value && !notificationRef.value.contains(event.target)) {
+    showNotifications.value = false;
+  }
+  if (userMenuRef.value && !userMenuRef.value.contains(event.target)) {
+    showUserMenu.value = false;
+  }
+}
+
+function handleKeyDown(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    showSearchModal.value = !showSearchModal.value;
+  } else if (e.key === 'Escape' && showSearchModal.value) {
+    showSearchModal.value = false;
+  }
+}
+
+watch(showSearchModal, (val) => {
+  if (val) {
+    nextTick(() => {
+      searchInputRef.value?.focus();
+    });
+  } else {
+    searchQuery.value = '';
+  }
+});
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+  window.addEventListener('keydown', handleKeyDown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('keydown', handleKeyDown);
+});
+
+const searchActions = computed(() => [
+  { title: 'Admin Dashboard', desc: 'Main overview & portfolio statistics', routeName: 'admin.dashboard', icon: LayoutDashboard },
+  { title: 'Hero Section Editor', desc: 'Customize main landing text & code frame', routeName: 'admin.hero.index', icon: Sparkles },
+  { title: 'Projects Manager', desc: 'Create, edit & manage portfolio projects', routeName: 'admin.projects.index', icon: FolderGit2 },
+  { title: 'Skills Matrix', desc: 'Manage tech stack icons ticker & proficiency', routeName: 'admin.skills.index', icon: Cpu },
+  { title: 'Experience Timeline', desc: 'Career background & work milestones', routeName: 'admin.experiences.index', icon: Briefcase },
+  { title: 'Inquiries Inbox', desc: 'Manage client messages & Gmail SMTP replies', routeName: 'admin.messages.index', icon: Mail },
+  { title: 'Site Settings', desc: 'SEO metadata, branding & social links', routeName: 'admin.settings.index', icon: Sliders },
+]);
+
+const filteredSearchActions = computed(() => {
+  if (!searchQuery.value.trim()) return searchActions.value;
+  const q = searchQuery.value.toLowerCase();
+  return searchActions.value.filter(
+    item => item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
+  );
+});
+
+function navigateSearch(action) {
+  showSearchModal.value = false;
+  searchQuery.value = '';
+  router.visit(route(action.routeName));
+}
+
+function markAllNotificationsRead() {
+  router.patch(route('admin.messages.mark-all-read'), {}, {
+    preserveScroll: true,
+    onSuccess: () => {
+      showNotifications.value = false;
+    }
+  });
+}
+
+function formatRelativeTime(dateStr) {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffInSecs = Math.floor((now - date) / 1000);
+
+  if (diffInSecs < 60) return 'Just now';
+  if (diffInSecs < 3600) return `${Math.floor(diffInSecs / 60)}m ago`;
+  if (diffInSecs < 86400) return `${Math.floor(diffInSecs / 3600)}h ago`;
+  return `${Math.floor(diffInSecs / 86400)}d ago`;
+}
 
 watch(
   () => page.props.flash,

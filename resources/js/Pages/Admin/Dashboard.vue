@@ -82,37 +82,78 @@
       </div>
 
       <!-- Details / Recent Activity Grid -->
-      <div class="grid gap-6 grid-cols-1 lg:grid-cols-4">
-        <!-- Recent Messages / Projects panel -->
-        <div class="col-span-1 lg:col-span-3 rounded-xl border bg-card text-card-foreground shadow-sm p-6 space-y-4">
+      <div class="grid gap-6 grid-cols-1 lg:grid-cols-2">
+        <!-- Recent Messages panel -->
+        <div class="col-span-1 rounded-xl border bg-card text-card-foreground shadow-sm p-6 space-y-4">
           <div class="flex items-center justify-between border-b pb-4">
-            <div>
-              <h3 class="text-lg font-bold text-foreground">Recent Contact Messages</h3>
-              <p class="text-xs text-muted-foreground">Manage recent inquiries from portfolio visitors.</p>
-            </div>
-            <Link :href="route('admin.messages.index')" class="text-xs text-primary font-semibold hover:underline">View All</Link>
-          </div>
-
-          <div v-if="!recent_messages || !recent_messages.length" class="text-center py-8 text-xs text-muted-foreground">
-            No contact messages received yet.
-          </div>
-
-          <div v-else class="space-y-3">
-            <div v-for="msg in recent_messages" :key="msg.id" class="p-3.5 rounded-lg border bg-muted/40 flex items-center justify-between hover:bg-muted/80 transition-colors">
-              <div>
-                <div class="flex items-center space-x-2">
-                  <span class="font-bold text-foreground text-xs">{{ msg.sender_name }}</span>
-                  <span v-if="!msg.is_read" class="w-2 h-2 rounded-full bg-amber-500"></span>
-                </div>
-                <p class="text-[11px] text-muted-foreground line-clamp-1 mt-0.5">{{ msg.subject || msg.body }}</p>
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-lg bg-muted border border-border text-primary">
+                <Mail class="h-4 w-4" />
               </div>
-              <span class="text-[10px] text-muted-foreground font-mono">{{ new Date(msg.created_at).toLocaleDateString() }}</span>
+              <div>
+                <h3 class="text-base font-bold text-foreground flex items-center gap-2">
+                  <span>Recent Contact Inquiries</span>
+                </h3>
+                <p class="text-xs text-muted-foreground mt-0.5">Manage client messages & reply via Gmail SMTP.</p>
+              </div>
             </div>
+            <Link
+              :href="route('admin.messages.index')"
+              class="px-2.5 py-1 rounded-lg border border-border bg-muted hover:bg-muted/80 text-xs font-semibold text-foreground transition-colors flex items-center gap-1.5"
+            >
+              <span>View Inbox</span>
+              <ArrowRight class="h-3 w-3 text-muted-foreground" />
+            </Link>
+          </div>
+
+          <div v-if="!recent_messages || !recent_messages.length" class="py-12 text-center text-muted-foreground">
+            <Inbox class="h-7 w-7 mx-auto text-muted-foreground/60 mb-2" />
+            <p class="text-xs font-semibold text-foreground">No recent inquiries</p>
+            <p class="text-[11px] text-muted-foreground mt-0.5">New client contact messages will appear here.</p>
+          </div>
+
+          <div v-else class="space-y-2.5">
+            <Link
+              v-for="msg in recent_messages"
+              :key="msg.id"
+              :href="route('admin.messages.index')"
+              class="group flex items-start gap-3 p-3.5 rounded-xl border border-border/60 bg-muted/30 hover:bg-muted/70 transition-all cursor-pointer block"
+            >
+              <!-- Avatar Circle -->
+              <div class="h-8 w-8 rounded-full bg-muted text-foreground border border-border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 group-hover:border-indigo-500/60 group-hover:text-indigo-400 transition-colors">
+                {{ getSenderInitials(msg.sender_name) }}
+              </div>
+
+              <!-- Message Details -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-2 truncate">
+                    <span class="font-bold text-foreground text-xs truncate group-hover:text-indigo-400 transition-colors">
+                      {{ msg.sender_name }}
+                    </span>
+                    <span v-if="!msg.is_read" class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/30">
+                      UNREAD
+                    </span>
+                  </div>
+                  <span class="text-[10px] text-muted-foreground font-mono shrink-0">
+                    {{ formatRelativeDate(msg.created_at) }}
+                  </span>
+                </div>
+
+                <p class="text-xs font-semibold text-foreground truncate mt-0.5">
+                  {{ msg.subject || 'No Subject' }}
+                </p>
+
+                <p class="text-[11px] text-muted-foreground line-clamp-1 mt-0.5 leading-normal">
+                  {{ msg.body }}
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
 
         <!-- Activity Feed Timeline -->
-        <div class="col-span-1 lg:col-span-1">
+        <div class="col-span-1">
           <ActivityFeed />
         </div>
       </div>
@@ -135,7 +176,10 @@ import {
   ShoppingBag, 
   Activity, 
   Download, 
-  Loader2 
+  Loader2,
+  Mail,
+  ArrowRight,
+  Inbox
 } from 'lucide-vue-next';
 
 import { useToast } from '@/Composables/useToast';
@@ -148,6 +192,25 @@ defineProps({
 
 const isExporting = ref(false);
 const { toast } = useToast();
+
+function getSenderInitials(name) {
+  if (!name) return '??';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  return name.substring(0, 2).toUpperCase();
+}
+
+function formatRelativeDate(dateStr) {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffInSecs = Math.floor((now - date) / 1000);
+
+  if (diffInSecs < 60) return 'Just now';
+  if (diffInSecs < 3600) return `${Math.floor(diffInSecs / 60)}m ago`;
+  if (diffInSecs < 86400) return `${Math.floor(diffInSecs / 3600)}h ago`;
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
 
 const handleDateRangeChange = (range) => {
   toast({
