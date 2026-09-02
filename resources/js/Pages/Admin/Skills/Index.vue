@@ -3,17 +3,14 @@
     <template #header>Skills Ticker Manager</template>
     <Head title="Skills Manager - Admin" />
 
-    <div class="space-y-6 max-w-6xl mx-auto">
-      <!-- Header -->
+    <div class="space-y-8">
+      <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-6">
         <div>
-          <div class="flex items-center space-x-3">
-            <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">Skills &amp; Tech Stack</h1>
-            <span class="px-2 py-0.5 text-[11px] font-mono font-medium rounded-[8px] bg-neutral-800 text-neutral-300 border border-neutral-700">
-              {{ skills.length }} Active
-            </span>
-          </div>
-          <p class="text-xs text-muted-foreground mt-1">Manage technical skills and icons displayed live in the landing page ticker marquee.</p>
+          <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
+            Skills &amp; Tech Stack
+          </h1>
+          <p class="text-sm text-muted-foreground mt-1">Manage technical skills and icons displayed live in the landing page ticker marquee.</p>
         </div>
 
         <div class="flex items-center space-x-3">
@@ -65,7 +62,7 @@
               <Edit3 class="h-3.5 w-3.5" />
             </button>
             <button
-              @click="deleteSkill(skill)"
+              @click="openDeleteModal(skill)"
               title="Delete Skill"
               class="p-1.5 rounded-[8px] text-neutral-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors cursor-pointer"
             >
@@ -205,6 +202,16 @@
           </div>
         </div>
       </teleport>
+
+      <!-- Reusable Executive Delete Confirmation Modal -->
+      <DeleteConfirmModal
+        :is-open="isDeleteModalOpen"
+        title="Delete Skill"
+        :item-title="skillToDelete?.name || ''"
+        :loading="isDeleting"
+        @close="isDeleteModalOpen = false"
+        @confirm="confirmDelete"
+      />
     </div>
   </AuthenticatedLayout>
 </template>
@@ -214,6 +221,7 @@ import { ref, computed } from 'vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import TechIcon from '@/Components/TechIcon.vue';
+import DeleteConfirmModal from '@/Components/DeleteConfirmModal.vue';
 import { Plus, X, Edit3, Trash2, Search, Link as LinkIcon } from 'lucide-vue-next';
 import { useToast } from '@/Composables/useToast';
 
@@ -263,6 +271,36 @@ const isEditing = ref(false);
 const editingSkillId = ref(null);
 const iconSearchQuery = ref('');
 const useCustomInput = ref(false);
+
+// Delete Modal State
+const isDeleteModalOpen = ref(false);
+const skillToDelete = ref(null);
+const isDeleting = ref(false);
+
+function openDeleteModal(skill) {
+  skillToDelete.value = skill;
+  isDeleteModalOpen.value = true;
+}
+
+function confirmDelete() {
+  if (!skillToDelete.value) return;
+  isDeleting.value = true;
+  router.delete(route('admin.skills.destroy', skillToDelete.value.id), {
+    onSuccess: () => {
+      isDeleting.value = false;
+      isDeleteModalOpen.value = false;
+      toast({
+        title: 'Skill Deleted',
+        description: `Skill "${skillToDelete.value?.name || 'Skill'}" removed.`,
+        type: 'error'
+      });
+      skillToDelete.value = null;
+    },
+    onError: () => {
+      isDeleting.value = false;
+    }
+  });
+}
 
 const form = useForm({
   name: '',
@@ -343,20 +381,6 @@ function submitForm() {
           title: 'Skill Created',
           description: `${form.name} created successfully.`,
           type: 'success'
-        });
-      },
-    });
-  }
-}
-
-function deleteSkill(skill) {
-  if (confirm(`Delete skill "${skill.name}"?`)) {
-    router.delete(route('admin.skills.destroy', skill.id), {
-      onSuccess: () => {
-        toast({
-          title: 'Skill Deleted',
-          description: `Skill "${skill.name}" removed.`,
-          type: 'error'
         });
       },
     });

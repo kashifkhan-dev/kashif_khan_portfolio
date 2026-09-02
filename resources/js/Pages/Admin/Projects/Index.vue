@@ -3,19 +3,19 @@
     <template #header>Projects Manager</template>
     <Head title="Projects Manager - Kashif Khan Dev" />
 
-    <div class="space-y-8 max-w-7xl mx-auto">
+    <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-6">
         <div>
-          <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 flex items-center gap-2">
-            <span>Projects Showcase Manager</span>
+          <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
+            Projects Showcase Manager
           </h1>
           <p class="text-sm text-muted-foreground mt-1">Full control over portfolio projects, tech stack tags, live demos, and hero showcase positioning.</p>
         </div>
 
         <Link
           :href="route('admin.projects.create')"
-          class="h-10 px-4 text-xs font-bold rounded-lg bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900 hover:opacity-90 transition-all flex items-center gap-2 shadow-md shrink-0"
+          class="h-9 px-4 text-xs font-bold rounded-[8px] bg-white hover:bg-neutral-200 text-black transition-all flex items-center gap-2 shadow-sm shrink-0 cursor-pointer"
         >
           <Plus class="h-4 w-4" />
           <span>Add New Project</span>
@@ -50,38 +50,36 @@
         </div>
       </div>
 
-      <!-- Data Table Card -->
-      <div class="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
-        <!-- Table Control Toolbar -->
-        <div class="p-4 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-muted/20">
+      <!-- Executive Table View Card -->
+      <div class="rounded-xl border bg-card text-card-foreground shadow-sm overflow-visible">
+        
+        <!-- Table Search & Filter Bar Header -->
+        <div class="p-4 border-b flex flex-col sm:flex-row items-center justify-between gap-4 bg-neutral-50/50 dark:bg-neutral-900/40">
           <div class="relative w-full sm:w-80">
-            <Search class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
             <input 
               v-model="searchQuery" 
+              type="text" 
               placeholder="Search projects by title, summary, or tech..." 
-              class="w-full h-9 pl-9 pr-3 rounded-lg border bg-background text-xs text-foreground placeholder:text-muted-foreground focus:ring-1 focus:ring-ring outline-none"
+              class="w-full h-9 pl-9 pr-3 rounded-lg border bg-background text-xs text-foreground placeholder:text-neutral-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all" 
             />
           </div>
 
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-muted-foreground font-medium">Filter Category:</span>
-            <select 
-              v-model="selectedCategoryFilter"
-              class="h-9 px-3 rounded-lg border bg-background text-xs text-foreground focus:ring-1 focus:ring-ring outline-none"
-            >
-              <option value="all">All Categories</option>
-              <option value="Fullstack">Fullstack</option>
-              <option value="Frontend">Frontend</option>
-              <option value="Laravel & Vue">Laravel & Vue</option>
-              <option value="AI">AI / ML</option>
-              <option value="Mobile">Mobile</option>
-            </select>
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+            <span class="text-xs font-semibold text-neutral-400">Filter Category:</span>
+            <div class="w-48 shrink-0">
+              <ShadcnSelect
+                v-model="selectedCategoryFilter"
+                :options="categoryOptions"
+                trigger-class="h-9"
+              />
+            </div>
           </div>
         </div>
 
-        <!-- Table View -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
+        <!-- Table Container -->
+        <div class="overflow-x-auto overflow-y-visible min-h-[300px]">
+          <table class="w-full text-left border-collapse">
             <thead class="bg-muted/50 border-b text-muted-foreground uppercase text-[10px] font-bold tracking-wider select-none">
               <tr>
                 <th class="py-3.5 px-6">Project Info</th>
@@ -92,11 +90,14 @@
                 <th class="py-3.5 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y border-t-0">
+            <tbody class="divide-y border-t-0 overflow-visible">
               <tr 
                 v-for="proj in filteredProjects" 
                 :key="proj.id" 
-                class="hover:bg-muted/40 transition-colors text-xs group"
+                :class="[
+                  activeDropdownId === proj.id ? 'relative z-50 bg-neutral-900/90' : 'hover:bg-muted/40',
+                  'transition-colors text-xs group'
+                ]"
               >
                 <td class="py-4 px-6 flex items-start space-x-4">
                   <div class="relative shrink-0 group">
@@ -163,11 +164,11 @@
                   <span class="px-2 py-1 rounded bg-muted font-bold text-xs">{{ proj.order }}</span>
                 </td>
                 <!-- 3-Dots Actions Menu -->
-                <td class="py-4 px-6 text-right relative">
+                <td class="py-4 px-6 text-right relative z-40">
                   <div class="inline-block text-left relative">
                     <button 
                       @click.stop="toggleDropdown(proj.id)"
-                      class="h-8 w-8 rounded-lg border bg-background hover:bg-muted text-muted-foreground hover:text-foreground transition-colors inline-flex items-center justify-center shadow-sm"
+                      class="h-8 w-8 rounded-lg border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-white transition-colors inline-flex items-center justify-center shadow-sm cursor-pointer"
                       title="Actions Menu"
                     >
                       <MoreVertical class="h-4 w-4" />
@@ -177,32 +178,32 @@
                     <div 
                       v-if="activeDropdownId === proj.id"
                       @click.stop
-                      class="absolute right-0 mt-2 w-44 rounded-xl border bg-popover p-1.5 shadow-xl z-50 text-left space-y-0.5 divide-y divide-border/40"
+                      class="absolute right-0 mt-2 w-48 rounded-xl border border-neutral-800 bg-neutral-950 p-1.5 shadow-2xl z-[9999] text-left space-y-0.5 divide-y divide-neutral-800/80"
                     >
                       <div class="py-1 space-y-0.5">
                         <a 
                           :href="route('projects.show', proj.slug || proj.id)" 
                           target="_blank"
-                          class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-foreground hover:bg-muted rounded-lg transition-colors"
+                          class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-800/80 rounded-lg transition-colors"
                           @click="activeDropdownId = null"
                         >
-                          <Eye class="h-3.5 w-3.5 text-blue-500" />
+                          <Eye class="h-3.5 w-3.5 text-blue-400" />
                           <span>View Detail Page</span>
                         </a>
                         <Link 
                           :href="route('admin.projects.edit', proj.id)"
-                          class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-foreground hover:bg-muted rounded-lg transition-colors"
+                          class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-800/80 rounded-lg transition-colors"
                           @click="activeDropdownId = null"
                         >
-                          <Edit2 class="h-3.5 w-3.5 text-muted-foreground" />
+                          <Edit2 class="h-3.5 w-3.5 text-neutral-400" />
                           <span>Edit Project</span>
                         </Link>
                       </div>
 
                       <div class="pt-1">
                         <button 
-                          @click="deleteProject(proj); activeDropdownId = null;"
-                          class="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+                          @click="openDeleteModal(proj); activeDropdownId = null;"
+                          class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
                         >
                           <Trash2 class="h-3.5 w-3.5" />
                           <span>Delete Project</span>
@@ -223,6 +224,16 @@
         </div>
       </div>
     </div>
+
+    <!-- Reusable Executive Delete Confirmation Modal -->
+    <DeleteConfirmModal
+      :is-open="isDeleteModalOpen"
+      title="Delete Project"
+      :item-title="projectToDelete?.title || ''"
+      :loading="isDeleting"
+      @close="isDeleteModalOpen = false"
+      @confirm="confirmDelete"
+    />
   </AuthenticatedLayout>
 </template>
 
@@ -230,6 +241,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import DeleteConfirmModal from '@/Components/DeleteConfirmModal.vue';
+import ShadcnSelect from '@/Components/ShadcnSelect.vue';
 import { 
   Plus, 
   Search, 
@@ -251,6 +264,44 @@ const { toast } = useToast();
 const searchQuery = ref('');
 const selectedCategoryFilter = ref('all');
 const activeDropdownId = ref(null);
+
+const categoryOptions = [
+  { label: 'All Categories', value: 'all' },
+  { label: 'Fullstack Application', value: 'Fullstack Application' },
+  { label: 'Frontend Interface', value: 'Frontend Interface' },
+  { label: 'Laravel & Vue', value: 'Laravel & Vue' },
+  { label: 'AI Solution', value: 'AI Solution' },
+];
+
+// Delete Modal State
+const isDeleteModalOpen = ref(false);
+const projectToDelete = ref(null);
+const isDeleting = ref(false);
+
+function openDeleteModal(project) {
+  projectToDelete.value = project;
+  isDeleteModalOpen.value = true;
+}
+
+function confirmDelete() {
+  if (!projectToDelete.value) return;
+  isDeleting.value = true;
+  router.delete(route('admin.projects.destroy', projectToDelete.value.id), {
+    onSuccess: () => {
+      isDeleting.value = false;
+      isDeleteModalOpen.value = false;
+      toast({
+        title: 'Project Removed',
+        description: `"${projectToDelete.value?.title || 'Project'}" deleted from database.`,
+        type: 'error'
+      });
+      projectToDelete.value = null;
+    },
+    onError: () => {
+      isDeleting.value = false;
+    }
+  });
+}
 
 function toggleDropdown(id) {
   activeDropdownId.value = activeDropdownId.value === id ? null : id;
@@ -308,19 +359,5 @@ function toggleFeaturedStatus(project) {
       });
     }
   });
-}
-
-function deleteProject(project) {
-  if (confirm(`Are you sure you want to delete "${project.title}"?`)) {
-    router.delete(route('admin.projects.destroy', project.id), {
-      onSuccess: () => {
-        toast({
-          title: 'Project Removed',
-          description: `"${project.title}" deleted from database.`,
-          type: 'error'
-        });
-      },
-    });
-  }
 }
 </script>

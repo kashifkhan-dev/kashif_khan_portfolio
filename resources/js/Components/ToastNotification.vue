@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-sm pointer-events-none px-4 sm:px-0">
+  <div class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-sm pointer-events-none px-4 sm:px-0">
     <transition-group name="toast-slide">
       <div
         v-for="t in toasts"
@@ -90,10 +90,10 @@ const getBorderClass = (type) => {
 
 @media (min-width: 640px) {
   .toast-slide-enter-from {
-    transform: translateY(1rem) scale(0.95);
+    transform: translateY(-1rem) scale(0.95);
   }
   .toast-slide-leave-to {
-    transform: translateY(1rem) scale(0.95);
+    transform: translateY(-1rem) scale(0.95);
   }
 }
 
