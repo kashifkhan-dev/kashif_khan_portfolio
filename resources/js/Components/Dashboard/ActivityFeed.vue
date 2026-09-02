@@ -1,20 +1,20 @@
 <template>
-  <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
-    <div class="p-6 pb-2 border-b">
-      <h3 class="text-base font-bold">Recent Activity</h3>
-      <p class="text-xs text-muted-foreground">Real-time log of events across your workspaces.</p>
+  <div class="rounded-xl border bg-card text-card-foreground shadow-sm p-6 space-y-4">
+    <div class="border-b pb-3.5">
+      <h3 class="text-base font-bold text-foreground">Recent Activity</h3>
+      <p class="text-xs text-muted-foreground mt-0.5">Real-time log of events across your workspaces.</p>
     </div>
-    <div class="p-6">
-      <div class="space-y-6">
+    <div class="pt-1">
+      <div class="space-y-5">
         <div 
           v-for="(event, idx) in activities" 
           :key="event.id"
-          class="flex items-start gap-4 relative group"
+          class="flex items-start gap-3.5 relative group"
         >
           <!-- Vertical timeline line -->
           <div 
             v-if="idx < activities.length - 1"
-            class="absolute left-[17px] top-8 bottom-0 w-0.5 bg-neutral-100 dark:bg-neutral-800"
+            class="absolute left-[15px] top-8 bottom-0 w-0.5 bg-neutral-200 dark:bg-neutral-800"
           ></div>
 
           <!-- Event Icon Circle -->
@@ -30,14 +30,14 @@
           </div>
 
           <!-- Event Details -->
-          <div class="flex-1 min-w-0 space-y-1">
+          <div class="flex-1 min-w-0 space-y-0.5">
             <div class="flex justify-between items-baseline gap-2">
-              <h4 class="text-xs font-semibold text-neutral-900 dark:text-neutral-50 truncate group-hover:text-primary transition-colors">
+              <h4 class="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
                 {{ event.title }}
               </h4>
-              <span class="text-[10px] text-muted-foreground shrink-0 font-medium">{{ event.time }}</span>
+              <span class="text-[10px] text-muted-foreground font-mono shrink-0">{{ event.time }}</span>
             </div>
-            <p class="text-[11px] text-muted-foreground leading-relaxed">{{ event.description }}</p>
+            <p class="text-[11px] text-muted-foreground leading-normal">{{ event.description }}</p>
           </div>
         </div>
       </div>

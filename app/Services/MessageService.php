@@ -49,6 +49,11 @@ class MessageService
         ]);
     }
 
+    public function markAllAsRead(): int
+    {
+        return Message::where('is_read', false)->update(['is_read' => true]);
+    }
+
     public function deleteMessage(Message $message): bool
     {
         return $message->delete();
