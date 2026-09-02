@@ -3,7 +3,7 @@
     <template #header>Create Project</template>
     <Head title="Create Project - Kashif Khan Dev" />
 
-    <div class="max-w-7xl mx-auto space-y-6 pb-16 animate-in fade-in-50 duration-300">
+    <div class="space-y-8 pb-16 animate-in fade-in-50 duration-300">
       
       <!-- Top Action Bar -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-5">
@@ -65,7 +65,7 @@
                 type="text" 
                 placeholder="e.g. Nexus SaaS Telemetry Dashboard"
                 required 
-                class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-muted-foreground focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all" 
+                class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all" 
               />
             </div>
 
@@ -147,8 +147,8 @@
               <textarea 
                 v-model="form.summary" 
                 rows="3"
-                placeholder="Concise overview snippet displayed on portfolio card previews..."
-                class="w-full p-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-muted-foreground focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all leading-relaxed" 
+                placeholder="e.g. Concise overview snippet displayed on portfolio card previews..."
+                class="w-full p-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all leading-relaxed" 
               ></textarea>
             </div>
 
@@ -166,7 +166,7 @@
               <label class="font-semibold text-foreground text-xs">Detailed Project Overview</label>
               <RichTextEditor 
                 v-model="form.description" 
-                placeholder="Comprehensive breakdown of project features, database architecture, key accomplishments, and performance optimizations..."
+                placeholder="e.g. Comprehensive breakdown of project features, database architecture, key accomplishments, and performance optimizations..."
               />
             </div>
           </div>
@@ -247,9 +247,9 @@
                     </div>
                     <div>
                       <p class="text-xs font-bold text-neutral-900 dark:text-neutral-100">
-                        Click to upload <span class="text-muted-foreground font-normal">or drag & drop</span>
+                        Click to upload <span class="text-neutral-500 font-normal">or drag & drop</span>
                       </p>
-                      <p class="text-[11px] text-muted-foreground mt-0.5">High resolution portfolio image from local computer</p>
+                      <p class="text-[11px] text-neutral-500 mt-0.5">e.g. High resolution portfolio image from local computer</p>
                     </div>
                   </div>
                 </template>
@@ -266,8 +266,8 @@
                 <input 
                   v-model="form.demo_url" 
                   type="url" 
-                  placeholder="https://myproject.com" 
-                  class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-muted-foreground focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
+                  placeholder="e.g. https://myproject.com" 
+                  class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
                 />
               </div>
 
@@ -280,12 +280,11 @@
                 <input 
                   v-model="form.github_url" 
                   type="url" 
-                  placeholder="https://github.com/user/repo" 
-                  class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-muted-foreground focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
+                  placeholder="e.g. https://github.com/user/repo" 
+                  class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
                 />
               </div>
             </div>
-
           </div>
 
         </div>

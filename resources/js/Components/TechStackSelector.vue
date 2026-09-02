@@ -31,8 +31,8 @@
         @keydown.comma.prevent="addCustomOrFirst"
         @keydown.backspace="handleBackspace"
         @keydown.escape="isOpen = false"
-        placeholder="Type to search or add technology..."
-        class="flex-1 min-w-[200px] bg-transparent text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-muted-foreground border-0 outline-none focus:outline-none focus:ring-0 focus:border-0 py-1"
+        placeholder="e.g. Type to search or add technology..."
+        class="flex-1 min-w-[200px] bg-transparent text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 border-0 outline-none focus:outline-none focus:ring-0 focus:border-0 py-1"
       />
     </div>
 
