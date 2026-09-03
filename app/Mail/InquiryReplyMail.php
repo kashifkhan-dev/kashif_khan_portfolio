@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -34,6 +35,9 @@ class InquiryReplyMail extends Mailable
 
         return new Envelope(
             subject: $subject,
+            replyTo: [
+                new Address(config('mail.from.address', 'kashifkhannee@gmail.com'), config('mail.from.name', 'Kashif Khan')),
+            ],
         );
     }
 
