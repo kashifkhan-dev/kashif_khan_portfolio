@@ -9,16 +9,11 @@
           : 'bg-transparent border-b border-neutral-800/60'
       ]"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
         <!-- Logo -->
-        <Link href="/" class="flex items-center space-x-3 group">
-          <div class="hidden sm:flex w-10 h-10 rounded-md bg-white text-black font-extrabold text-base items-center justify-center group-hover:scale-105 transition-transform">
-            KK
-          </div>
-          <div class="flex items-center space-x-2">
-            <span class="font-bold text-lg sm:text-xl text-white tracking-tight">Kashif Khan</span>
-            <span class="text-sm sm:text-base text-neutral-300 font-sans font-medium">/ dev</span>
-          </div>
+        <Link href="/" class="flex items-center space-x-2 group">
+          <span class="font-extrabold text-base sm:text-lg text-white tracking-tight">Kashif Khan</span>
+          <span class="text-xs sm:text-sm text-neutral-400 font-sans font-medium">/ dev</span>
         </Link>
 
         <!-- Navigation Links -->
@@ -186,7 +181,7 @@
     </Teleport>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-20">
+    <main class="flex-grow pt-14 sm:pt-16">
       <slot />
     </main>
 
