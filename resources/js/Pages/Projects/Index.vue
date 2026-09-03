@@ -69,9 +69,9 @@
         >
           <div>
             <!-- Image Header -->
-            <div
-              @click="openModal(project)"
-              class="relative h-56 w-full overflow-hidden bg-black cursor-pointer"
+            <Link
+              :href="route('projects.show', project.slug || project.id)"
+              class="relative h-56 w-full overflow-hidden bg-black cursor-pointer block"
             >
               <img
                 :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
@@ -90,16 +90,15 @@
                   {{ project.category }}
                 </span>
               </div>
-            </div>
+            </Link>
 
             <!-- Content Body -->
             <div class="p-7 space-y-4">
-              <h3
-                @click="openModal(project)"
-                class="text-xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer"
-              >
-                {{ project.title }}
-              </h3>
+              <Link :href="route('projects.show', project.slug || project.id)" class="block">
+                <h3 class="text-xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer">
+                  {{ project.title }}
+                </h3>
+              </Link>
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed line-clamp-3">
                 {{ project.summary || project.description }}
               </p>
@@ -119,13 +118,13 @@
 
           <!-- Card Actions -->
           <div class="px-7 py-5 flex items-center justify-between border-t border-neutral-800/80 bg-neutral-950/60 mt-auto">
-            <button
-              @click="openModal(project)"
-              class="text-xs font-bold text-white hover:underline flex items-center space-x-1.5 cursor-pointer"
+            <Link
+              :href="route('projects.show', project.slug || project.id)"
+              class="text-xs font-bold text-white hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
             >
               <span>View Details</span>
               <span>→</span>
-            </button>
+            </Link>
 
             <div class="flex items-center space-x-3 text-xs">
               <a
