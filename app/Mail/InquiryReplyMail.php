@@ -33,10 +33,13 @@ class InquiryReplyMail extends Mailable
     {
         $subject = $this->inquiryMessage->subject ? 'Re: ' . $this->inquiryMessage->subject : 'Re: Portfolio Inquiry Response';
 
+        $address = (string) (config('mail.from.address') ?? env('MAIL_FROM_ADDRESS') ?? 'kashifkhannee@gmail.com');
+        $name = (string) (config('mail.from.name') ?? env('MAIL_FROM_NAME') ?? 'Kashif Khan');
+
         return new Envelope(
             subject: $subject,
             replyTo: [
-                new Address(config('mail.from.address', 'kashifkhannee@gmail.com'), config('mail.from.name', 'Kashif Khan')),
+                new Address($address, $name),
             ],
         );
     }
