@@ -57,9 +57,10 @@
               <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 {{ project.title }}
               </h3>
-              <p class="text-neutral-400 text-sm mt-2 leading-relaxed">
-                {{ project.description || project.summary }}
-              </p>
+              <div
+                class="prose-custom text-neutral-300 text-sm mt-3 leading-relaxed"
+                v-html="project.description || project.summary || ''"
+              ></div>
             </div>
 
             <!-- Tech Stack Badges -->
@@ -168,5 +169,81 @@ watch(() => props.isOpen, (newVal) => {
 .modal-fade-leave-to {
   opacity: 0;
   transform: scale(0.97);
+}
+
+:deep(.prose-custom) {
+  color: #d4d4d4;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+:deep(.prose-custom h1) {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+:deep(.prose-custom h2) {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #262626;
+  padding-bottom: 0.25rem;
+}
+:deep(.prose-custom h3) {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e5e5e5;
+  margin-top: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+:deep(.prose-custom p) {
+  margin-bottom: 0.75rem;
+  color: #a3a3a3;
+}
+:deep(.prose-custom ul) {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+:deep(.prose-custom ol) {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+:deep(.prose-custom li) {
+  margin-bottom: 0.25rem;
+  color: #d4d4d4;
+}
+:deep(.prose-custom strong) {
+  color: #ffffff;
+  font-weight: 700;
+}
+:deep(.prose-custom pre) {
+  background-color: #0a0a0a;
+  border: 1px solid #262626;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #38bdf8;
+}
+:deep(.prose-custom code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: #38bdf8;
+  background-color: #171717;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.2rem;
+}
+:deep(.prose-custom pre code) {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
 }
 </style>

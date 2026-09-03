@@ -98,9 +98,9 @@
         >
           <div>
             <!-- Image Header -->
-            <div
-              @click="openModal(project)"
-              class="relative h-56 w-full overflow-hidden bg-black cursor-pointer"
+            <Link
+              :href="route('projects.show', project.slug || project.id)"
+              class="relative h-56 w-full overflow-hidden bg-black cursor-pointer block"
             >
               <img
                 :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
@@ -118,16 +118,15 @@
                   {{ project.category }}
                 </span>
               </div>
-            </div>
+            </Link>
 
             <!-- Content Body -->
             <div class="p-7 space-y-4">
-              <h4
-                @click="openModal(project)"
-                class="text-xl sm:text-2xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer"
-              >
-                {{ project.title }}
-              </h4>
+              <Link :href="route('projects.show', project.slug || project.id)" class="block">
+                <h4 class="text-xl sm:text-2xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer">
+                  {{ project.title }}
+                </h4>
+              </Link>
               <p class="text-neutral-300 text-sm sm:text-base leading-relaxed line-clamp-3">
                 {{ project.summary || project.description }}
               </p>
@@ -147,13 +146,13 @@
 
           <!-- Card Actions / Footer -->
           <div class="px-7 py-5 flex items-center justify-between border-t border-neutral-800/80 bg-neutral-950/60 mt-auto">
-            <button
-              @click="openModal(project)"
-              class="text-sm font-bold text-white hover:underline flex items-center space-x-1.5 cursor-pointer"
+            <Link
+              :href="route('projects.show', project.slug || project.id)"
+              class="text-sm font-bold text-white hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
             >
               <span>View Details</span>
               <span>→</span>
-            </button>
+            </Link>
             <div class="flex items-center space-x-3 text-sm">
               <a
                 v-if="project.github_url"
@@ -183,10 +182,10 @@
       </div>
 
       <!-- Option C: Dedicated /projects Page CTA Link -->
-      <div v-if="(projects || []).length > 3" class="mt-12 text-center">
+      <div v-if="(projects || []).length > 3" class="mt-10 text-center">
         <Link
           :href="route('projects.index')"
-          class="px-8 py-4 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-sm shadow-xl transition-all inline-flex items-center space-x-2.5 cursor-pointer group hover:scale-105 transform"
+          class="px-6 py-2.5 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
         >
           <span>Explore All Projects ({{ (projects || []).length }})</span>
           <span class="group-hover:translate-x-1 transition-transform font-mono">→</span>
