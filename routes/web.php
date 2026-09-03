@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public Portfolio Routes
 Route::get('/', LandingController::class)->name('home');
+Route::get('/projects', [ProjectShowController::class, 'index'])->name('projects.index');
 Route::get('/projects/{project}', [ProjectShowController::class, 'show'])->name('projects.show');
 Route::post('/contact', ContactController::class)->name('contact.store');
 

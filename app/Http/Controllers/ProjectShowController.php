@@ -9,6 +9,18 @@ use Inertia\Response;
 
 class ProjectShowController extends Controller
 {
+    public function index(): Response
+    {
+        $projects = Project::orderBy('order', 'asc')->get();
+
+        $settings = Setting::pluck('value', 'key')->all();
+
+        return Inertia::render('Projects/Index', [
+            'projects' => $projects,
+            'settings' => $settings,
+        ]);
+    }
+
     public function show($idOrSlug): Response
     {
         $project = Project::where('slug', $idOrSlug)

@@ -6,7 +6,7 @@
     <section id="about" class="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-24 bg-black">
       <div class="w-full text-center space-y-8">
         <!-- Status Pill -->
-        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-300 text-sm font-mono">
+        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-300 text-sm font-sans font-medium">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>{{ settings.availability_status || 'Available for Full-time Roles & Contracts' }}</span>
         </div>
@@ -40,26 +40,26 @@
       </div>
     </section>
 
-    <!-- 2. CLEAN INFINITE MARQUEE TECH STACK SECTION -->
-    <section id="skills" class="py-20 bg-black overflow-hidden relative border-t border-neutral-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 mb-12">
-        <h2 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Technical Capability</h2>
-        <h3 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Skills &amp; Technologies</h3>
-        <p class="text-neutral-300 text-base sm:text-lg max-w-xl mx-auto">Frameworks, languages, and modern tools I engineer solutions with.</p>
+    <!-- 2. CLEAN MINIMALIST TECH STACK SECTION -->
+    <section id="skills" class="py-16 bg-black overflow-hidden relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3 mb-10">
+        <h2 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Technical Capability</h2>
+        <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Skills &amp; Technologies</h3>
+        <p class="text-neutral-300 text-sm sm:text-base max-w-xl mx-auto">Frameworks, languages, and modern tools I engineer solutions with.</p>
       </div>
 
-      <!-- Infinite Logo Ticker Ribbon -->
-      <div class="relative w-full overflow-hidden border-y border-neutral-800 bg-neutral-950/80 py-7">
-        <div class="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-neutral-950 to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-neutral-950 to-transparent z-10 pointer-events-none"></div>
+      <!-- Infinite Logo Ticker Ribbon (Borderless Canvas) -->
+      <div class="relative w-full overflow-hidden py-4">
+        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
 
-        <div class="animate-marquee space-x-8">
+        <div class="animate-marquee space-x-10">
           <div
             v-for="(item, idx) in marqueeItems"
             :key="idx"
-            class="px-6 py-3 rounded-md bg-neutral-900/90 border border-neutral-800 text-white text-sm font-semibold font-sans tracking-wide flex items-center space-x-3.5 shrink-0 hover:border-neutral-600 transition-colors cursor-default shadow-md"
+            class="text-neutral-300 hover:text-white text-base sm:text-lg font-bold font-sans tracking-tight flex items-center space-x-3 shrink-0 transition-colors cursor-default"
           >
-            <TechIcon :name="item.icon || 'api'" />
+            <TechIcon :name="item.icon || 'api'" class="w-6 h-6 opacity-90" />
             <span>{{ item.name }}</span>
           </div>
         </div>
@@ -67,7 +67,7 @@
     </section>
 
     <!-- 3. PROJECTS SHOWCASE -->
-    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-800 bg-black">
+    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-black">
       <div class="text-center space-y-4 mb-16">
         <h2 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Portfolio</h2>
         <h3 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Featured Projects</h3>
@@ -89,10 +89,10 @@
         </div>
       </div>
 
-      <!-- Project Grid -->
+      <!-- Project Grid (Top 3 Curated Projects) -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div
-          v-for="project in filteredProjects"
+          v-for="project in (projects || []).slice(0, 3)"
           :key="project.id"
           class="bg-neutral-950 border border-neutral-800 rounded-md overflow-hidden hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-lg"
         >
@@ -149,7 +149,7 @@
           <div class="px-7 py-5 flex items-center justify-between border-t border-neutral-800/80 bg-neutral-950/60 mt-auto">
             <button
               @click="openModal(project)"
-              class="text-sm font-bold text-white hover:underline flex items-center space-x-1.5"
+              class="text-sm font-bold text-white hover:underline flex items-center space-x-1.5 cursor-pointer"
             >
               <span>View Details</span>
               <span>→</span>
@@ -180,6 +180,17 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Option C: Dedicated /projects Page CTA Link -->
+      <div v-if="(projects || []).length > 3" class="mt-12 text-center">
+        <Link
+          :href="route('projects.index')"
+          class="px-8 py-4 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-sm shadow-xl transition-all inline-flex items-center space-x-2.5 cursor-pointer group hover:scale-105 transform"
+        >
+          <span>Explore All Projects ({{ (projects || []).length }})</span>
+          <span class="group-hover:translate-x-1 transition-transform font-mono">→</span>
+        </Link>
       </div>
     </section>
 
@@ -459,7 +470,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import ProjectModal from '@/Components/ProjectModal.vue';
@@ -700,11 +711,20 @@ const form = useForm({
   body: '',
 });
 
+const showAllProjects = ref(false);
+
 const filteredProjects = computed(() => {
   if (portfolioStore.activeProjectCategory === 'All') {
     return props.projects || [];
   }
   return (props.projects || []).filter(p => p.category === portfolioStore.activeProjectCategory);
+});
+
+const displayedProjects = computed(() => {
+  if (showAllProjects.value) {
+    return filteredProjects.value;
+  }
+  return filteredProjects.value.slice(0, 3);
 });
 
 function submitContactForm() {
