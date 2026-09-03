@@ -169,7 +169,7 @@
                 v-if="project.demo_url"
                 :href="project.demo_url"
                 target="_blank"
-                class="px-3.5 py-2 rounded-md bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
+                class="px-3.5 py-2 rounded-sm bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
               >
                 <span>Demo</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

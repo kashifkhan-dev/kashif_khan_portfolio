@@ -2,10 +2,10 @@
   <GuestLayout :canLogin="true" :settings="settings">
     <Head :title="`${project.title} - Project Case Study & Showcase`" />
 
-    <div class="min-h-screen pt-12 sm:pt-20 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10 bg-black">
+    <div class="min-h-screen pt-4 sm:pt-8 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6 bg-black">
       
-      <!-- Top Navigation & Breadcrumb -->
-      <div class="flex items-center justify-between border-b border-neutral-800 pb-6">
+      <!-- Clean Top Bar Navigation & Desktop Action Buttons -->
+      <div class="flex items-center justify-between">
         <Link 
           :href="route('projects.index')" 
           class="inline-flex items-center space-x-2 text-xs font-semibold text-neutral-400 hover:text-white transition-colors group"
@@ -14,7 +14,17 @@
           <span>Back to All Projects</span>
         </Link>
 
-        <div class="flex items-center space-x-3">
+        <!-- Action Buttons on Desktop ONLY -->
+        <div class="hidden sm:flex items-center space-x-3">
+          <a
+            v-if="project.demo_url"
+            :href="project.demo_url"
+            target="_blank"
+            class="px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-md"
+          >
+            <ExternalLink class="w-4 h-4" />
+            <span>Launch Live Demo</span>
+          </a>
           <a
             v-if="project.github_url"
             :href="project.github_url"
@@ -24,21 +34,12 @@
             <Github class="w-4 h-4 text-neutral-400" />
             <span>Repository</span>
           </a>
-          <a
-            v-if="project.demo_url"
-            :href="project.demo_url"
-            target="_blank"
-            class="px-4 py-2 rounded-sm bg-white hover:bg-neutral-200 text-black text-xs font-bold flex items-center space-x-2 transition-all shadow-md"
-          >
-            <ExternalLink class="w-4 h-4" />
-            <span>Launch Live Demo</span>
-          </a>
         </div>
       </div>
 
       <!-- Hero Title Header -->
-      <div class="space-y-4 max-w-4xl">
-        <div class="flex items-center space-x-3">
+      <div class="space-y-5 max-w-4xl pt-2">
+        <div class="flex flex-wrap items-center gap-2">
           <span 
             v-if="project.is_featured"
             class="px-2.5 py-1 rounded-sm bg-white text-black text-xs font-bold uppercase"
@@ -58,8 +59,30 @@
           {{ project.summary }}
         </p>
 
+        <!-- Action Buttons on Mobile ONLY -->
+        <div class="flex sm:hidden items-center space-x-3 pt-1">
+          <a
+            v-if="project.demo_url"
+            :href="project.demo_url"
+            target="_blank"
+            class="px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-md"
+          >
+            <ExternalLink class="w-4 h-4" />
+            <span>Live Demo</span>
+          </a>
+          <a
+            v-if="project.github_url"
+            :href="project.github_url"
+            target="_blank"
+            class="px-3.5 py-2 rounded-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white flex items-center space-x-2 transition-all"
+          >
+            <Github class="w-4 h-4 text-neutral-400" />
+            <span>Repository</span>
+          </a>
+        </div>
+
         <!-- Inline Tech Stack Chips -->
-        <div v-if="project.tech_stack && project.tech_stack.length" class="flex flex-wrap items-center gap-2 pt-2">
+        <div v-if="project.tech_stack && project.tech_stack.length" class="flex flex-wrap items-center gap-1.5 pt-1">
           <span
             v-for="(tech, i) in project.tech_stack"
             :key="i"
@@ -192,7 +215,7 @@
                   v-if="rel.demo_url"
                   :href="rel.demo_url"
                   target="_blank"
-                  class="px-3.5 py-2 rounded-md bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
+                  class="px-3.5 py-2 rounded-sm bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
                 >
                   <span>Demo</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
