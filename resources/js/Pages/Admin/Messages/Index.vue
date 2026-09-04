@@ -52,11 +52,14 @@
               </label>
 
               <button 
-                @click="refreshList" 
-                class="p-1.5 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer" 
-                title="Refresh Inbox"
+                @click="syncInbox" 
+                :disabled="isSyncing"
+                class="px-2.5 py-1 rounded-[6px] bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white border border-neutral-700 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50" 
+                title="Fetch new email replies from Gmail"
               >
-                <RotateCw class="h-4 w-4" />
+                <Loader2 v-if="isSyncing" class="h-3.5 w-3.5 animate-spin text-indigo-400" />
+                <RotateCw v-else class="h-3.5 w-3.5" />
+                <span>{{ isSyncing ? 'Syncing...' : 'Sync Gmail' }}</span>
               </button>
 
               <div class="h-4 w-px bg-neutral-800"></div>
@@ -517,6 +520,34 @@ function toggleStar(id) {
   } else {
     starredIds.value.push(id);
   }
+}
+
+const isSyncing = ref(false);
+
+function syncInbox() {
+  isSyncing.value = true;
+  router.post(route('admin.messages.sync'), {}, {
+    preserveScroll: true,
+    onSuccess: (page) => {
+      isSyncing.value = false;
+      toast({
+        type: 'success',
+        title: 'Gmail Synchronized',
+        description: page.props.flash?.success || 'Checked Gmail inbox for new client replies.',
+      });
+    },
+    onError: (errors) => {
+      isSyncing.value = false;
+      toast({
+        type: 'error',
+        title: 'Sync Warning',
+        description: errors.message || 'Could not fetch emails from Gmail.',
+      });
+    },
+    onFinish: () => {
+      isSyncing.value = false;
+    }
+  });
 }
 
 function refreshList() {
