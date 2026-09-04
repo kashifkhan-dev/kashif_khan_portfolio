@@ -10,68 +10,16 @@
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
             Profile &amp; Site Settings
           </h1>
-          <p class="text-sm text-muted-foreground mt-1">Update headline titles, status badges, social links, and public bio text live on your portfolio landing page.</p>
+          <p class="text-sm text-muted-foreground mt-1">Manage your professional social profile links, downloadable resume URL, bio, and portfolio telemetry stats.</p>
         </div>
       </div>
 
       <form @submit.prevent="submitForm" class="space-y-6">
-        <!-- Section 1: Headline & Status -->
-        <div class="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-5 shadow-sm">
-          <h3 class="text-sm font-bold text-white border-b border-neutral-800 pb-3">Hero &amp; Status Identity</h3>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Hero Headline Title</label>
-              <input 
-                v-model="form.hero_title" 
-                type="text" 
-                placeholder="e.g. Senior Full-Stack Architect & AI Developer"
-                class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors" 
-              />
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Availability Status Badge</label>
-              <input 
-                v-model="form.availability_status" 
-                type="text" 
-                placeholder="e.g. Available for Full-time Roles & Contracts"
-                class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors" 
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Subtitle & Bio -->
-        <div class="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-5 shadow-sm">
-          <h3 class="text-sm font-bold text-white border-b border-neutral-800 pb-3">Public Bio &amp; Subtext Content</h3>
-
-          <div>
-            <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Hero Subtitle Paragraph</label>
-            <textarea 
-              v-model="form.hero_subtitle" 
-              rows="3" 
-              placeholder="e.g. Building scalable web applications, modern interactive platforms..."
-              class="w-full p-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors leading-relaxed"
-            ></textarea>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Full Bio Paragraph</label>
-            <textarea 
-              v-model="form.bio" 
-              rows="4" 
-              placeholder="e.g. Passionate Software Engineer with 5+ years of experience..."
-              class="w-full p-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors leading-relaxed"
-            ></textarea>
-          </div>
-        </div>
-
-        <!-- Section 3: Social Profile Links -->
+        <!-- Section 1: Social & Professional Links -->
         <div class="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-5 shadow-sm">
           <h3 class="text-sm font-bold text-white border-b border-neutral-800 pb-3">Social &amp; Professional Links</h3>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label class="block text-xs font-semibold text-neutral-300 mb-1.5">GitHub Profile URL</label>
               <input 
@@ -81,6 +29,7 @@
                 class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors" 
               />
             </div>
+
             <div>
               <label class="block text-xs font-semibold text-neutral-300 mb-1.5">LinkedIn Profile URL</label>
               <input 
@@ -90,6 +39,7 @@
                 class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors" 
               />
             </div>
+
             <div>
               <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Twitter / X URL</label>
               <input 
@@ -99,10 +49,20 @@
                 class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors" 
               />
             </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Resume PDF / Cloud Link</label>
+              <input 
+                v-model="form.resume_url" 
+                type="text" 
+                placeholder="e.g. /resume.pdf or Google Drive link"
+                class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors font-mono text-[11px]" 
+              />
+            </div>
           </div>
         </div>
 
-        <!-- Section 4: Public Statistics Metrics -->
+        <!-- Section 2: Portfolio Metrics & Telemetry -->
         <div class="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-5 shadow-sm">
           <h3 class="text-sm font-bold text-white border-b border-neutral-800 pb-3">Portfolio Metrics &amp; Telemetry</h3>
 
@@ -170,10 +130,6 @@ const { toast } = useToast();
 const isSubmitting = ref(false);
 
 const form = useForm({
-  hero_title: props.settings?.hero_title || '',
-  hero_subtitle: props.settings?.hero_subtitle || '',
-  bio: props.settings?.bio || '',
-  availability_status: props.settings?.availability_status || '',
   github_url: props.settings?.github_url || '',
   linkedin_url: props.settings?.linkedin_url || '',
   twitter_url: props.settings?.twitter_url || '',
@@ -187,10 +143,6 @@ async function submitForm() {
   isSubmitting.value = true;
   try {
     await axios.post(route('admin.settings.update'), {
-      hero_title: form.hero_title,
-      hero_subtitle: form.hero_subtitle,
-      bio: form.bio,
-      availability_status: form.availability_status,
       github_url: form.github_url,
       linkedin_url: form.linkedin_url,
       twitter_url: form.twitter_url,
@@ -201,7 +153,7 @@ async function submitForm() {
     });
     toast({
       title: 'Settings Saved',
-      description: 'Your site settings have been updated live.',
+      description: 'Your profile settings have been updated live.',
       type: 'success',
     });
   } catch (error) {
