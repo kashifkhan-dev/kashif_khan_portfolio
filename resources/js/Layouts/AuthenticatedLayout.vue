@@ -89,14 +89,24 @@
     <div class="flex-1 flex flex-col min-w-0">
       <!-- Header Bar (Exact match to dashboard/resources/js/components/layout/Header.vue) -->
       <header class="h-16 border-b bg-background/95 backdrop-blur sticky top-0 z-40 flex items-center justify-between px-4 lg:px-6 shrink-0">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+          <!-- Mobile Hamburger Toggle (No background, matches icon toolbar) -->
+          <button
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
+            class="lg:hidden p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors cursor-pointer shrink-0"
+            aria-label="Toggle navigation menu"
+          >
+            <Menu v-if="!isMobileMenuOpen" class="h-5 w-5" />
+            <X v-else class="h-5 w-5" />
+          </button>
+
           <!-- Breadcrumbs -->
           <nav class="hidden md:flex items-center space-x-2 text-sm font-medium">
             <span class="text-muted-foreground">App</span>
             <ChevronRight class="h-3 w-3 text-muted-foreground" />
             <span class="text-foreground capitalize">{{ currentRouteTitle }}</span>
           </nav>
-          <h1 class="md:hidden text-base font-semibold capitalize">{{ currentRouteTitle }}</h1>
+          <h1 class="md:hidden text-sm sm:text-base font-semibold capitalize truncate">{{ currentRouteTitle }}</h1>
         </div>
 
         <!-- Right-side actions -->
@@ -104,7 +114,7 @@
           <!-- Global Search Button -->
           <button
             @click="showSearchModal = true"
-            class="relative h-9 w-9 md:w-60 md:justify-start px-3 text-neutral-400 hover:text-white text-xs font-medium rounded-[6px] border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
+            class="relative h-9 w-9 md:w-60 justify-center md:justify-start px-0 md:px-3 text-neutral-400 hover:text-white text-xs font-medium rounded-[6px] border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
           >
             <Search class="h-4 w-4 md:mr-2 shrink-0 text-neutral-400" />
             <span class="hidden md:inline-flex">Search dashboard...</span>
@@ -159,7 +169,7 @@
                   :key="inquiry.id"
                   :href="route('admin.messages.index')"
                   @click="showNotifications = false"
-                  class="flex flex-col gap-1 p-2.5 rounded-[6px] bg-neutral-900/60 hover:bg-neutral-900 border border-neutral-800/80 transition-colors text-xs block group cursor-pointer"
+                  class="flex flex-col gap-1 p-2.5 rounded-[6px] bg-neutral-900/60 hover:bg-neutral-900 border border-neutral-800/80 transition-colors text-xs group cursor-pointer"
                 >
                   <div class="flex justify-between items-center gap-2">
                     <span class="font-bold text-white text-xs truncate group-hover:text-indigo-400 transition-colors">
@@ -299,6 +309,102 @@
         </div>
       </div>
     </div>
+
+    <!-- Mobile Navigation Slide-out Drawer -->
+    <Teleport to="body">
+      <!-- Backdrop Blur Overlay -->
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="isMobileMenuOpen"
+          class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm lg:hidden"
+          @click="isMobileMenuOpen = false"
+        ></div>
+      </Transition>
+
+      <!-- Slide-out Sidebar Drawer -->
+      <Transition
+        enter-active-class="transition duration-300 ease-out transform"
+        enter-from-class="-translate-x-full"
+        enter-to-class="translate-x-0"
+        leave-active-class="transition duration-200 ease-in transform"
+        leave-from-class="translate-x-0"
+        leave-to-class="-translate-x-full"
+      >
+        <aside
+          v-if="isMobileMenuOpen"
+          class="fixed inset-y-0 left-0 z-50 w-72 bg-neutral-950 border-r border-neutral-800 text-white flex flex-col shadow-2xl lg:hidden"
+        >
+          <!-- Logo & Close Header -->
+          <div class="h-16 flex items-center justify-between px-4 border-b border-neutral-800 shrink-0">
+            <div class="flex items-center gap-3">
+              <div class="h-9 w-9 rounded-full bg-neutral-900 flex items-center justify-center shrink-0 border border-neutral-800">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="font-bold text-sm tracking-tight">Kashif Khan Dev</span>
+            </div>
+
+            <button
+              @click="isMobileMenuOpen = false"
+              class="p-2 text-neutral-400 hover:text-white rounded-md hover:bg-neutral-900 transition-colors cursor-pointer"
+            >
+              <X class="h-5 w-5" />
+            </button>
+          </div>
+
+          <!-- Mobile Navigation Links (Matches desktop sidebar styling exactly) -->
+          <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <Link
+              v-for="item in navItems"
+              :key="item.name"
+              :href="item.route"
+              @click="isMobileMenuOpen = false"
+              :class="[
+                'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all',
+                item.active 
+                  ? 'bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-50' 
+                  : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-neutral-50 dark:hover:bg-neutral-800'
+              ]"
+            >
+              <component :is="item.icon" class="h-4 w-4 shrink-0" />
+              <span class="truncate">{{ item.name }}</span>
+            </Link>
+          </div>
+
+          <!-- Mobile User Profile & Footer -->
+          <div class="border-t border-neutral-800 p-4 shrink-0 bg-neutral-950">
+            <div class="flex items-center gap-3">
+              <div class="h-9 w-9 rounded-full bg-neutral-800 flex items-center justify-center text-white text-xs font-semibold shrink-0 border border-neutral-700">
+                {{ userInitials }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs font-semibold truncate text-white">{{ $page.props.auth.user.name }}</h4>
+                <p class="text-[10px] text-neutral-400 truncate">{{ $page.props.auth.user.email }}</p>
+              </div>
+              <Link
+                :href="route('logout')"
+                method="post"
+                as="button"
+                class="p-2 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-lg transition-colors cursor-pointer"
+                title="Log Out"
+              >
+                <LogOut class="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </aside>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -315,23 +421,30 @@ import {
   Cpu,
   Briefcase,
   Mail,
-  Sliders,
+  Settings as SettingsIcon,
   ChevronRight,
   ChevronLeft,
   Search,
   Bell,
   CheckCircle2,
   ExternalLink,
-  LogOut
+  LogOut,
+  Menu,
+  X
 } from 'lucide-vue-next';
 
 const page = usePage();
 const { toast } = useToast();
 const isCollapsed = ref(false);
+const isMobileMenuOpen = ref(false);
 const showNotifications = ref(false);
 const showUserMenu = ref(false);
 const showSearchModal = ref(false);
 const searchQuery = ref('');
+
+watch(() => page.url, () => {
+  isMobileMenuOpen.value = false;
+});
 
 const notificationRef = ref(null);
 const userMenuRef = ref(null);
@@ -383,7 +496,7 @@ const searchActions = computed(() => [
   { title: 'Skills Matrix', desc: 'Manage tech stack icons ticker & proficiency', routeName: 'admin.skills.index', icon: Cpu },
   { title: 'Experience Timeline', desc: 'Career background & work milestones', routeName: 'admin.experiences.index', icon: Briefcase },
   { title: 'Inquiries Inbox', desc: 'Manage client messages & Gmail replies', routeName: 'admin.messages.index', icon: Mail },
-  { title: 'Site Settings', desc: 'SEO metadata, branding & social links', routeName: 'admin.settings.index', icon: Sliders },
+  { title: 'Settings', desc: 'Social links, resume URL & portfolio stats', routeName: 'admin.settings.index', icon: SettingsIcon },
 ]);
 
 const filteredSearchActions = computed(() => {
@@ -459,7 +572,7 @@ const currentRouteTitle = computed(() => {
   if (route().current('admin.skills.*')) return 'Skills Matrix';
   if (route().current('admin.experiences.*')) return 'Experience Timeline';
   if (route().current('admin.messages.*')) return 'Inquiries Inbox';
-  if (route().current('admin.settings.*')) return 'Site Settings';
+  if (route().current('admin.settings.*')) return 'Settings';
   return 'Dashboard';
 });
 
@@ -471,6 +584,6 @@ const navItems = computed(() => [
   { name: 'Skills Matrix', route: route('admin.skills.index'), active: route().current('admin.skills.*'), icon: Cpu },
   { name: 'Experience Timeline', route: route('admin.experiences.index'), active: route().current('admin.experiences.*'), icon: Briefcase },
   { name: 'Inquiries Inbox', route: route('admin.messages.index'), active: route().current('admin.messages.*'), icon: Mail },
-  { name: 'Site Settings', route: route('admin.settings.index'), active: route().current('admin.settings.*'), icon: Sliders },
+  { name: 'Settings', route: route('admin.settings.index'), active: route().current('admin.settings.*'), icon: SettingsIcon },
 ]);
 </script>

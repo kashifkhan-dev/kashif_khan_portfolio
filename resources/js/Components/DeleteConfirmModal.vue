@@ -22,7 +22,7 @@
           leave-to-class="opacity-0 scale-95 translate-y-2"
         >
           <div 
-            class="fixed left-[50%] top-[50%] z-[99999] grid w-full max-w-md translate-x-[-50%] translate-y-[-50%] gap-4 border border-neutral-800 bg-neutral-950 p-6 shadow-2xl sm:rounded-xl text-left"
+            class="fixed left-[50%] top-[50%] z-[99999] grid w-[calc(100%-2.5rem)] max-w-md translate-x-[-50%] translate-y-[-50%] gap-4 border border-neutral-800 bg-neutral-950 p-5 sm:p-6 shadow-2xl rounded-xl text-left"
             @click.stop
           >
             <!-- Shadcn Alert Dialog Header -->

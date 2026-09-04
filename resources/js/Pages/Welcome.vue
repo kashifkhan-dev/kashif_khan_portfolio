@@ -89,10 +89,10 @@
         </div>
       </div>
 
-      <!-- Project Grid (Top 3 Curated Projects) -->
+      <!-- Project Grid (Top Curated Projects driven by Admin settings) -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div
-          v-for="project in (projects || []).slice(0, 3)"
+          v-for="project in (projects || []).slice(0, Number(settings?.featured_projects_count) || 3)"
           :key="project.id"
           class="bg-neutral-950 border border-neutral-800 rounded-md overflow-hidden hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-lg"
         >
@@ -181,8 +181,8 @@
         </div>
       </div>
 
-      <!-- Option C: Dedicated /projects Page CTA Link -->
-      <div v-if="(projects || []).length > 3" class="mt-10 text-center">
+      <!-- Dedicated /projects Page CTA Link -->
+      <div v-if="(projects || []).length > (Number(settings?.featured_projects_count) || 3)" class="mt-10 text-center">
         <Link
           :href="route('projects.index')"
           class="px-6 py-2.5 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
