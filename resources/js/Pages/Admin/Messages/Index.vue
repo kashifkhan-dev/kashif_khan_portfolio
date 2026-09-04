@@ -92,9 +92,20 @@
               </div>
             </div>
 
-            <!-- Page Count Info -->
-            <div class="text-[11px] text-neutral-500 font-mono">
-              1–{{ filteredMessages.length }} of {{ filteredMessages.length }}
+            <!-- Page Count & Open Gmail Quick Link -->
+            <div class="flex items-center gap-3">
+              <button 
+                @click="openGmailInbox"
+                class="px-2.5 py-1 rounded-[6px] bg-red-950/40 hover:bg-red-900/60 border border-red-800/60 text-red-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title="Open Gmail Inbox in a new browser tab"
+              >
+                <ExternalLink class="h-3.5 w-3.5 text-red-400" />
+                <span>Open Gmail</span>
+              </button>
+
+              <div class="text-[11px] text-neutral-500 font-mono">
+                1–{{ filteredMessages.length }} of {{ filteredMessages.length }}
+              </div>
             </div>
           </div>
 
@@ -170,6 +181,14 @@
               <!-- Hover Quick Action Buttons & Date -->
               <div class="flex items-center gap-2 shrink-0">
                 <div class="hidden group-hover:flex items-center gap-1">
+                  <button 
+                    @click.stop="openInGmail(msg)" 
+                    class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors"
+                    title="Open in Gmail to Reply"
+                  >
+                    <ExternalLink class="h-3.5 w-3.5 text-red-400" />
+                  </button>
+
                   <button 
                     @click.stop="toggleReadStatus(msg)" 
                     class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
@@ -340,78 +359,36 @@
               </div>
             </div>
 
-            <!-- GMAIL COMPOSER BOX -->
-            <div id="reply-composer" class="rounded-[8px] border border-neutral-800 bg-neutral-900 shadow-xl overflow-hidden mt-6">
+            <!-- DIRECT GMAIL REPLY ACTION CARD -->
+            <div id="reply-composer" class="rounded-[8px] border border-neutral-800 bg-neutral-900/80 p-8 shadow-xl text-center space-y-4 mt-6">
+              <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-red-500/10 border border-red-500/20 text-red-400">
+                <Mail class="h-6 w-6" />
+              </div>
               
-              <!-- Composer Top Bar -->
-              <div class="px-4 py-3 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between">
-                <div class="flex items-center gap-2 text-xs font-bold text-white">
-                  <Reply class="h-4 w-4 text-indigo-400" />
-                  <span>Reply</span>
-                </div>
-                <span class="text-xs text-neutral-400 font-mono">
-                  To: {{ selectedMsg.sender_name }} &lt;{{ selectedMsg.sender_email }}&gt;
-                </span>
+              <div class="max-w-md mx-auto space-y-1">
+                <h4 class="text-sm font-bold text-white">Reply Directly via Gmail</h4>
+                <p class="text-xs text-neutral-400 leading-relaxed">
+                  Manage all client conversations seamlessly from your Gmail inbox. Click below to compose your reply to <strong class="text-white font-mono">{{ selectedMsg.sender_email }}</strong>.
+                </p>
               </div>
 
-              <!-- Compose Form -->
-              <form @submit.prevent="sendGmailReply" class="p-4 space-y-3">
-                <!-- Informational Banner for Gmail Replies -->
-                <div class="p-3 rounded-[6px] border border-blue-900/40 bg-blue-950/20 text-blue-300 text-xs flex items-center gap-2.5">
-                  <Info class="h-4 w-4 shrink-0 text-blue-400" />
-                  <span>
-                    Sending a reply here emails the client directly. Client follow-up replies will be delivered directly to your <strong>Gmail Inbox</strong>.
-                  </span>
-                </div>
+              <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <button 
+                  @click="openInGmail(selectedMsg)"
+                  class="h-10 px-6 rounded-[6px] bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                >
+                  <ExternalLink class="h-4 w-4" />
+                  <span>Open in Gmail Web</span>
+                </button>
 
-                <textarea 
-                  v-model="replyForm.reply_body"
-                  rows="4"
-                  required
-                  placeholder="Write your email reply here..."
-                  class="w-full p-4 rounded-[6px] border border-neutral-800 bg-neutral-950 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-neutral-600 transition-colors leading-relaxed resize-none"
-                ></textarea>
-
-                <!-- Composer Bottom Toolbar -->
-                <div class="flex items-center justify-between pt-1">
-                  <!-- Helper Status Text (Left) -->
-                  <span class="text-[11px] text-neutral-500 font-mono flex items-center gap-1.5">
-                    <ShieldCheck class="h-3.5 w-3.5 text-emerald-400" />
-                    <span>Delivered via Gmail SMTP mailer</span>
-                  </span>
-
-                  <!-- Action Buttons (Right) -->
-                  <div class="flex items-center gap-2">
-                    <button 
-                      type="button" 
-                      @click="openInGmail(selectedMsg)" 
-                      class="h-9 px-3.5 rounded-[6px] border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
-                      title="Open client conversation directly in Gmail Web"
-                    >
-                      <ExternalLink class="h-3.5 w-3.5 text-blue-400" />
-                      <span>Open in Gmail</span>
-                    </button>
-
-                    <button 
-                      type="button" 
-                      @click="replyForm.reply_body = ''" 
-                      class="h-9 px-3.5 rounded-[6px] border border-neutral-800 bg-neutral-900 text-xs font-semibold text-neutral-400 hover:text-white transition-colors cursor-pointer"
-                    >
-                      Discard
-                    </button>
-
-                    <button 
-                      type="submit" 
-                      :disabled="replyForm.processing || !replyForm.reply_body.trim()"
-                      class="h-9 px-6 rounded-[6px] bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                    >
-                      <Loader2 v-if="replyForm.processing" class="h-4 w-4 animate-spin" />
-                      <Send v-else class="h-4 w-4" />
-                      <span>{{ replyForm.processing ? 'Sending...' : 'Send Reply' }}</span>
-                    </button>
-                  </div>
-                </div>
-              </form>
+                <a 
+                  :href="`mailto:${selectedMsg.sender_email}?subject=Re: ${encodeURIComponent(selectedMsg.subject || 'Portfolio Inquiry')}`"
+                  class="h-10 px-5 rounded-[6px] border border-neutral-700 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer"
+                >
+                  <Mail class="h-4 w-4 text-neutral-400" />
+                  <span>Open Mail App</span>
+                </a>
+              </div>
             </div>
 
           </div>
@@ -668,6 +645,10 @@ function getLatestSnippet(msg) {
     return `${prefix}${lastReply.body}`;
   }
   return msg.body;
+}
+
+function openGmailInbox() {
+  window.open('https://mail.google.com/mail/u/0/#inbox', '_blank');
 }
 
 function openInGmail(msg) {
