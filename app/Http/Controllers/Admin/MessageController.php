@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Services\ImapSyncService;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,6 +21,17 @@ class MessageController extends Controller
         return Inertia::render('Admin/Messages/Index', [
             'messages' => $this->messageService->getAllMessages(),
         ]);
+    }
+
+    public function sync(ImapSyncService $imapSyncService)
+    {
+        $result = $imapSyncService->syncInbox();
+
+        if ($result['status'] === 'error') {
+            return redirect()->back()->with('error', $result['message']);
+        }
+
+        return redirect()->back()->with('success', $result['message']);
     }
 
     public function toggleRead(Message $message)
