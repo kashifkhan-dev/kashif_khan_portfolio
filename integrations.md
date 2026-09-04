@@ -27,36 +27,27 @@
 
 ---
 
-## 3. Email & Gmail SMTP Integration
+## 3. Contact Inquiry & Direct Gmail Workflow
 
-The portfolio includes an administrative Gmail-style inbox supporting direct email replies sent directly via your Gmail account using SMTP.
+The portfolio manages client contact inquiries through a zero-dependency, high-performance database & direct Gmail deep-link workflow.
 
-### A. Environment Configuration (`.env`)
-To enable direct email sending from the dashboard, set the following parameters in your `.env` file:
+### A. Inquiry Submission:
+- When a client submits a message via the website contact form (`/contact`), it is saved directly into the database.
+- Fast, secure, and immune to server timeout limits or hosting SMTP port blocks.
+
+### B. Direct Gmail Reply Workflow:
+- In the **Admin Dashboard (`/admin/messages`)**, every inquiry displays the client's details, message snippet, and status.
+- **1-Click Gmail Deep Linking**: Hovering over any message row or viewing an inquiry displays a prominent **"Open in Gmail Web"** action button.
+- Clicking **"Open in Gmail Web"** opens a pre-filled Gmail Compose window in a new browser tab (`To: client@email.com`, `Subject: Re: ...`) so you can reply to and manage all client conversations directly inside your Gmail inbox.
+
+### C. Simplified Environment Configuration (`.env`):
+No Google App Passwords or SMTP credentials are required in `.env`:
 
 ```env
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your_email@gmail.com
-MAIL_PASSWORD=your_16_character_app_password
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS="your_email@gmail.com"
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS="kashifkhannee@gmail.com"
 MAIL_FROM_NAME="Kashif Khan Dev"
 ```
-
-### B. How to Obtain a Gmail App Password:
-1. Go to your [Google Account Security](https://myaccount.google.com/security) page.
-2. Ensure **2-Step Verification** is enabled for your Google account.
-3. In the search bar at the top of Google Account, search for **App Passwords**.
-4. Create a new App Password (App name: `Portfolio Dashboard`).
-5. Copy the generated 16-character password (e.g. `abcd efgh ijkl mnop`) and paste it into `MAIL_PASSWORD` in your `.env` file without spaces.
-
-### C. Inquiry Dispatch Workflow:
-- When a client sends a message via the contact form on your portfolio landing page, it is stored in the database.
-- Admin opens the **Gmail Inquiries** inbox in the dashboard and writes a response in the built-in email composer canvas.
-- Clicking **Send** dispatches an HTML email response directly to the client's email address via Gmail SMTP.
-- The complete message thread (original inquiry + all sequential replies) is saved in the database.
 
 ---
 
