@@ -1,24 +1,26 @@
-# 🎨 Linear Stealth Developer Theme (`colors.md`)
+# 🎨 Vercel Ultra-Dark Developer Theme (`colors.md`)
 
-This color system replaces all harsh purple/magenta colors with a **Linear & Raycast Inspired Dark Stealth** aesthetic.
+This color system defines the **Vercel & Linear Inspired Executive Monochrome** aesthetic used across the entire portfolio and admin dashboard.
 
 ---
 
-## 💎 Primary Color Palette
+## 💎 System Color Palette
 
-| Role | Hex Code | Tailwind Class | Application |
+| Role | Color Value / Hex | Tailwind Utility / CSS Class | Application |
 |---|---|---|---|
-| **Pitch Canvas Background** | `#030712` | `bg-slate-950` / `bg-[#030712]` | Global App Background |
-| **Glass Card Surface** | `rgba(15, 23, 42, 0.7)` | `glass-card` / `glass-panel` | Containers, Tables, Cards |
-| **Primary Button CTA** | `#FFFFFF` | `bg-white text-slate-950 hover:bg-slate-100` | High-Impact Action Buttons |
-| **Secondary Button** | `#1E293B` | `glass-panel text-slate-200 hover:text-white` | Secondary Actions |
-| **Accent Brand Highlight** | `#3B82F6` | `text-blue-400`, `bg-blue-600` | Active Nav, Key Badges |
-| **Emerald Status Pill** | `#10B981` | `text-emerald-400`, `bg-emerald-500/10` | Availability Indicator |
-| **Metallic Text Gradient**| `from-white to-blue-400` | `gradient-text` | Hero Headlines |
-| **Borders** | `#1E293B` | `border-slate-800` | Crisp 1px Borders |
+| **Ultra-Black Pitch Canvas** | `#000000` | `bg-black` / `.vercel-bg` | Global App & Body Background |
+| **Monochrome Card Surface** | `rgba(10, 10, 10, 0.7)` | `.vercel-card` / `bg-neutral-900/60` | Containers, Tables, Bento Cards |
+| **Glass Backdrop Surface** | `rgba(0, 0, 0, 0.8)` | `.vercel-glass` | Sticky Navbars, Floating Drawers |
+| **Primary Action Button** | `#FFFFFF` | `bg-white text-black hover:bg-neutral-200` | High-Impact Action CTAs |
+| **Secondary Button** | `#171717` | `bg-neutral-900 border-neutral-800 text-neutral-300` | Secondary Action Buttons |
+| **Accent Brand Blue** | `#0070F3` | `text-blue-500`, `bg-blue-600` | Primary Accents & Active States |
+| **Emerald Status Pill** | `#10B981` | `text-emerald-400`, `bg-emerald-950` | Availability Badge & Online Indicators |
+| **Metallic Hero Headline** | `linear-gradient(180deg, #FFFFFF, #A1A1AA)` | `.vercel-text-gradient` / `.gradient-text` | Main Typography & Headlines |
+| **Crisp Surface Border** | `rgba(255, 255, 255, 0.08)` | `border-neutral-800` / `border-border` | 1px Clean Borders |
 
 ---
 
-## 🚫 Forbidden Colors
-- **NO Purple / Magenta / Pink gradients** (`from-purple-600 to-pink-500` disabled).
-- **NO Muddy Blue-Violet Backgrounds**.
+## 🚫 Design Rules & Guidelines
+- **Monochrome & High Contrast**: Deep pitch-black base with crisp white & neutral typography.
+- **Micro-Animations**: Smooth 300ms transitions (`cubic-bezier(0.16, 1, 0.3, 1)`) on interactive hover elements.
+- **NO Harsh Purples/Pink Gradients**: Avoid standard saturated purple/pink gradients in favor of high-contrast metallic and subtle blue highlights.
