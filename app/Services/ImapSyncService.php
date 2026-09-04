@@ -13,6 +13,7 @@ class ImapSyncService
 
     /**
      * Synchronize reply emails directly from Gmail IMAP into the database.
+     * High-Performance Header-First Strategy optimized for Free Hosting (42web.io).
      *
      * @return array{status: string, synced_count: int, message: string}
      */
@@ -29,7 +30,7 @@ class ImapSyncService
             ];
         }
 
-        $socket = @fsockopen($this->host, $this->port, $errno, $errstr, 15);
+        $socket = @fsockopen($this->host, $this->port, $errno, $errstr, 10);
         if (!$socket) {
             return [
                 'status' => 'error',
@@ -89,32 +90,40 @@ class ImapSyncService
             ];
         }
 
-        // Inspect last 25 messages for fast and accurate syncing
-        if (count($msgNumbers) > 25) {
-            $msgNumbers = array_slice($msgNumbers, -25);
+        // Inspect last 10 messages for lightning-fast execution (<1s) on free web hosting
+        if (count($msgNumbers) > 10) {
+            $msgNumbers = array_slice($msgNumbers, -10);
         }
 
         $syncedCount = 0;
 
-        // 4. Process each email message using full BODY[] stream
+        // 4. Header-First Stream Parsing
         foreach ($msgNumbers as $seqNo) {
-            fputs($socket, "F{$seqNo} FETCH {$seqNo} (BODY[])\r\n");
-            $rawEmail = implode("\n", $this->readCommandOutput($socket, "F{$seqNo}"));
+            // Fetch HEADER first (super lightweight & fast)
+            fputs($socket, "H{$seqNo} FETCH {$seqNo} (BODY[HEADER.FIELDS (FROM SUBJECT DATE)])\r\n");
+            $headerOutput = implode("\n", $this->readCommandOutput($socket, "H{$seqNo}"));
 
-            $fromHeader = $this->extractHeaderValue($rawEmail, 'From');
-            $subject = $this->extractHeaderValue($rawEmail, 'Subject') ?: 'Re: Portfolio Inquiry';
-            $body = $this->extractBodyContent($rawEmail);
+            $fromHeader = $this->extractHeaderValue($headerOutput, 'From');
+            $subject = $this->extractHeaderValue($headerOutput, 'Subject') ?: 'Re: Portfolio Inquiry';
 
-            if (empty($fromHeader) || empty($body)) {
+            if (empty($fromHeader)) {
                 continue;
             }
 
-            // Extract clean email address from From header
             preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $fromHeader, $matches);
             $cleanEmail = strtolower($matches[0] ?? $fromHeader);
 
-            // Skip self-sent emails from your own mail account
+            // Skip self-sent emails from your own account
             if ($cleanEmail === strtolower($username)) {
+                continue;
+            }
+
+            // Fetch full email BODY[] stream only for valid candidate emails
+            fputs($socket, "B{$seqNo} FETCH {$seqNo} (BODY[])\r\n");
+            $rawEmail = implode("\n", $this->readCommandOutput($socket, "B{$seqNo}"));
+            $body = $this->extractBodyContent($rawEmail);
+
+            if (empty($body)) {
                 continue;
             }
 
