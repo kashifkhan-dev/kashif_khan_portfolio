@@ -310,6 +310,7 @@ import { useToast } from '@/Composables/useToast';
 import {
   LayoutDashboard,
   Sparkles,
+  MessageSquare,
   FolderGit2,
   Cpu,
   Briefcase,
@@ -377,10 +378,11 @@ onUnmounted(() => {
 const searchActions = computed(() => [
   { title: 'Admin Dashboard', desc: 'Main overview & portfolio statistics', routeName: 'admin.dashboard', icon: LayoutDashboard },
   { title: 'Hero Section Editor', desc: 'Customize main landing text & code frame', routeName: 'admin.hero.index', icon: Sparkles },
+  { title: 'Contact Section Manager', desc: 'Customize contact pitch, email & form preview', routeName: 'admin.contact.index', icon: MessageSquare },
   { title: 'Projects Manager', desc: 'Create, edit & manage portfolio projects', routeName: 'admin.projects.index', icon: FolderGit2 },
   { title: 'Skills Matrix', desc: 'Manage tech stack icons ticker & proficiency', routeName: 'admin.skills.index', icon: Cpu },
   { title: 'Experience Timeline', desc: 'Career background & work milestones', routeName: 'admin.experiences.index', icon: Briefcase },
-  { title: 'Inquiries Inbox', desc: 'Manage client messages & Gmail SMTP replies', routeName: 'admin.messages.index', icon: Mail },
+  { title: 'Inquiries Inbox', desc: 'Manage client messages & Gmail replies', routeName: 'admin.messages.index', icon: Mail },
   { title: 'Site Settings', desc: 'SEO metadata, branding & social links', routeName: 'admin.settings.index', icon: Sliders },
 ]);
 
@@ -452,6 +454,7 @@ const userInitials = computed(() => {
 const currentRouteTitle = computed(() => {
   if (route().current('admin.dashboard')) return 'Admin Dashboard';
   if (route().current('admin.hero.*')) return 'Hero Section Editor';
+  if (route().current('admin.contact.*')) return 'Contact Section Manager';
   if (route().current('admin.projects.*')) return 'Projects Manager';
   if (route().current('admin.skills.*')) return 'Skills Matrix';
   if (route().current('admin.experiences.*')) return 'Experience Timeline';
@@ -463,6 +466,7 @@ const currentRouteTitle = computed(() => {
 const navItems = computed(() => [
   { name: 'Dashboard', route: route('admin.dashboard'), active: route().current('admin.dashboard'), icon: LayoutDashboard },
   { name: 'Hero Section', route: route('admin.hero.index'), active: route().current('admin.hero.*'), icon: Sparkles },
+  { name: 'Contact Section', route: route('admin.contact.index'), active: route().current('admin.contact.*'), icon: MessageSquare },
   { name: 'Projects Manager', route: route('admin.projects.index'), active: route().current('admin.projects.*'), icon: FolderGit2 },
   { name: 'Skills Matrix', route: route('admin.skills.index'), active: route().current('admin.skills.*'), icon: Cpu },
   { name: 'Experience Timeline', route: route('admin.experiences.index'), active: route().current('admin.experiences.*'), icon: Briefcase },
