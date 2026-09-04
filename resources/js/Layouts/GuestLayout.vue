@@ -43,7 +43,7 @@
           </button>
 
           <Link
-            v-if="canLogin"
+            v-if="canLogin !== false"
             :href="route('login')"
             class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold rounded-md bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white shadow-xs transition-all"
           >
@@ -154,6 +154,20 @@
                   </span>
                   <span>{{ link.label }}</span>
                 </a>
+
+                <div class="border-t border-slate-200 dark:border-neutral-800/80 pt-4 mt-2" v-if="canLogin !== false">
+                  <Link
+                    :href="route('login')"
+                    @click="mobileMenuOpen = false"
+                    class="text-sm font-semibold text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-neutral-900 border border-slate-200 dark:border-neutral-800/60 flex items-center space-x-3.5 transition-all group"
+                  >
+                    <svg class="w-5 h-5 text-slate-400 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>Admin Dashboard</span>
+                  </Link>
+                </div>
               </nav>
             </div>
 
