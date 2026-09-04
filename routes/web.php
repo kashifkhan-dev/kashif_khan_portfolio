@@ -43,7 +43,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Messages Inbox
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::post('/messages/sync', [MessageController::class, 'sync'])->name('messages.sync');
     Route::patch('/messages/mark-all-read', [MessageController::class, 'markAllRead'])->name('messages.mark-all-read');
     Route::patch('/messages/{message}/toggle-read', [MessageController::class, 'toggleRead'])->name('messages.toggle-read');
     Route::post('/messages/{message}/reply', [MessageController::class, 'reply'])->name('messages.reply');
