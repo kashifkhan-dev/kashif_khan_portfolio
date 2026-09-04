@@ -4,15 +4,23 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --border: 0 0% 12%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
     --radius: 0.75rem;
   }
 
   .dark {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 100%;
     --border: 0 0% 12%;
   }
 }
@@ -41,40 +49,46 @@
   }
   html {
     scroll-behavior: smooth;
+  }
+  html.dark {
     background-color: #000000;
+    color-scheme: dark;
+  }
+  html:not(.dark) {
+    background-color: #ffffff;
+    color-scheme: light;
   }
   body {
-    @apply bg-black text-slate-100 antialiased selection:bg-white selection:text-black;
+    @apply antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-300;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  html.dark body {
+    @apply bg-black text-slate-100;
+  }
+  html:not(.dark) body {
+    @apply bg-white text-slate-900;
   }
 }
 
 /* ═══════════════════════════════════════════════════
-   VERCEL ULTRA-DARK SURFACES & SURFACES
+   VERCEL LIGHT & DARK SURFACES
    ═══════════════════════════════════════════════════ */
 
 .vercel-bg {
-  background-color: #000000;
+  @apply bg-white dark:bg-black transition-colors duration-300;
 }
 
 .vercel-card {
-  background: rgba(10, 10, 10, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  @apply bg-white/80 dark:bg-[rgba(10,10,10,0.7)] backdrop-blur-xl border border-slate-200/90 dark:border-white/10 shadow-sm dark:shadow-none transition-all duration-300;
 }
 
 .vercel-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  @apply border-slate-300 dark:border-white/20 shadow-md dark:shadow-[0_0_30px_rgba(255,255,255,0.05)];
 }
 
 .vercel-glass {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  @apply bg-white/90 dark:bg-black/80 backdrop-blur-md border border-slate-200 dark:border-white/10 transition-colors duration-300;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -82,6 +96,9 @@
    ═══════════════════════════════════════════════════ */
 
 .vercel-spotlight {
+  background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), rgba(99,102,241,0.08), transparent 40%);
+}
+.dark .vercel-spotlight {
   background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.06), transparent 40%);
 }
 
@@ -92,9 +109,12 @@
   transform: translateX(-50%);
   width: 1000px;
   height: 400px;
-  background: radial-gradient(ellipse at center, rgba(120, 119, 198, 0.15) 0%, rgba(255, 255, 255, 0.05) 25%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.12) 0%, rgba(99, 102, 241, 0.04) 25%, transparent 70%);
   pointer-events: none;
   filter: blur(60px);
+}
+.dark .hero-beam {
+  background: radial-gradient(ellipse at center, rgba(120, 119, 198, 0.15) 0%, rgba(255, 255, 255, 0.05) 25%, transparent 70%);
 }
 
 .hero-cone {
@@ -104,15 +124,26 @@
   transform: translateX(-50%);
   width: 1px;
   height: 350px;
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.6) 0%, rgba(99, 102, 241, 0.1) 40%, transparent 100%);
+  box-shadow: 0 0 40px 10px rgba(99, 102, 241, 0.15);
+}
+.dark .hero-cone {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 100%);
   box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.2);
 }
 
 .grid-pattern {
   background-size: 40px 40px;
+}
+html.dark .grid-pattern {
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+html:not(.dark) .grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -120,10 +151,7 @@
    ═══════════════════════════════════════════════════ */
 
 .vercel-text-gradient {
-  background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  @apply bg-gradient-to-b from-slate-900 via-slate-800 to-slate-600 dark:from-white dark:to-zinc-400 bg-clip-text text-transparent;
 }
 
 .vercel-blue-gradient {
@@ -134,10 +162,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(180deg, #FFFFFF 20%, #888888 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  @apply bg-gradient-to-b from-slate-900 to-slate-600 dark:from-white dark:to-neutral-400 bg-clip-text text-transparent;
 }
 
 .glow-border {
@@ -243,8 +268,24 @@
   background: #555;
 }
 
-.prose-custom h1 { @apply text-2xl font-extrabold text-white mb-4; }
-.prose-custom p { @apply text-sm text-slate-300 mb-4; }
+.prose-custom,
+.prose-custom * {
+  color: #0f172a !important; /* text-slate-900 */
+}
+html.dark .prose-custom,
+html.dark .prose-custom * {
+  color: #f5f5f5 !important; /* neutral-100 */
+}
+
+.prose-custom h1 { @apply text-2xl font-extrabold mb-4 tracking-tight; }
+.prose-custom h2 { @apply text-xl font-bold mb-3 tracking-tight; }
+.prose-custom h3 { @apply text-lg font-bold mb-2 tracking-tight; }
+.prose-custom p { @apply text-base sm:text-lg mb-4 leading-relaxed font-normal; }
+.prose-custom ul { @apply space-y-2 my-3 pl-5 list-disc marker:text-slate-500 dark:marker:text-neutral-400; }
+.prose-custom ol { @apply space-y-2 my-3 pl-5 list-decimal marker:text-slate-500 dark:marker:text-neutral-400; }
+.prose-custom li { @apply leading-relaxed; }
+.prose-custom strong, .prose-custom b { @apply font-bold; }
+.prose-custom a { @apply text-blue-600 dark:text-blue-400 underline transition-colors; }
 
 /* Micro-interaction Spotlight & Card Glows */
 .card-hover-glow {
@@ -278,32 +319,32 @@
    RICH TEXT LANDING PAGE PROSE STYLING
    ═══════════════════════════════════════════════════ */
 .prose-experience {
-  @apply text-sm text-neutral-300 leading-relaxed font-sans;
+  @apply text-sm text-slate-700 dark:text-neutral-300 leading-relaxed font-sans;
 }
 .prose-experience p {
-  @apply mb-3 text-neutral-300 leading-relaxed;
+  @apply mb-3 text-slate-700 dark:text-neutral-300 leading-relaxed;
 }
 .prose-experience ul {
-  @apply space-y-2.5 my-3 pl-5 list-disc marker:text-neutral-500;
+  @apply space-y-2.5 my-3 pl-5 list-disc marker:text-slate-400 dark:marker:text-neutral-500;
 }
 .prose-experience ol {
-  @apply space-y-2.5 my-3 pl-5 list-decimal marker:text-neutral-500;
+  @apply space-y-2.5 my-3 pl-5 list-decimal marker:text-slate-400 dark:marker:text-neutral-500;
 }
 .prose-experience li {
-  @apply text-neutral-300 leading-relaxed pl-1;
+  @apply text-slate-700 dark:text-neutral-300 leading-relaxed pl-1;
 }
 .prose-experience strong, .prose-experience b {
-  @apply font-bold text-white;
+  @apply font-bold text-slate-900 dark:text-white;
 }
 .prose-experience em, .prose-experience i {
-  @apply italic text-neutral-200;
+  @apply italic text-slate-800 dark:text-neutral-200;
 }
 .prose-experience h1, .prose-experience h2, .prose-experience h3 {
-  @apply font-bold text-white text-base my-2 tracking-tight;
+  @apply font-bold text-slate-900 dark:text-white text-base my-2 tracking-tight;
 }
 .prose-experience a {
-  @apply text-indigo-400 hover:text-indigo-300 underline transition-colors;
+  @apply text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 underline transition-colors;
 }
 .prose-experience code {
-  @apply px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 font-mono text-xs text-indigo-300;
+  @apply px-1.5 py-0.5 rounded bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 font-mono text-xs text-indigo-600 dark:text-indigo-300;
 }

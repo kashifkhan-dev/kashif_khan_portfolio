@@ -4,7 +4,7 @@
       <div
         v-for="t in toasts"
         :key="t.id"
-        class="pointer-events-auto w-full flex items-start gap-3 p-4 rounded-md border border-neutral-800 bg-neutral-950/95 backdrop-blur-md shadow-2xl text-sm leading-relaxed transition-all duration-300"
+        class="pointer-events-auto w-full flex items-start gap-3 p-4 rounded-md border bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-xl dark:shadow-2xl text-sm leading-relaxed transition-all duration-300"
         :class="getBorderClass(t.type)"
       >
         <!-- Icon based on type -->
@@ -16,13 +16,13 @@
 
         <!-- Title & Description -->
         <div class="flex-1 space-y-0.5">
-          <h4 class="font-bold text-white text-sm tracking-tight">{{ t.title }}</h4>
-          <p v-if="t.description" class="text-xs text-neutral-400 leading-normal">{{ t.description }}</p>
+          <h4 class="font-bold text-slate-900 dark:text-white text-sm tracking-tight">{{ t.title }}</h4>
+          <p v-if="t.description" class="text-xs text-slate-600 dark:text-neutral-400 leading-normal">{{ t.description }}</p>
         </div>
 
         <!-- Close Button -->
         <button 
-          class="h-5 w-5 shrink-0 flex items-center justify-center rounded-md text-neutral-500 hover:bg-neutral-900 hover:text-white transition-colors"
+          class="h-5 w-5 shrink-0 flex items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-900 dark:text-neutral-500 dark:hover:bg-neutral-900 dark:hover:text-white transition-colors"
           @click="dismiss(t.id)"
         >
           <X class="h-3.5 w-3.5" />
@@ -64,10 +64,10 @@ const getIconColorClass = (type) => {
 
 const getBorderClass = (type) => {
   switch (type) {
-    case 'success': return 'border-emerald-500/20 dark:border-emerald-500/10';
-    case 'warning': return 'border-amber-500/20 dark:border-amber-500/10';
-    case 'error': return 'border-rose-500/20 dark:border-rose-500/10';
-    default: return 'border-border';
+    case 'success': return 'border-emerald-500/40 dark:border-emerald-500/20';
+    case 'warning': return 'border-amber-500/40 dark:border-amber-500/20';
+    case 'error': return 'border-rose-500/40 dark:border-rose-500/20';
+    default: return 'border-slate-200 dark:border-neutral-800';
   }
 };
 </script>

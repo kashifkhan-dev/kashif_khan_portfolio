@@ -114,13 +114,23 @@
           <!-- Global Search Button -->
           <button
             @click="showSearchModal = true"
-            class="relative h-9 w-9 md:w-60 justify-center md:justify-start px-0 md:px-3 text-neutral-400 hover:text-white text-xs font-medium rounded-[6px] border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
+            class="relative h-9 w-9 md:w-60 justify-center md:justify-start px-0 md:px-3 text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium rounded-[6px] border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
           >
-            <Search class="h-4 w-4 md:mr-2 shrink-0 text-neutral-400" />
+            <Search class="h-4 w-4 md:mr-2 shrink-0 text-neutral-500 dark:text-neutral-400" />
             <span class="hidden md:inline-flex">Search dashboard...</span>
-            <kbd class="hidden md:inline-flex absolute right-1.5 top-1/2 -translate-y-1/2 h-5 pointer-events-none items-center justify-center gap-1 rounded border border-neutral-800 bg-neutral-950 px-1.5 font-mono text-[10px] font-medium text-neutral-400 opacity-100 select-none">
+            <kbd class="hidden md:inline-flex absolute right-1.5 top-1/2 -translate-y-1/2 h-5 pointer-events-none items-center justify-center gap-1 rounded border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-950 px-1.5 font-mono text-[10px] font-medium text-neutral-500 dark:text-neutral-400 opacity-100 select-none">
               ⌘K
             </kbd>
+          </button>
+
+          <!-- Theme Switcher Button -->
+          <button
+            @click="toggleTheme"
+            class="h-9 w-9 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer shadow-xs"
+            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          >
+            <Sun v-if="isDark" class="h-4 w-4 text-amber-400" />
+            <Moon v-else class="h-4 w-4 text-indigo-600" />
           </button>
 
           <!-- Notifications Dropdown Button -->
@@ -410,9 +420,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
-import { Link, usePage, router } from '@inertiajs/vue3';
-import ToastNotification from '@/Components/ToastNotification.vue';
-import { useToast } from '@/Composables/useToast';
+import { useTheme } from '@/Composables/useTheme';
 import {
   LayoutDashboard,
   Sparkles,
@@ -430,17 +438,24 @@ import {
   ExternalLink,
   LogOut,
   Menu,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-vue-next';
 
 const page = usePage();
 const { toast } = useToast();
+const { isDark, toggleTheme, initTheme } = useTheme();
 const isCollapsed = ref(false);
 const isMobileMenuOpen = ref(false);
 const showNotifications = ref(false);
 const showUserMenu = ref(false);
 const showSearchModal = ref(false);
 const searchQuery = ref('');
+
+onMounted(() => {
+  initTheme();
+});
 
 watch(() => page.url, () => {
   isMobileMenuOpen.value = false;
