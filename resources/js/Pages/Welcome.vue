@@ -328,10 +328,10 @@
         <div class="lg:col-span-6 space-y-8">
           <div class="space-y-4">
             <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Let's build something <span class="text-neutral-300">extraordinary</span> together.
+              {{ settings.contact_headline_title || "Let's build something extraordinary together." }}
             </h2>
             <p class="text-neutral-400 text-base sm:text-lg leading-relaxed">
-              Have a project in mind, a software engineering role to discuss, or just want to talk tech? Drop a message or connect directly.
+              {{ settings.contact_subtitle || "Have a project in mind, a software engineering role to discuss, or just want to talk tech? Drop a message or connect directly." }}
             </p>
           </div>
 
@@ -366,7 +366,7 @@
               <div>
                 <div class="text-xs font-sans font-semibold text-neutral-400 uppercase tracking-wider">Location &amp; Work</div>
                 <div class="text-sm font-bold text-white">
-                  Worldwide (Remote / On-site)
+                  {{ settings.contact_location || 'Worldwide (Remote / On-site)' }}
                 </div>
               </div>
             </div>
@@ -375,7 +375,7 @@
           <!-- Response Guarantee Pill -->
           <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-xs font-sans font-medium text-neutral-300">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Typical Response Time: &lt; 24 Hours</span>
+            <span>{{ settings.contact_response_time || 'Typical Response Time: < 24 Hours' }}</span>
           </div>
         </div>
 
@@ -383,7 +383,9 @@
         <div class="lg:col-span-6">
           <div class="bg-neutral-950 border border-neutral-800 p-6 sm:p-8 rounded-md space-y-6 shadow-xl w-full">
             <div>
-              <h3 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Send a Message</h3>
+              <h3 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                {{ settings.contact_form_title || 'Send a Message' }}
+              </h3>
             </div>
 
             <form @submit.prevent="submitContactForm" class="space-y-5">
@@ -449,7 +451,7 @@
                 </svg>
 
                 <span v-if="isSubmitting || form.processing">Transmitting Message...</span>
-                <span v-else>Send Message</span>
+                <span v-else>{{ settings.contact_submit_btn_text || 'Send Message' }}</span>
               </button>
             </form>
           </div>
