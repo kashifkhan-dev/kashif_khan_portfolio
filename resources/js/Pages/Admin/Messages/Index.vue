@@ -52,14 +52,11 @@
               </label>
 
               <button 
-                @click="syncInbox" 
-                :disabled="isSyncing"
-                class="px-2.5 py-1 rounded-[6px] bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white border border-neutral-700 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50" 
-                title="Fetch new email replies from Gmail"
+                @click="refreshList" 
+                class="p-1.5 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer" 
+                title="Refresh Inbox"
               >
-                <Loader2 v-if="isSyncing" class="h-3.5 w-3.5 animate-spin text-indigo-400" />
-                <RotateCw v-else class="h-3.5 w-3.5" />
-                <span>{{ isSyncing ? 'Syncing...' : 'Sync Gmail' }}</span>
+                <RotateCw class="h-4 w-4" />
               </button>
 
               <div class="h-4 w-px bg-neutral-800"></div>
@@ -158,7 +155,7 @@
                 </span>
                 <span class="text-neutral-600 text-xs">—</span>
                 <span class="text-xs text-neutral-500 truncate font-normal">
-                  {{ msg.body }}
+                  {{ getLatestSnippet(msg) }}
                 </span>
               </div>
 
@@ -358,10 +355,18 @@
               </div>
 
               <!-- Compose Form -->
-              <form @submit.prevent="sendGmailReply" class="p-4 space-y-4">
+              <form @submit.prevent="sendGmailReply" class="p-4 space-y-3">
+                <!-- Informational Banner for Gmail Replies -->
+                <div class="p-3 rounded-[6px] border border-blue-900/40 bg-blue-950/20 text-blue-300 text-xs flex items-center gap-2.5">
+                  <Info class="h-4 w-4 shrink-0 text-blue-400" />
+                  <span>
+                    Sending a reply here emails the client directly. Client follow-up replies will be delivered directly to your <strong>Gmail Inbox</strong>.
+                  </span>
+                </div>
+
                 <textarea 
                   v-model="replyForm.reply_body"
-                  rows="5"
+                  rows="4"
                   required
                   placeholder="Write your email reply here..."
                   class="w-full p-4 rounded-[6px] border border-neutral-800 bg-neutral-950 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-neutral-600 transition-colors leading-relaxed resize-none"
@@ -379,6 +384,16 @@
                   <div class="flex items-center gap-2">
                     <button 
                       type="button" 
+                      @click="openInGmail(selectedMsg)" 
+                      class="h-9 px-3.5 rounded-[6px] border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
+                      title="Open client conversation directly in Gmail Web"
+                    >
+                      <ExternalLink class="h-3.5 w-3.5 text-blue-400" />
+                      <span>Open in Gmail</span>
+                    </button>
+
+                    <button 
+                      type="button" 
                       @click="replyForm.reply_body = ''" 
                       class="h-9 px-3.5 rounded-[6px] border border-neutral-800 bg-neutral-900 text-xs font-semibold text-neutral-400 hover:text-white transition-colors cursor-pointer"
                     >
@@ -392,7 +407,7 @@
                     >
                       <Loader2 v-if="replyForm.processing" class="h-4 w-4 animate-spin" />
                       <Send v-else class="h-4 w-4" />
-                      <span>{{ replyForm.processing ? 'Sending...' : 'Send' }}</span>
+                      <span>{{ replyForm.processing ? 'Sending...' : 'Send Reply' }}</span>
                     </button>
                   </div>
                 </div>
@@ -437,7 +452,9 @@ import {
   RotateCw,
   Star,
   Mail as MailUnread,
-  Reply
+  Reply,
+  Info,
+  ExternalLink
 } from 'lucide-vue-next';
 import { useToast } from '@/Composables/useToast';
 
@@ -520,34 +537,6 @@ function toggleStar(id) {
   } else {
     starredIds.value.push(id);
   }
-}
-
-const isSyncing = ref(false);
-
-function syncInbox() {
-  isSyncing.value = true;
-  router.post(route('admin.messages.sync'), {}, {
-    preserveScroll: true,
-    onSuccess: (page) => {
-      isSyncing.value = false;
-      toast({
-        type: 'success',
-        title: 'Gmail Synchronized',
-        description: page.props.flash?.success || 'Checked Gmail inbox for new client replies.',
-      });
-    },
-    onError: (errors) => {
-      isSyncing.value = false;
-      toast({
-        type: 'error',
-        title: 'Sync Warning',
-        description: errors.message || 'Could not fetch emails from Gmail.',
-      });
-    },
-    onFinish: () => {
-      isSyncing.value = false;
-    }
-  });
 }
 
 function refreshList() {
@@ -669,6 +658,24 @@ function formatDate(dateStr) {
   if (!dateStr) return '';
   const date = new Date(dateStr);
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function getLatestSnippet(msg) {
+  if (!msg) return '';
+  if (Array.isArray(msg.replies) && msg.replies.length > 0) {
+    const lastReply = msg.replies[msg.replies.length - 1];
+    const prefix = lastReply.sender === 'client' ? 'Client: ' : 'You: ';
+    return `${prefix}${lastReply.body}`;
+  }
+  return msg.body;
+}
+
+function openInGmail(msg) {
+  if (!msg || !msg.sender_email) return;
+  const to = encodeURIComponent(msg.sender_email);
+  const subject = encodeURIComponent(`Re: ${msg.subject || 'Portfolio Inquiry'}`);
+  const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}`;
+  window.open(url, '_blank');
 }
 
 function formatFullDate(dateStr) {
