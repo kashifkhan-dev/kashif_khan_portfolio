@@ -12,7 +12,7 @@ class ImapSyncService
     protected int $port = 993;
 
     /**
-     * Synchronize unread reply emails directly from Gmail IMAP into the database.
+     * Synchronize reply emails directly from Gmail IMAP into the database.
      *
      * @return array{status: string, synced_count: int, message: string}
      */
@@ -89,29 +89,29 @@ class ImapSyncService
             ];
         }
 
-        // Limit inspection to last 20 messages for fast response
-        if (count($msgNumbers) > 20) {
-            $msgNumbers = array_slice($msgNumbers, -20);
+        // Inspect last 25 messages for fast and accurate syncing
+        if (count($msgNumbers) > 25) {
+            $msgNumbers = array_slice($msgNumbers, -25);
         }
 
         $syncedCount = 0;
 
-        // 4. Process each email message
+        // 4. Process each email message using full BODY[] stream
         foreach ($msgNumbers as $seqNo) {
-            fputs($socket, "F{$seqNo} FETCH {$seqNo} (BODY[HEADER.FIELDS (FROM SUBJECT DATE)] BODY[TEXT])\r\n");
-            $fetchOutput = implode("\n", $this->readCommandOutput($socket, "F{$seqNo}"));
+            fputs($socket, "F{$seqNo} FETCH {$seqNo} (BODY[])\r\n");
+            $rawEmail = implode("\n", $this->readCommandOutput($socket, "F{$seqNo}"));
 
-            $fromEmail = $this->extractHeaderValue($fetchOutput, 'From');
-            $subject = $this->extractHeaderValue($fetchOutput, 'Subject') ?: 'Re: Portfolio Inquiry';
-            $body = $this->extractBodyContent($fetchOutput);
+            $fromHeader = $this->extractHeaderValue($rawEmail, 'From');
+            $subject = $this->extractHeaderValue($rawEmail, 'Subject') ?: 'Re: Portfolio Inquiry';
+            $body = $this->extractBodyContent($rawEmail);
 
-            if (empty($fromEmail) || empty($body)) {
+            if (empty($fromHeader) || empty($body)) {
                 continue;
             }
 
-            // Clean sender email (e.g., "John Doe <john@example.com>")
-            preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $fromEmail, $matches);
-            $cleanEmail = strtolower($matches[0] ?? $fromEmail);
+            // Extract clean email address from From header
+            preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $fromHeader, $matches);
+            $cleanEmail = strtolower($matches[0] ?? $fromHeader);
 
             // Skip self-sent emails from your own mail account
             if ($cleanEmail === strtolower($username)) {
@@ -157,7 +157,8 @@ class ImapSyncService
                     $syncedCount++;
                 }
             } else {
-                $senderName = trim(explode('<', $fromEmail)[0]);
+                $senderName = trim(explode('<', $fromHeader)[0]);
+                $senderName = trim($senderName, ' "\'');
                 if (empty($senderName) || str_contains($senderName, '@')) {
                     $senderName = explode('@', $cleanEmail)[0];
                 }
@@ -205,7 +206,6 @@ class ImapSyncService
         $trimmed = trim($text);
         if (empty($trimmed)) return '';
 
-        // If string contains no spaces and matches base64 pattern
         if (!str_contains($trimmed, ' ') && strlen($trimmed) > 20 && preg_match('/^[a-zA-Z0-9+\/=\r\n]+$/', $trimmed)) {
             $decoded = base64_decode(preg_replace('/\s+/', '', $trimmed));
             if ($decoded && preg_match('/[a-zA-Z0-9]/', $decoded)) {
@@ -246,57 +246,48 @@ class ImapSyncService
         return $lines;
     }
 
-    private function extractHeaderValue(string $fetchOutput, string $headerName): string
+    private function extractHeaderValue(string $rawEmail, string $headerName): string
     {
-        if (preg_match('/' . preg_quote($headerName, '/') . ':\s*(.+)/i', $fetchOutput, $matches)) {
+        if (preg_match('/^' . preg_quote($headerName, '/') . ':\s*(.+)$/mi', $rawEmail, $matches)) {
             return trim($matches[1]);
         }
         return '';
     }
 
-    private function extractBodyContent(string $fetchOutput): string
+    private function extractBodyContent(string $rawEmail): string
     {
-        // 1. Decode Base64 encoded email bodies if present
-        if (preg_match('/Content-Transfer-Encoding:\s*base64/i', $fetchOutput)) {
-            $parts = preg_split('/\r?\n\r?\n/', $fetchOutput, 2);
-            $rawBody = $parts[1] ?? '';
-            $rawBody = preg_replace('/--[a-zA-Z0-9_-]+.*/', '', $rawBody);
-            $rawBody = preg_replace('/F\d+ OK.*/', '', $rawBody);
-            $decoded = base64_decode(preg_replace('/\s+/', '', $rawBody));
-            if (!empty(trim($decoded))) {
-                return trim(strip_tags($decoded));
+        // Extract text/plain or text/html part from MIME body
+        if (preg_match('#Content-Type:\s*text/plain.*?\r?\n\r?\n(.*?)(?=\r?\n--|\r?\n\r?\n|$)#si', $rawEmail, $m)) {
+            $body = $m[1];
+        } elseif (preg_match('#Content-Type:\s*text/html.*?\r?\n\r?\n(.*?)(?=\r?\n--|\r?\n\r?\n|$)#si', $rawEmail, $m)) {
+            $body = strip_tags($m[1]);
+        } else {
+            $parts = preg_split('/\r?\n\r?\n/', $rawEmail, 2);
+            $body = $parts[1] ?? $rawEmail;
+        }
+
+        // Decode Base64 if encoded
+        if (preg_match('/Content-Transfer-Encoding:\s*base64/i', $rawEmail)) {
+            $decoded = base64_decode(preg_replace('/\s+/', '', $body));
+            if ($decoded) {
+                $body = $decoded;
+            }
+        } elseif (preg_match('/Content-Transfer-Encoding:\s*quoted-printable/i', $rawEmail)) {
+            $body = quoted_printable_decode($body);
+        }
+
+        $clean = trim(strip_tags($body));
+
+        // Trim "On ... wrote:" quotes
+        if (preg_match('/^(.*?)(?:On\s+.*wrote:)/si', $clean, $qm)) {
+            if (!empty(trim($qm[1]))) {
+                $clean = trim($qm[1]);
             }
         }
 
-        // 2. Decode Quoted-Printable encoded email bodies if present
-        if (preg_match('/Content-Transfer-Encoding:\s*quoted-printable/i', $fetchOutput)) {
-            $parts = preg_split('/\r?\n\r?\n/', $fetchOutput, 2);
-            $rawBody = $parts[1] ?? '';
-            $rawBody = preg_replace('/--[a-zA-Z0-9_-]+.*/', '', $rawBody);
-            $rawBody = preg_replace('/F\d+ OK.*/', '', $rawBody);
-            $decoded = quoted_printable_decode(trim($rawBody));
-            if (!empty(trim($decoded))) {
-                return trim(strip_tags($decoded));
-            }
-        }
-
-        // 3. Fallback to standard plain text extraction
-        $parts = preg_split('/\r?\n\r?\n/', $fetchOutput, 2);
-        $rawText = $parts[1] ?? $fetchOutput;
-
-        // Remove IMAP completion tags if present
-        $rawText = preg_replace('/F\d+ OK.*/', '', $rawText);
-        $rawText = preg_replace('/\)\s*$/', '', $rawText);
-
-        // Clean HTML tags if plain text wasn't returned
-        $clean = trim(strip_tags($rawText));
-
-        // Trim quotes / legacy quoted headers if present
-        if (str_contains($clean, 'On ') && str_contains($clean, ' wrote:')) {
-            $splitQuote = preg_split('/On\s+.*\s+wrote:/i', $clean);
-            if (!empty(trim($splitQuote[0]))) {
-                $clean = trim($splitQuote[0]);
-            }
+        // Ensure clean UTF-8 string encoding for JSON database storage
+        if (!mb_check_encoding($clean, 'UTF-8')) {
+            $clean = mb_convert_encoding($clean, 'UTF-8', 'UTF-8');
         }
 
         return $clean;
