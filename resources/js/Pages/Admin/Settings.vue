@@ -1,16 +1,16 @@
 <template>
   <AuthenticatedLayout>
-    <template #header>Profile & Site Settings</template>
-    <Head title="Site Settings - Admin" />
+    <template #header>Settings</template>
+    <Head title="Settings - Admin" />
 
     <div class="space-y-8">
       <!-- Page Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-6">
         <div>
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
-            Profile &amp; Site Settings
+            Settings
           </h1>
-          <p class="text-sm text-muted-foreground mt-1">Manage your professional social profile links, downloadable resume URL, bio, and portfolio telemetry stats.</p>
+          <p class="text-sm text-muted-foreground mt-1">Manage your professional social profile links, downloadable resume URL, and portfolio telemetry stats.</p>
         </div>
       </div>
 
@@ -97,6 +97,28 @@
           </div>
         </div>
 
+        <!-- Section 3: Portfolio Display & Homepage Controls -->
+        <div class="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-5 shadow-sm">
+          <h3 class="text-sm font-bold text-white border-b border-neutral-800 pb-3">Portfolio Display &amp; Homepage Controls</h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-neutral-300 mb-1.5">Max Featured Projects Shown on Homepage</label>
+              <input 
+                v-model.number="form.featured_projects_count" 
+                type="number" 
+                min="1"
+                max="50"
+                placeholder="e.g. 3"
+                class="w-full h-10 px-3.5 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-white focus:outline-none transition-colors font-mono" 
+              />
+              <p class="text-[11px] text-neutral-400 mt-1.5 leading-relaxed">
+                Controls how many projects display in the Featured Projects section on the homepage before showing the "Explore All Projects" link.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div class="flex justify-end pt-2">
           <button
             type="submit"
@@ -137,6 +159,7 @@ const form = useForm({
   years_experience: props.settings?.years_experience || '5+',
   completed_projects: props.settings?.completed_projects || '24+',
   satisfied_clients: props.settings?.satisfied_clients || '18+',
+  featured_projects_count: props.settings?.featured_projects_count ? Number(props.settings.featured_projects_count) : 3,
 });
 
 async function submitForm() {
@@ -150,6 +173,7 @@ async function submitForm() {
       years_experience: form.years_experience,
       completed_projects: form.completed_projects,
       satisfied_clients: form.satisfied_clients,
+      featured_projects_count: form.featured_projects_count,
     });
     toast({
       title: 'Settings Saved',

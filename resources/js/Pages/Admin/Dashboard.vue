@@ -117,7 +117,7 @@
               v-for="msg in recent_messages"
               :key="msg.id"
               :href="route('admin.messages.index')"
-              class="group flex items-start gap-3 p-3.5 rounded-xl border border-border/60 bg-muted/30 hover:bg-muted/70 transition-all cursor-pointer block"
+              class="group flex items-start gap-3 p-3.5 rounded-xl border border-border/60 bg-muted/30 hover:bg-muted/70 transition-all cursor-pointer"
             >
               <!-- Avatar Circle -->
               <div class="h-8 w-8 rounded-full bg-muted text-foreground border border-border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 group-hover:border-indigo-500/60 group-hover:text-indigo-400 transition-colors">

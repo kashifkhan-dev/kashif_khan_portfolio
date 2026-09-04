@@ -39,33 +39,36 @@
         <div v-if="currentView === 'list'" class="flex-1 flex flex-col">
           
           <!-- Gmail Action Toolbar / Tabs -->
-          <div class="px-4 py-2.5 border-b border-neutral-800 bg-neutral-900/60 flex items-center justify-between text-xs">
-            <div class="flex items-center gap-3">
-              <!-- Select All Checkbox -->
-              <label class="flex items-center gap-2 cursor-pointer text-neutral-400 hover:text-white select-none">
-                <input 
-                  type="checkbox" 
-                  :checked="isAllSelected" 
-                  @change="toggleSelectAll" 
-                  class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer" 
-                />
-              </label>
+          <div class="px-3.5 py-2.5 border-b border-neutral-800 bg-neutral-900/60 space-y-2.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between text-xs">
+            <!-- Left Side: Checkbox, Refresh & Wrapped Filter Tabs -->
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="flex items-center gap-2 shrink-0">
+                <!-- Select All Checkbox -->
+                <label class="flex items-center gap-2 cursor-pointer text-neutral-400 hover:text-white select-none">
+                  <input 
+                    type="checkbox" 
+                    :checked="isAllSelected" 
+                    @change="toggleSelectAll" 
+                    class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer" 
+                  />
+                </label>
 
-              <button 
-                @click="refreshList" 
-                class="p-1.5 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer" 
-                title="Refresh Inbox"
-              >
-                <RotateCw class="h-4 w-4" />
-              </button>
+                <button 
+                  @click="refreshList" 
+                  class="p-1.5 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer" 
+                  title="Refresh Inbox"
+                >
+                  <RotateCw class="h-4 w-4" />
+                </button>
 
-              <div class="h-4 w-px bg-neutral-800"></div>
+                <div class="h-4 w-px bg-neutral-800"></div>
+              </div>
 
-              <!-- Filter Tabs -->
-              <div class="flex items-center gap-1">
+              <!-- Filter Tabs (Flex Wrapped, No Scrollbar) -->
+              <div class="flex flex-wrap items-center gap-1">
                 <button 
                   @click="activeTab = 'primary'" 
-                  class="px-3 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+                  class="px-2.5 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
                   :class="activeTab === 'primary' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-400 hover:text-white'"
                 >
                   <Inbox class="h-3.5 w-3.5" />
@@ -74,7 +77,7 @@
 
                 <button 
                   @click="activeTab = 'unread'" 
-                  class="px-3 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+                  class="px-2.5 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
                   :class="activeTab === 'unread' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-400 hover:text-white'"
                 >
                   <MailUnread class="h-3.5 w-3.5" />
@@ -83,7 +86,7 @@
 
                 <button 
                   @click="activeTab = 'starred'" 
-                  class="px-3 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+                  class="px-2.5 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
                   :class="activeTab === 'starred' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-400 hover:text-white'"
                 >
                   <Star class="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
@@ -92,8 +95,8 @@
               </div>
             </div>
 
-            <!-- Page Count & Open Gmail Quick Link -->
-            <div class="flex items-center gap-3">
+            <!-- Right Side: Page Count & Open Gmail Quick Link -->
+            <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
               <button 
                 @click="openGmailInbox"
                 class="px-2.5 py-1 rounded-[6px] bg-red-950/40 hover:bg-red-900/60 border border-red-800/60 text-red-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
@@ -122,94 +125,134 @@
               v-for="msg in filteredMessages" 
               :key="msg.id"
               @click="openMessageDetail(msg)"
-              class="px-4 py-3 flex items-center gap-3.5 transition-all cursor-pointer group hover:bg-neutral-900/80"
+              class="transition-all cursor-pointer group hover:bg-neutral-900/80"
               :class="!msg.is_read ? 'bg-neutral-900/40 font-bold' : 'bg-neutral-950 text-neutral-300'"
             >
-              <!-- Checkbox -->
-              <input 
-                type="checkbox" 
-                :value="msg.id" 
-                v-model="selectedIds"
-                @click.stop 
-                class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
-              />
+              <!-- Mobile Item View (< sm) -->
+              <div class="sm:hidden p-3.5 space-y-2">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <input 
+                      type="checkbox" 
+                      :value="msg.id" 
+                      v-model="selectedIds"
+                      @click.stop 
+                      class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
+                    />
+                    <button 
+                      @click.stop="toggleStar(msg.id)" 
+                      class="text-neutral-600 hover:text-amber-400 transition-colors shrink-0"
+                    >
+                      <Star class="h-4 w-4" :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'" />
+                    </button>
+                    <span class="text-xs font-bold text-white truncate">{{ msg.sender_name }}</span>
+                  </div>
 
-              <!-- Star Icon -->
-              <button 
-                @click.stop="toggleStar(msg.id)" 
-                class="text-neutral-600 hover:text-amber-400 transition-colors shrink-0"
-                title="Star message"
-              >
-                <Star 
-                  class="h-4 w-4" 
-                  :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'" 
-                />
-              </button>
-
-              <!-- Sender Name -->
-              <div class="w-44 shrink-0 truncate">
-                <span 
-                  class="text-xs" 
-                  :class="!msg.is_read ? 'font-black text-white' : 'font-semibold text-neutral-300'"
-                >
-                  {{ msg.sender_name }}
-                </span>
-              </div>
-
-              <!-- Subject & Body Snippet Inline -->
-              <div class="flex-1 min-w-0 flex items-center gap-2 truncate">
-                <span 
-                  class="text-xs shrink-0 truncate max-w-[240px]"
-                  :class="!msg.is_read ? 'font-bold text-neutral-100' : 'text-neutral-300'"
-                >
-                  <span class="text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
-                </span>
-                <span class="text-neutral-600 text-xs">—</span>
-                <span class="text-xs text-neutral-500 truncate font-normal">
-                  {{ getLatestSnippet(msg) }}
-                </span>
-              </div>
-
-              <!-- Status Tag (Replied) -->
-              <span 
-                v-if="msg.replied_at" 
-                class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 shrink-0"
-              >
-                Replied
-              </span>
-
-              <!-- Hover Quick Action Buttons & Date -->
-              <div class="flex items-center gap-2 shrink-0">
-                <div class="hidden group-hover:flex items-center gap-1">
-                  <button 
-                    @click.stop="openInGmail(msg)" 
-                    class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors"
-                    title="Open in Gmail to Reply"
-                  >
-                    <ExternalLink class="h-3.5 w-3.5 text-red-400" />
-                  </button>
-
-                  <button 
-                    @click.stop="toggleReadStatus(msg)" 
-                    class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
-                    :title="msg.is_read ? 'Mark as Unread' : 'Mark as Read'"
-                  >
-                    <MailOpen v-if="!msg.is_read" class="h-3.5 w-3.5" />
-                    <Mail class="h-3.5 w-3.5 text-neutral-400" v-else />
-                  </button>
-
-                  <button 
-                    @click.stop="openDeleteModal(msg)" 
-                    class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-rose-400 transition-colors"
-                    title="Delete message"
-                  >
-                    <Trash2 class="h-3.5 w-3.5" />
-                  </button>
+                  <span class="text-[10px] text-neutral-500 font-mono shrink-0">{{ formatDate(msg.created_at) }}</span>
                 </div>
 
-                <span class="text-xs text-neutral-500 font-mono group-hover:hidden">
-                  {{ formatDate(msg.created_at) }}
+                <div class="pl-6.5 text-xs line-clamp-1" :class="!msg.is_read ? 'font-bold text-neutral-100' : 'text-neutral-300'">
+                  <span class="text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
+                </div>
+
+                <div class="pl-6.5 flex items-center justify-between gap-2">
+                  <span class="text-[11px] text-neutral-500 line-clamp-1 font-normal flex-1">
+                    {{ getLatestSnippet(msg) }}
+                  </span>
+                  <span v-if="msg.replied_at" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 shrink-0">
+                    Replied
+                  </span>
+                </div>
+              </div>
+
+              <!-- Desktop Item View (>= sm) -->
+              <div class="hidden sm:flex px-4 py-3 items-center gap-3.5">
+                <!-- Checkbox -->
+                <input 
+                  type="checkbox" 
+                  :value="msg.id" 
+                  v-model="selectedIds"
+                  @click.stop 
+                  class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
+                />
+
+                <!-- Star Icon -->
+                <button 
+                  @click.stop="toggleStar(msg.id)" 
+                  class="text-neutral-600 hover:text-amber-400 transition-colors shrink-0"
+                  title="Star message"
+                >
+                  <Star 
+                    class="h-4 w-4" 
+                    :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'" 
+                  />
+                </button>
+
+                <!-- Sender Name -->
+                <div class="w-44 shrink-0 truncate">
+                  <span 
+                    class="text-xs" 
+                    :class="!msg.is_read ? 'font-black text-white' : 'font-semibold text-neutral-300'"
+                  >
+                    {{ msg.sender_name }}
+                  </span>
+                </div>
+
+                <!-- Subject & Body Snippet Inline -->
+                <div class="flex-1 min-w-0 flex items-center gap-2 truncate">
+                  <span 
+                    class="text-xs shrink-0 truncate max-w-[240px]"
+                    :class="!msg.is_read ? 'font-bold text-neutral-100' : 'text-neutral-300'"
+                  >
+                    <span class="text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
+                  </span>
+                  <span class="text-neutral-600 text-xs">—</span>
+                  <span class="text-xs text-neutral-500 truncate font-normal">
+                    {{ getLatestSnippet(msg) }}
+                  </span>
+                </div>
+
+                <!-- Status Tag (Replied) -->
+                <span 
+                  v-if="msg.replied_at" 
+                  class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 shrink-0"
+                >
+                  Replied
                 </span>
+
+                <!-- Hover Quick Action Buttons & Date -->
+                <div class="flex items-center gap-2 shrink-0">
+                  <div class="hidden group-hover:flex items-center gap-1">
+                    <button 
+                      @click.stop="openInGmail(msg)" 
+                      class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors"
+                      title="Open in Gmail to Reply"
+                    >
+                      <ExternalLink class="h-3.5 w-3.5 text-red-400" />
+                    </button>
+
+                    <button 
+                      @click.stop="toggleReadStatus(msg)" 
+                      class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
+                      :title="msg.is_read ? 'Mark as Unread' : 'Mark as Read'"
+                    >
+                      <MailOpen v-if="!msg.is_read" class="h-3.5 w-3.5" />
+                      <Mail class="h-3.5 w-3.5 text-neutral-400" v-else />
+                    </button>
+
+                    <button 
+                      @click.stop="openDeleteModal(msg)" 
+                      class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-rose-400 transition-colors"
+                      title="Delete message"
+                    >
+                      <Trash2 class="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+
+                  <span class="text-xs text-neutral-500 font-mono group-hover:hidden">
+                    {{ formatDate(msg.created_at) }}
+                  </span>
+                </div>
               </div>
 
             </div>

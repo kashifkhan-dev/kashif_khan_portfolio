@@ -25,6 +25,7 @@ class UpdateSettingRequest extends FormRequest
             'years_experience' => 'nullable|string',
             'completed_projects' => 'nullable|string',
             'satisfied_clients' => 'nullable|string',
+            'featured_projects_count' => 'nullable|integer|min:1|max:50',
         ];
     }
 }
