@@ -2,13 +2,13 @@
   <GuestLayout :canLogin="true" :settings="settings">
     <Head :title="`${project.title} - Project Case Study & Showcase`" />
 
-    <div class="min-h-screen pt-4 sm:pt-8 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6 bg-black">
+    <div class="min-h-screen pt-4 sm:pt-8 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6 bg-white dark:bg-black transition-colors duration-300">
       
       <!-- Clean Top Bar Navigation & Desktop Action Buttons -->
       <div class="flex items-center justify-between">
         <Link 
           :href="route('projects.index')" 
-          class="inline-flex items-center space-x-2 text-xs font-semibold text-neutral-400 hover:text-white transition-colors group"
+          class="inline-flex items-center space-x-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-colors group"
         >
           <ArrowLeft class="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           <span>Back to All Projects</span>
@@ -29,9 +29,9 @@
             v-if="project.github_url"
             :href="project.github_url"
             target="_blank"
-            class="px-3.5 py-2 rounded-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white flex items-center space-x-2 transition-all"
+            class="px-3.5 py-2 rounded-sm bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-xs font-semibold text-slate-800 dark:text-neutral-300 dark:hover:text-white flex items-center space-x-2 transition-all shadow-xs"
           >
-            <Github class="w-4 h-4 text-neutral-400" />
+            <Github class="w-4 h-4 text-slate-600 dark:text-neutral-400" />
             <span>Repository</span>
           </a>
         </div>
@@ -42,20 +42,20 @@
         <div class="flex flex-wrap items-center gap-2">
           <span 
             v-if="project.is_featured"
-            class="px-2.5 py-1 rounded-sm bg-white text-black text-xs font-bold uppercase"
+            class="px-2.5 py-1 rounded-sm bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold uppercase"
           >
             Featured Project
           </span>
-          <span class="px-2.5 py-1 rounded-sm bg-neutral-900 text-neutral-300 text-xs font-mono border border-neutral-800">
+          <span class="px-2.5 py-1 rounded-sm bg-white dark:bg-neutral-900 text-slate-800 dark:text-neutral-300 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs">
             {{ project.category }}
           </span>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
           {{ project.title }}
         </h1>
 
-        <p v-if="project.summary" class="text-base sm:text-lg text-neutral-300 leading-relaxed">
+        <p v-if="project.summary" class="text-base sm:text-lg text-slate-900 dark:text-neutral-100 font-medium leading-relaxed">
           {{ project.summary }}
         </p>
 
@@ -74,9 +74,9 @@
             v-if="project.github_url"
             :href="project.github_url"
             target="_blank"
-            class="px-3.5 py-2 rounded-sm bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white flex items-center space-x-2 transition-all"
+            class="px-3.5 py-2 rounded-sm bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-xs font-semibold text-slate-800 dark:text-neutral-300 dark:hover:text-white flex items-center space-x-2 transition-all shadow-xs"
           >
-            <Github class="w-4 h-4 text-neutral-400" />
+            <Github class="w-4 h-4 text-slate-600 dark:text-neutral-400" />
             <span>Repository</span>
           </a>
         </div>
@@ -86,7 +86,7 @@
           <span
             v-for="(tech, i) in project.tech_stack"
             :key="i"
-            class="px-2.5 py-1 rounded-sm bg-neutral-900 text-neutral-300 text-xs font-mono border border-neutral-800"
+            class="px-2.5 py-1 rounded-sm bg-white dark:bg-neutral-900 text-slate-800 dark:text-neutral-300 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs"
           >
             {{ tech }}
           </span>
@@ -94,42 +94,42 @@
       </div>
 
       <!-- Main Showcase Cover Image -->
-      <div class="relative w-full h-[320px] sm:h-[480px] rounded-xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-2xl group">
+      <div class="relative w-full h-[320px] sm:h-[480px] rounded-xl overflow-hidden border border-slate-200 dark:border-neutral-800 bg-slate-100 dark:bg-neutral-950 shadow-md dark:shadow-2xl group">
         <img
           :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80'"
           :alt="project.title"
           class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
           @error="handleImageError"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 dark:from-black via-transparent to-transparent opacity-60"></div>
       </div>
 
       <!-- Full-Width Main Project Overview Section -->
       <div class="space-y-6 pt-4">
-        <div class="border-b border-neutral-800 pb-3">
-          <h2 class="text-xs uppercase tracking-widest font-bold text-blue-400 flex items-center space-x-2">
-            <FileText class="w-4 h-4 text-blue-400" />
+        <div class="border-b border-slate-200 dark:border-neutral-800 pb-3">
+          <h2 class="text-xs uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400 flex items-center space-x-2">
+            <FileText class="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>Project Overview & Architecture</span>
           </h2>
         </div>
 
         <!-- Formatted HTML Rich Content -->
         <div 
-          class="prose-custom pt-2" 
+          class="prose-custom pt-2 text-slate-900 dark:text-neutral-100 font-normal text-base sm:text-lg leading-relaxed" 
           v-html="project.description || project.summary || 'No detailed overview provided for this project.'"
         ></div>
       </div>
 
       <!-- RELATED PROJECTS SHOWCASE -->
-      <div v-if="relatedProjects && relatedProjects.length" class="pt-16 border-t border-neutral-800 space-y-8">
+      <div v-if="relatedProjects && relatedProjects.length" class="pt-16 border-t border-slate-200 dark:border-neutral-800 space-y-8">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-xs uppercase tracking-widest font-bold text-blue-400">Explore More Work</h2>
-            <h3 class="text-2xl font-extrabold text-white mt-1">Related Projects</h3>
+            <h2 class="text-xs uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400">Explore More Work</h2>
+            <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Related Projects</h3>
           </div>
           <Link
             :href="route('projects.index')"
-            class="text-xs font-semibold text-blue-400 hover:text-blue-300"
+            class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
           >
             View All Projects &rarr;
           </Link>
@@ -139,50 +139,50 @@
           <div
             v-for="rel in relatedProjects"
             :key="rel.id"
-            class="bg-neutral-950 border border-neutral-800 rounded-md overflow-hidden hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-lg"
+            class="bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 rounded-md overflow-hidden hover:border-slate-300 dark:hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-sm dark:shadow-lg"
           >
             <div>
               <!-- Image Header -->
               <Link
                 :href="route('projects.show', rel.slug || rel.id)"
-                class="relative h-56 w-full overflow-hidden bg-black cursor-pointer block"
+                class="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-black cursor-pointer block"
               >
                 <img
                   :src="rel.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
                   :alt="rel.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-85 group-hover:opacity-100"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
                   @error="handleImageError"
                 />
                 <div class="absolute top-4 left-4 flex flex-wrap items-center gap-2">
                   <span
                     v-if="rel.is_featured"
-                    class="px-2.5 py-1 rounded-md bg-white text-black text-xs font-bold uppercase"
+                    class="px-2.5 py-1 rounded-md bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold uppercase"
                   >
                     Featured
                   </span>
-                  <span class="px-2.5 py-1 rounded-md bg-black/80 text-neutral-200 text-xs font-mono border border-neutral-800">
+                  <span class="px-2.5 py-1 rounded-md bg-white/90 text-slate-800 dark:bg-black/80 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs">
                     {{ rel.category }}
                   </span>
                 </div>
               </Link>
 
               <!-- Content Body -->
-              <div class="p-7 space-y-4">
+              <div class="p-5 space-y-3">
                 <Link :href="route('projects.show', rel.slug || rel.id)" class="block">
-                  <h4 class="text-xl sm:text-2xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer line-clamp-1">
+                  <h4 class="text-xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors cursor-pointer line-clamp-1">
                     {{ rel.title }}
                   </h4>
                 </Link>
-                <p class="text-neutral-300 text-sm sm:text-base leading-relaxed line-clamp-3">
+                <p class="text-slate-600 dark:text-neutral-300 text-sm leading-relaxed line-clamp-3">
                   {{ rel.summary || rel.description }}
                 </p>
 
                 <!-- Tech Pills -->
-                <div class="flex flex-wrap gap-2 pt-2">
+                <div class="flex flex-wrap gap-1.5 pt-1">
                   <span
                     v-for="(tech, i) in (rel.tech_stack || [])"
                     :key="i"
-                    class="px-2.5 py-1 rounded-md bg-neutral-900 text-neutral-200 text-xs font-mono border border-neutral-800"
+                    class="px-2.5 py-1 rounded-md bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs"
                   >
                     {{ tech }}
                   </span>
@@ -191,10 +191,10 @@
             </div>
 
             <!-- Card Actions / Footer -->
-            <div class="px-7 py-5 flex items-center justify-between border-t border-neutral-800/80 bg-neutral-950/60 mt-auto">
+            <div class="px-5 py-3.5 flex items-center justify-between border-t border-slate-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-950/60 mt-auto">
               <Link
                 :href="route('projects.show', rel.slug || rel.id)"
-                class="text-sm font-bold text-white hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
+                class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
               >
                 <span>View Details</span>
                 <span>→</span>
@@ -204,7 +204,7 @@
                   v-if="rel.github_url"
                   :href="rel.github_url"
                   target="_blank"
-                  class="text-neutral-300 hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
+                  class="text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
                 >
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
@@ -215,7 +215,7 @@
                   v-if="rel.demo_url"
                   :href="rel.demo_url"
                   target="_blank"
-                  class="px-3.5 py-2 rounded-sm bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
+                  class="px-3.5 py-2 rounded-sm bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black font-bold text-xs dark:hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
                 >
                   <span>Demo</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

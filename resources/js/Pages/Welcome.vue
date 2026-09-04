@@ -3,22 +3,22 @@
     <Head title="Kashif Khan - Full-Stack Engineer" />
 
     <!-- 1. HERO SECTION -->
-    <section id="about" class="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-24 bg-black">
+    <section id="about" class="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-24 bg-white dark:bg-black transition-colors duration-300">
       <div class="w-full text-center space-y-8">
         <!-- Status Pill -->
-        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-300 text-sm font-sans font-medium">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-neutral-200 text-sm font-sans font-medium shadow-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
           <span>{{ settings.availability_status || 'Available for Full-time Roles & Contracts' }}</span>
         </div>
 
         <!-- Headline -->
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-white">
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-slate-900 dark:text-white">
           <span>{{ settings.hero_title_1 || "Hi, I'm Kashif Khan." }}</span> <br v-if="settings.hero_title_2 || !settings.hero_title_1" />
-          <span class="text-neutral-300">{{ settings.hero_title_2 || "Full-Stack Web Engineer." }}</span>
+          <span class="text-slate-600 dark:text-neutral-300">{{ settings.hero_title_2 || "Full-Stack Web Engineer." }}</span>
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-lg sm:text-xl text-neutral-300 leading-relaxed max-w-3xl mx-auto">
+        <p class="text-lg sm:text-xl text-slate-600 dark:text-neutral-300 leading-relaxed max-w-3xl mx-auto">
           {{ settings.hero_subtitle || 'Specializing in React.js, Next.js, Vue 3, Laravel, Tailwind CSS, and modern web applications. Over 5+ years of experience building fast, reliable digital products.' }}
         </p>
 
@@ -26,13 +26,13 @@
         <div class="pt-4 flex flex-wrap items-center justify-center gap-5">
           <a
             :href="settings.hero_cta_primary_link || '#projects'"
-            class="px-8 py-4 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-base shadow-xl transition-all transform hover:scale-[1.02]"
+            class="px-8 py-4 rounded-md bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-black font-bold text-base shadow-xl transition-all transform hover:scale-[1.02]"
           >
             {{ settings.hero_cta_primary_text || 'View My Projects' }}
           </a>
           <a
             :href="settings.hero_cta_secondary_link || '#contact'"
-            class="px-8 py-4 rounded-md bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-200 font-semibold text-base transition-all"
+            class="px-8 py-4 rounded-md bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-neutral-200 font-semibold text-base shadow-xs hover:shadow-sm transition-all"
           >
             {{ settings.hero_cta_secondary_text || 'Get in Touch' }}
           </a>
@@ -41,23 +41,23 @@
     </section>
 
     <!-- 2. CLEAN MINIMALIST TECH STACK SECTION -->
-    <section id="skills" class="py-16 bg-black overflow-hidden relative">
+    <section id="skills" class="py-16 bg-white dark:bg-black transition-colors duration-300 overflow-hidden relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3 mb-10">
-        <h2 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Technical Capability</h2>
-        <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Skills &amp; Technologies</h3>
-        <p class="text-neutral-300 text-sm sm:text-base max-w-xl mx-auto">Frameworks, languages, and modern tools I engineer solutions with.</p>
+        <h2 class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Technical Capability</h2>
+        <h3 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Skills &amp; Technologies</h3>
+        <p class="text-slate-600 dark:text-neutral-300 text-sm sm:text-base max-w-xl mx-auto">Frameworks, languages, and modern tools I engineer solutions with.</p>
       </div>
 
       <!-- Infinite Logo Ticker Ribbon (Borderless Canvas) -->
       <div class="relative w-full overflow-hidden py-4">
-        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
 
         <div class="animate-marquee space-x-10">
           <div
             v-for="(item, idx) in marqueeItems"
             :key="idx"
-            class="text-neutral-300 hover:text-white text-base sm:text-lg font-bold font-sans tracking-tight flex items-center space-x-3 shrink-0 transition-colors cursor-default"
+            class="text-slate-700 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white text-base sm:text-lg font-bold font-sans tracking-tight flex items-center space-x-3 shrink-0 transition-colors cursor-default"
           >
             <TechIcon :name="item.icon || 'api'" class="w-6 h-6 opacity-90" />
             <span>{{ item.name }}</span>
@@ -67,11 +67,11 @@
     </section>
 
     <!-- 3. PROJECTS SHOWCASE -->
-    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-black">
+    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300">
       <div class="text-center space-y-4 mb-16">
-        <h2 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Portfolio</h2>
-        <h3 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Featured Projects</h3>
-        <p class="text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">A selection of recent web applications and platforms.</p>
+        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Portfolio</h2>
+        <h3 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Featured Projects</h3>
+        <p class="text-slate-600 dark:text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">A selection of recent web applications and platforms.</p>
 
         <!-- Category Filters -->
         <div class="pt-6 flex flex-wrap items-center justify-center gap-3">
@@ -79,10 +79,10 @@
             v-for="cat in portfolioStore.availableCategories"
             :key="cat"
             @click="portfolioStore.setProjectCategory(cat)"
-            class="px-5 py-2 rounded-md text-sm font-medium transition-all"
+            class="px-5 py-2 rounded-md text-sm font-medium transition-all cursor-pointer"
             :class="portfolioStore.activeProjectCategory === cat
-              ? 'bg-white text-black font-bold shadow-md'
-              : 'bg-neutral-900 text-neutral-300 hover:text-white hover:bg-neutral-800 border border-neutral-800'"
+              ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-md'
+              : 'bg-white text-slate-700 hover:text-slate-900 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 shadow-xs'"
           >
             {{ cat }}
           </button>
@@ -94,49 +94,49 @@
         <div
           v-for="project in (projects || []).slice(0, Number(settings?.featured_projects_count) || 3)"
           :key="project.id"
-          class="bg-neutral-950 border border-neutral-800 rounded-md overflow-hidden hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-lg"
+          class="bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 rounded-md overflow-hidden hover:border-slate-300 dark:hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-sm dark:shadow-lg"
         >
           <div>
             <!-- Image Header -->
             <Link
               :href="route('projects.show', project.slug || project.id)"
-              class="relative h-56 w-full overflow-hidden bg-black cursor-pointer block"
+              class="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-black cursor-pointer block"
             >
               <img
                 :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
                 :alt="project.title"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-85 group-hover:opacity-100"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
               />
               <div class="absolute top-4 left-4 flex items-center space-x-2">
                 <span
                   v-if="project.is_featured"
-                  class="px-2.5 py-1 rounded-md bg-white text-black text-xs font-bold uppercase"
+                  class="px-2.5 py-1 rounded-md bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold uppercase"
                 >
                   Featured
                 </span>
-                <span class="px-2.5 py-1 rounded-md bg-black/80 text-neutral-200 text-xs font-mono border border-neutral-800">
+                <span class="px-2.5 py-1 rounded-md bg-white/90 text-slate-800 dark:bg-black/80 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs">
                   {{ project.category }}
                 </span>
               </div>
             </Link>
 
             <!-- Content Body -->
-            <div class="p-7 space-y-4">
+            <div class="p-5 space-y-3">
               <Link :href="route('projects.show', project.slug || project.id)" class="block">
-                <h4 class="text-xl sm:text-2xl font-bold text-white hover:text-neutral-300 transition-colors cursor-pointer">
+                <h4 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors cursor-pointer">
                   {{ project.title }}
                 </h4>
               </Link>
-              <p class="text-neutral-300 text-sm sm:text-base leading-relaxed line-clamp-3">
+              <p class="text-slate-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed line-clamp-3">
                 {{ project.summary || project.description }}
               </p>
 
               <!-- Tech Pills -->
-              <div class="flex flex-wrap gap-2 pt-2">
+              <div class="flex flex-wrap gap-1.5 pt-1">
                 <span
                   v-for="(tech, i) in (project.tech_stack || [])"
                   :key="i"
-                  class="px-2.5 py-1 rounded-md bg-neutral-900 text-neutral-200 text-xs font-mono border border-neutral-800"
+                  class="px-2.5 py-1 rounded-md bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs"
                 >
                   {{ tech }}
                 </span>
@@ -145,10 +145,10 @@
           </div>
 
           <!-- Card Actions / Footer -->
-          <div class="px-7 py-5 flex items-center justify-between border-t border-neutral-800/80 bg-neutral-950/60 mt-auto">
+          <div class="px-5 py-3.5 flex items-center justify-between border-t border-slate-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-950/60 mt-auto">
             <Link
               :href="route('projects.show', project.slug || project.id)"
-              class="text-sm font-bold text-white hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
+              class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
             >
               <span>View Details</span>
               <span>→</span>
@@ -158,7 +158,7 @@
                 v-if="project.github_url"
                 :href="project.github_url"
                 target="_blank"
-                class="text-neutral-300 hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
+                class="text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
               >
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
@@ -169,7 +169,7 @@
                 v-if="project.demo_url"
                 :href="project.demo_url"
                 target="_blank"
-                class="px-3.5 py-2 rounded-sm bg-white text-black font-bold text-xs hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
+                class="px-3.5 py-2 rounded-sm bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black font-bold text-xs dark:hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
               >
                 <span>Demo</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,7 +185,7 @@
       <div v-if="(projects || []).length > (Number(settings?.featured_projects_count) || 3)" class="mt-10 text-center">
         <Link
           :href="route('projects.index')"
-          class="px-6 py-2.5 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
+          class="px-6 py-2.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
         >
           <span>Explore All Projects ({{ (projects || []).length }})</span>
           <span class="group-hover:translate-x-1 transition-transform font-mono">→</span>
@@ -194,10 +194,10 @@
     </section>
 
     <!-- 4. NOTION / LINEAR NESTED COLLAPSIBLE EXPERIENCE SECTION -->
-    <section id="experience" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-black border-t border-neutral-800/60">
+    <section id="experience" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300 border-t border-slate-200/80 dark:border-neutral-800/60">
       <!-- Section Title -->
       <div class="mb-10">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Experience</h2>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Experience</h2>
       </div>
 
       <!-- Main Experience Accordion List (Borderless Canvas) -->
@@ -220,12 +220,12 @@
 
             <!-- Company Name & Active Status Dot -->
             <div class="flex items-center space-x-2">
-              <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight">
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                 {{ company.company }}
               </h3>
               <span
                 v-if="company.isActive"
-                class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"
+                class="w-2.5 h-2.5 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-pulse"
                 title="Current Employer"
               ></span>
             </div>
@@ -236,8 +236,8 @@
             <div
               v-for="(role, rIdx) in company.roles"
               :key="role.id"
-              class="space-y-3 border-l-2 border-neutral-900 pl-4 sm:pl-6 transition-colors"
-              :class="{ 'border-neutral-700': role.isOpen }"
+              class="space-y-3 border-l-2 border-slate-200 dark:border-neutral-900 pl-4 sm:pl-6 transition-colors"
+              :class="{ 'border-slate-400 dark:border-neutral-700': role.isOpen }"
             >
               <!-- Role Header Row -->
               <div
@@ -246,15 +246,15 @@
               >
                 <div class="flex items-start space-x-3">
                   <!-- Code Icon Badge -->
-                  <div class="w-7 h-7 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-white group-hover:border-neutral-700 text-xs font-mono flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                  <div class="w-7 h-7 rounded-md bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:border-slate-300 dark:group-hover:border-neutral-700 text-xs font-mono flex items-center justify-center shrink-0 mt-0.5 transition-colors">
                     <span>&lt;/&gt;</span>
                   </div>
 
                   <div>
-                    <h4 class="text-base sm:text-lg font-bold text-white group-hover:text-neutral-200 transition-colors">
+                    <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-neutral-200 transition-colors">
                       {{ role.role }}
                     </h4>
-                    <p class="text-xs font-mono text-neutral-400 mt-0.5 flex items-center space-x-2">
+                    <p class="text-xs font-mono text-slate-500 dark:text-neutral-400 mt-0.5 flex items-center space-x-2">
                       <span>{{ role.employmentType }}</span>
                       <span>&bull;</span>
                       <span>{{ role.period }}</span>
@@ -264,7 +264,7 @@
 
                 <!-- Chevron Collapse Button -->
                 <button
-                  class="p-1.5 text-neutral-400 group-hover:text-white transition-colors"
+                  class="p-1.5 text-slate-500 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors cursor-pointer"
                   :aria-label="role.isOpen ? 'Collapse details' : 'Expand details'"
                 >
                   <svg
@@ -285,20 +285,20 @@
                 <div 
                   v-if="role.rawDescription" 
                   v-html="role.rawDescription" 
-                  class="prose-experience"
+                  class="prose-experience text-slate-800 dark:text-neutral-200 font-medium"
                 ></div>
 
                 <!-- Bullet Highlights List (if highlights exist) -->
                 <ul 
                   v-if="role.bullets && role.bullets.length" 
-                  class="space-y-2.5 text-sm text-neutral-300 font-sans leading-relaxed pl-2 sm:pl-4 pt-1"
+                  class="space-y-2.5 text-sm text-slate-800 dark:text-neutral-200 font-sans font-medium leading-relaxed pl-2 sm:pl-4 pt-1"
                 >
                   <li
                     v-for="(bullet, bIdx) in role.bullets"
                     :key="bIdx"
-                    class="flex items-start space-x-3"
+                    class="flex items-start space-x-3 text-slate-800 dark:text-neutral-200"
                   >
-                    <span class="w-1.5 h-1.5 rounded-full bg-neutral-500 mt-2 shrink-0"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-700 dark:bg-neutral-400 mt-2 shrink-0"></span>
                     <span v-html="bullet"></span>
                   </li>
                 </ul>
@@ -308,7 +308,7 @@
                   <span
                     v-for="(tag, tIdx) in role.tags"
                     :key="tIdx"
-                    class="px-2.5 py-1 rounded-md bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs font-mono hover:border-neutral-700 transition-colors"
+                    class="px-2.5 py-1 rounded-md bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-300 border border-slate-200 dark:border-neutral-800 text-xs font-mono shadow-xs hover:border-slate-300 dark:hover:border-neutral-700 transition-colors"
                   >
                     {{ tag }}
                   </span>
@@ -321,16 +321,16 @@
     </section>
 
     <!-- 5. CREATIVE 2-COLUMN EXECUTIVE CONTACT SECTION -->
-    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-800 bg-black">
+    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
         
         <!-- LEFT COLUMN: Engaging Contact Pitch & Info -->
         <div class="lg:col-span-6 space-y-8">
           <div class="space-y-4">
-            <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
               {{ settings.contact_headline_title || "Let's build something extraordinary together." }}
             </h2>
-            <p class="text-neutral-400 text-base sm:text-lg leading-relaxed">
+            <p class="text-slate-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed">
               {{ settings.contact_subtitle || "Have a project in mind, a software engineering role to discuss, or just want to talk tech? Drop a message or connect directly." }}
             </p>
           </div>
@@ -340,32 +340,32 @@
             <!-- Email Item -->
             <a
               :href="`mailto:${settings.contact_email || 'kashifkhan.dev@gmail.com'}`"
-              class="p-4 rounded-md bg-neutral-950 border border-neutral-800 hover:border-neutral-700 flex items-center space-x-4 transition-all group w-full"
+              class="p-4 rounded-md bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 flex items-center space-x-4 transition-all group w-full shadow-xs"
             >
-              <div class="w-10 h-10 rounded-md bg-neutral-900 border border-neutral-800 text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+              <div class="w-10 h-10 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
               <div>
-                <div class="text-xs font-sans font-semibold text-neutral-400 uppercase tracking-wider">Direct Email</div>
-                <div class="text-sm sm:text-base font-bold text-white font-sans group-hover:text-neutral-200 transition-colors">
+                <div class="text-xs font-sans font-semibold text-slate-500 dark:text-neutral-400 uppercase tracking-wider">Direct Email</div>
+                <div class="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-sans group-hover:text-indigo-600 dark:group-hover:text-neutral-200 transition-colors">
                   {{ settings.contact_email || 'kashifkhan.dev@gmail.com' }}
                 </div>
               </div>
             </a>
 
             <!-- Availability & Location Item -->
-            <div class="p-4 rounded-md bg-neutral-950 border border-neutral-800 flex items-center space-x-4 w-full">
-              <div class="w-10 h-10 rounded-md bg-neutral-900 border border-neutral-800 text-emerald-400 flex items-center justify-center shrink-0">
+            <div class="p-4 rounded-md bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 flex items-center space-x-4 w-full shadow-xs">
+              <div class="w-10 h-10 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-xs">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
               </div>
               <div>
-                <div class="text-xs font-sans font-semibold text-neutral-400 uppercase tracking-wider">Location &amp; Work</div>
-                <div class="text-sm font-bold text-white">
+                <div class="text-xs font-sans font-semibold text-slate-500 dark:text-neutral-400 uppercase tracking-wider">Location &amp; Work</div>
+                <div class="text-sm font-bold text-slate-900 dark:text-white">
                   {{ settings.contact_location || 'Worldwide (Remote / On-site)' }}
                 </div>
               </div>
@@ -373,17 +373,17 @@
           </div>
 
           <!-- Response Guarantee Pill -->
-          <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-xs font-sans font-medium text-neutral-300">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-xs font-sans font-medium text-slate-800 dark:text-neutral-200 shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
             <span>{{ settings.contact_response_time || 'Typical Response Time: < 24 Hours' }}</span>
           </div>
         </div>
 
         <!-- RIGHT COLUMN: Clean Compact Message Form -->
         <div class="lg:col-span-6">
-          <div class="bg-neutral-950 border border-neutral-800 p-6 sm:p-8 rounded-md space-y-6 shadow-xl w-full">
+          <div class="bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 p-6 sm:p-8 rounded-md space-y-6 shadow-sm dark:shadow-xl w-full">
             <div>
-              <h3 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {{ settings.contact_form_title || 'Send a Message' }}
               </h3>
             </div>
@@ -391,52 +391,52 @@
             <form @submit.prevent="submitContactForm" class="space-y-5">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Your Name</label>
+                  <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Your Name</label>
                   <input
                     v-model="form.sender_name"
                     type="text"
                     required
                     placeholder="John Doe"
-                    class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                    class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
                   />
                 </div>
                 <div>
-                  <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Your Email</label>
+                  <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Your Email</label>
                   <input
                     v-model="form.sender_email"
                     type="email"
                     required
                     placeholder="john@example.com"
-                    class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                    class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Subject</label>
+                <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Subject</label>
                 <input
                   v-model="form.subject"
                   type="text"
                   placeholder="Project Inquiry"
-                  class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                  class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
                 />
               </div>
 
               <div>
-                <label class="block text-xs font-sans font-medium text-neutral-300 mb-1.5 uppercase tracking-wider">Message</label>
+                <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Message</label>
                 <textarea
                   v-model="form.body"
                   rows="4"
                   required
                   placeholder="Your message..."
-                  class="w-full px-4 py-2.5 rounded-md bg-black border border-neutral-800 text-white text-sm focus:outline-none focus:border-white transition-colors"
+                  class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
                 :disabled="isSubmitting || form.processing"
-                class="w-full py-3.5 rounded-md bg-white hover:bg-neutral-200 text-black font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-75 flex items-center justify-center space-x-2 shadow-md cursor-pointer"
+                class="w-full py-3.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-75 flex items-center justify-center space-x-2 shadow-md cursor-pointer"
               >
                 <!-- Inline Spinner Icon -->
                 <svg
