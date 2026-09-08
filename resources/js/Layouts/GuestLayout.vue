@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-neutral-100 transition-colors duration-300 selection:bg-slate-900 selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col font-sans relative">
+  <div class="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-neutral-100 transition-colors duration-300 selection:bg-slate-900 selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col font-sans relative overflow-x-hidden">
     <!-- Navigation Bar -->
     <header
       :class="[
@@ -252,6 +252,8 @@ const navLinks = [
   { href: '#skills', label: 'Skills', id: 'skills' },
   { href: '#projects', label: 'Projects', id: 'projects' },
   { href: '#experience', label: 'Experience', id: 'experience' },
+  { href: '#testimonials', label: 'Endorsements', id: 'testimonials' },
+  { href: '#articles', label: 'Articles', id: 'articles' },
   { href: '#contact', label: 'Contact', id: 'contact' },
 ];
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProjectShowController;
+use App\Http\Controllers\ArticleShowController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ContactSectionController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', LandingController::class)->name('home');
 Route::get('/projects', [ProjectShowController::class, 'index'])->name('projects.index');
 Route::get('/projects/{project}', [ProjectShowController::class, 'show'])->name('projects.show');
+Route::get('/articles', [ArticleShowController::class, 'index'])->name('articles.index');
+Route::get('/articles/{slug}', [ArticleShowController::class, 'show'])->name('articles.show');
 Route::post('/contact', ContactController::class)->name('contact.store');
 
 // Legacy /dashboard redirect alias
@@ -39,6 +44,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Projects CRUD
     Route::resource('projects', ProjectController::class)->except(['show']);
+
+    // Technical Articles & Blog CMS CRUD
+    Route::resource('articles', ArticleController::class)->except(['show']);
+    Route::patch('/articles/{article}/toggle-publish', [ArticleController::class, 'togglePublish'])->name('articles.toggle-publish');
+
+    // Client Testimonials & Endorsements CRUD
+    Route::resource('testimonials', TestimonialController::class)->except(['create', 'edit', 'show']);
+    Route::patch('/testimonials/{testimonial}/toggle-active', [TestimonialController::class, 'toggleActive'])->name('testimonials.toggle-active');
 
     // Skills CRUD
     Route::resource('skills', SkillController::class)->except(['create', 'edit', 'show']);
