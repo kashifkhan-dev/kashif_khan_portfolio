@@ -100,87 +100,106 @@
           leave-to-class="translate-x-full"
           appear
         >
-          <div class="absolute top-0 right-0 bottom-0 w-4/5 max-w-sm bg-white dark:bg-neutral-950 border-l border-slate-200 dark:border-neutral-800 p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
-            <div class="space-y-6">
+          <div class="absolute top-0 right-0 bottom-0 w-[84vw] max-w-sm bg-white dark:bg-neutral-950 border-l border-slate-200 dark:border-neutral-800 p-5 sm:p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
+            
+            <div class="space-y-5">
               <!-- Drawer Header -->
-              <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-neutral-800/80">
-                <div class="flex items-center space-x-2">
-                  <span class="font-extrabold text-base text-slate-900 dark:text-white">Kashif Khan</span>
-                  <span class="text-xs text-slate-500 dark:text-neutral-400 font-sans font-medium">/ dev</span>
+              <div class="flex items-center justify-between pb-4 border-b border-slate-200/80 dark:border-neutral-800/80">
+                <div class="flex items-center space-x-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-black font-extrabold text-xs flex items-center justify-center shadow-xs">
+                    KK
+                  </div>
+                  <div>
+                    <span class="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">Kashif Khan</span>
+                    <span class="text-xs text-slate-500 dark:text-neutral-400 font-mono"> / dev</span>
+                  </div>
                 </div>
+
                 <button
                   @click="mobileMenuOpen = false"
-                  class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-900 transition-colors"
+                  class="w-8 h-8 rounded-md border border-slate-200 dark:border-neutral-800 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-900 flex items-center justify-center transition-colors cursor-pointer"
+                  aria-label="Close menu"
                 >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 18L18 6M6 6l12 12"/>
-                  </svg>
+                  <X class="w-4 h-4" />
                 </button>
               </div>
 
-              <!-- Navigation Links with Icons -->
-              <nav class="flex flex-col space-y-1.5 pt-6">
+              <!-- Navigation Links -->
+              <nav class="flex flex-col space-y-1">
                 <a
                   v-for="link in navLinks"
                   :key="link.href"
                   :href="getNavHref(link.id)"
                   @click="handleNavClick($event, link.id); mobileMenuOpen = false"
-                  class="text-sm font-semibold px-4 py-3 rounded-xl transition-all flex items-center space-x-3.5 group"
+                  class="text-sm font-semibold px-3.5 py-2.5 rounded-md transition-all flex items-center justify-between group"
                   :class="activeSection === link.id
-                    ? 'bg-slate-100 text-slate-900 dark:bg-neutral-800/90 dark:text-white font-bold shadow-md border border-slate-200 dark:border-neutral-700/60'
-                    : 'text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-900/80'"
+                    ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-xs font-bold'
+                    : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-900'"
                 >
-                  <span class="w-5 h-5 flex items-center justify-center shrink-0 transition-colors" :class="activeSection === link.id ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white'">
-                    <!-- User Icon for About -->
-                    <svg v-if="link.id === 'about'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                    <!-- Code Icon for Skills -->
-                    <svg v-else-if="link.id === 'skills'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                    </svg>
-                    <!-- Grid Icon for Projects -->
-                    <svg v-else-if="link.id === 'projects'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-                    </svg>
-                    <!-- Briefcase Icon for Experience -->
-                    <svg v-else-if="link.id === 'experience'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    <!-- Mail Icon for Contact -->
-                    <svg v-else-if="link.id === 'contact'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                  </span>
-                  <span>{{ link.label }}</span>
+                  <div class="flex items-center space-x-3">
+                    <component
+                      :is="link.icon"
+                      class="w-4 h-4 transition-colors"
+                      :class="activeSection === link.id
+                        ? 'text-white dark:text-black'
+                        : 'text-slate-400 dark:text-neutral-500 group-hover:text-slate-900 dark:group-hover:text-white'"
+                    />
+                    <span>{{ link.label }}</span>
+                  </div>
                 </a>
 
-                <div class="border-t border-slate-200 dark:border-neutral-800/80 pt-4 mt-2" v-if="canLogin !== false">
+                <!-- Admin Dashboard Link -->
+                <div v-if="canLogin !== false" class="pt-2">
                   <Link
                     :href="route('login')"
                     @click="mobileMenuOpen = false"
-                    class="text-sm font-semibold text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-neutral-900 border border-slate-200 dark:border-neutral-800/60 flex items-center space-x-3.5 transition-all group"
+                    class="text-sm font-semibold text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white px-3.5 py-2.5 rounded-md hover:bg-slate-100 dark:hover:bg-neutral-900 flex items-center space-x-3 transition-colors"
                   >
-                    <svg class="w-5 h-5 text-slate-400 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
+                    <ShieldCheck class="w-4 h-4 text-slate-400 dark:text-neutral-500" />
                     <span>Admin Dashboard</span>
                   </Link>
                 </div>
               </nav>
             </div>
 
-            <!-- Drawer Bottom CTA (Get in Touch Button) -->
-            <div class="pt-6 border-t border-slate-200 dark:border-neutral-800/80">
+            <!-- Drawer Bottom: Get in Touch Button + Centered Social Icons -->
+            <div class="pt-4 border-t border-slate-200/80 dark:border-neutral-800/80 space-y-3.5">
               <a
                 :href="getNavHref('contact')"
                 @click="handleNavClick($event, 'contact'); mobileMenuOpen = false"
-                class="w-full block text-center px-5 py-3.5 text-sm font-bold rounded-xl bg-slate-900 text-white dark:bg-white dark:text-black hover:bg-slate-800 dark:hover:bg-neutral-200 shadow-xl transition-all active:scale-[0.98]"
+                class="w-full py-3 px-4 rounded-md bg-slate-900 text-white dark:bg-white dark:text-black hover:bg-slate-800 dark:hover:bg-neutral-200 font-bold text-sm shadow-md flex items-center justify-center space-x-2 transition-all active:scale-[0.98]"
               >
-                Get in Touch
+                <span>Get in Touch</span>
+                <ArrowRight class="w-4 h-4" />
               </a>
+
+              <div class="flex items-center justify-center space-x-3 pt-1">
+                <a
+                  :href="`mailto:${settings?.contact_email || 'kashif.tech.317@gmail.com'}`"
+                  class="w-8 h-8 rounded-md border border-slate-200 dark:border-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 bg-slate-50 dark:bg-neutral-900 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-all shadow-2xs"
+                  title="Direct Email"
+                >
+                  <Mail class="w-4 h-4" />
+                </a>
+                <a
+                  :href="settings?.github_url || 'https://github.com/kashifkhan-dev'"
+                  target="_blank"
+                  class="w-8 h-8 rounded-md border border-slate-200 dark:border-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 bg-slate-50 dark:bg-neutral-900 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-all shadow-2xs"
+                  title="GitHub"
+                >
+                  <Github class="w-4 h-4" />
+                </a>
+                <a
+                  :href="settings?.linkedin_url || 'https://linkedin.com'"
+                  target="_blank"
+                  class="w-8 h-8 rounded-md border border-slate-200 dark:border-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 bg-slate-50 dark:bg-neutral-900 flex items-center justify-center text-slate-500 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-400 transition-all shadow-2xs"
+                  title="LinkedIn"
+                >
+                  <Linkedin class="w-4 h-4" />
+                </a>
+              </div>
             </div>
+
           </div>
         </Transition>
       </div>
@@ -237,7 +256,22 @@ import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import { useTheme } from '@/Composables/useTheme';
-import { Sun, Moon } from 'lucide-vue-next';
+import {
+  Sun,
+  Moon,
+  User,
+  Code2,
+  LayoutGrid,
+  Briefcase,
+  Award,
+  BookOpen,
+  Mail,
+  X,
+  ArrowRight,
+  ShieldCheck,
+  Github,
+  Linkedin,
+} from 'lucide-vue-next';
 
 defineProps({
   canLogin: Boolean,
@@ -248,13 +282,13 @@ const page = usePage();
 const { isDark, toggleTheme, initTheme } = useTheme();
 
 const navLinks = [
-  { href: '#about', label: 'About', id: 'about' },
-  { href: '#skills', label: 'Skills', id: 'skills' },
-  { href: '#projects', label: 'Projects', id: 'projects' },
-  { href: '#experience', label: 'Experience', id: 'experience' },
-  { href: '#testimonials', label: 'Endorsements', id: 'testimonials' },
-  { href: '#articles', label: 'Articles', id: 'articles' },
-  { href: '#contact', label: 'Contact', id: 'contact' },
+  { href: '#about', label: 'About', id: 'about', icon: User },
+  { href: '#skills', label: 'Skills', id: 'skills', icon: Code2 },
+  { href: '#projects', label: 'Projects', id: 'projects', icon: LayoutGrid },
+  { href: '#experience', label: 'Experience', id: 'experience', icon: Briefcase },
+  { href: '#testimonials', label: 'Endorsements', id: 'testimonials', icon: Award },
+  { href: '#articles', label: 'Articles', id: 'articles', icon: BookOpen },
+  { href: '#contact', label: 'Contact', id: 'contact', icon: Mail },
 ];
 
 const isScrolled = ref(false);
