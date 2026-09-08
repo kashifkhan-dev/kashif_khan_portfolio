@@ -320,7 +320,273 @@
       </div>
     </section>
 
-    <!-- 5. CREATIVE 2-COLUMN EXECUTIVE CONTACT SECTION -->
+    <!-- 5. CLIENT ENDORSEMENTS & RECOMMENDATIONS CAROUSEL -->
+    <section id="testimonials" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300 border-t border-slate-200/80 dark:border-neutral-800/60 overflow-hidden">
+      <div class="text-center space-y-4 mb-16 max-w-3xl mx-auto">
+        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Recommendations</h2>
+        <h3 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Client Endorsements</h3>
+        <p class="text-slate-600 dark:text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">
+          Feedback from technical directors, product managers, and founders on engineering delivery and leadership.
+        </p>
+      </div>
+
+      <!-- Coverflow Deck Carousel Container -->
+      <div
+        v-if="displayedTestimonials.length"
+        @mouseenter="stopAutoplay"
+        @mouseleave="startAutoplay"
+        @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd"
+        class="relative w-full py-6 sm:py-10 space-y-8 select-none overflow-hidden"
+      >
+        <!-- Background Ambient Rings & Glow (Matches user reference) -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <div class="w-[500px] sm:w-[650px] h-[320px] rounded-full bg-gradient-to-r from-blue-600/10 via-indigo-500/10 to-purple-600/10 blur-3xl opacity-70"></div>
+          <div class="absolute w-[400px] sm:w-[480px] h-[400px] sm:h-[480px] rounded-full border border-dashed border-slate-300/40 dark:border-neutral-800/60"></div>
+          <div class="absolute w-[580px] sm:w-[680px] h-[580px] sm:h-[680px] rounded-full border border-dashed border-slate-200/30 dark:border-neutral-800/30"></div>
+        </div>
+
+        <!-- Cards Stage (Stacked overlapping cards) -->
+        <div class="relative w-full h-[400px] sm:h-[380px] flex items-center justify-center">
+          
+          <!-- Floating Left Arrow Button (Desktop / Tablet) -->
+          <button
+            @click="prevTestimonial"
+            class="hidden sm:flex absolute left-2 lg:left-6 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md text-slate-700 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-neutral-800 hover:scale-110 active:scale-95 transition-all shadow-xl items-center justify-center cursor-pointer"
+            title="Previous Endorsement"
+          >
+            <ChevronLeft class="h-5 w-5" />
+          </button>
+
+          <!-- Layered Deck of Cards -->
+          <div
+            v-for="(item, idx) in displayedTestimonials"
+            :key="item.id || idx"
+            @click="onCardClick(idx)"
+            class="absolute top-1/2 left-1/2 w-[86vw] sm:w-[440px] md:w-[480px] lg:w-[500px] h-[360px] sm:h-[350px] rounded-2xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 ease-out shadow-2xl"
+            :style="getCardStyle(idx)"
+            :class="[
+              isCardActive(idx)
+                ? 'border-2 border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 shadow-2xl shadow-indigo-500/10'
+                : 'border border-slate-200/70 dark:border-neutral-800/80 bg-slate-50/90 dark:bg-neutral-950/90 hover:opacity-90 cursor-pointer shadow-lg'
+            ]"
+          >
+            <!-- Watermark Quote Icon in Top Right -->
+            <Quote class="absolute top-4 right-4 h-16 w-16 text-slate-200/50 dark:text-neutral-900/70 pointer-events-none select-none -rotate-6" />
+
+            <!-- Card Top: Rating & Project Reference -->
+            <div class="relative z-10 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-1.5 text-amber-400 bg-amber-400/10 dark:bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/20">
+                <Star
+                  v-for="s in 5"
+                  :key="s"
+                  class="h-3.5 w-3.5"
+                  :class="s <= (item.rating || 5) ? 'fill-amber-400 text-amber-400' : 'text-slate-300 dark:text-neutral-700'"
+                />
+                <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400 ml-0.5">5.0</span>
+              </div>
+
+              <span
+                v-if="item.project_reference"
+                class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-neutral-300 truncate max-w-[200px]"
+                :title="item.project_reference"
+              >
+                {{ item.project_reference }}
+              </span>
+            </div>
+
+            <!-- Card Body: Quote -->
+            <div class="relative z-10 my-auto py-2">
+              <p class="text-sm sm:text-base font-sans font-medium text-slate-800 dark:text-neutral-100 leading-relaxed line-clamp-5">
+                &ldquo;{{ item.quote }}&rdquo;
+              </p>
+            </div>
+
+            <!-- Card Bottom: Client Info -->
+            <div class="relative z-10 pt-4 border-t border-slate-200/70 dark:border-neutral-800/80 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 rounded-full overflow-hidden border-2 border-slate-200 dark:border-neutral-700 bg-slate-200 dark:bg-neutral-800 shrink-0 shadow-xs">
+                  <img
+                    v-if="item.client_avatar"
+                    :src="item.client_avatar"
+                    :alt="item.client_name"
+                    class="w-full h-full object-cover"
+                  />
+                  <div v-else class="w-full h-full flex items-center justify-center font-bold text-xs bg-indigo-600 text-white">
+                    {{ getClientInitials(item.client_name) }}
+                  </div>
+                </div>
+
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <h4 class="text-sm font-bold text-slate-900 dark:text-white truncate">
+                      {{ item.client_name }}
+                    </h4>
+                    <a
+                      v-if="item.linkedin_url"
+                      :href="item.linkedin_url"
+                      target="_blank"
+                      @click.stop
+                      class="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shrink-0"
+                      title="Verified LinkedIn Recommendation"
+                    >
+                      <Linkedin class="h-3 w-3" />
+                    </a>
+                  </div>
+                  <p class="text-[11px] text-slate-500 dark:text-neutral-400 truncate">
+                    {{ item.client_role }} <span v-if="item.company">&bull; {{ item.company }}</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="hidden sm:flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-900/60 shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Verified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Right Arrow Button (Desktop / Tablet) -->
+          <button
+            @click="nextTestimonial"
+            class="hidden sm:flex absolute right-2 lg:right-6 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md text-slate-700 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-neutral-800 hover:scale-110 active:scale-95 transition-all shadow-xl items-center justify-center cursor-pointer"
+            title="Next Endorsement"
+          >
+            <ChevronRight class="h-5 w-5" />
+          </button>
+        </div>
+
+        <!-- Bottom Controls: Prev/Next for mobile + Dots Indicator & Counter -->
+        <div class="flex items-center justify-center gap-3 pt-2">
+          <!-- Mobile Prev Button -->
+          <button
+            @click="prevTestimonial"
+            class="sm:hidden w-8 h-8 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 text-slate-700 dark:text-neutral-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-95"
+            title="Previous Endorsement"
+          >
+            <ChevronLeft class="h-4 w-4" />
+          </button>
+
+          <!-- Animated Indicator Dots -->
+          <div class="flex items-center gap-2">
+            <button
+              v-for="(item, idx) in displayedTestimonials"
+              :key="idx"
+              @click="currentTestimonialIndex = idx"
+              class="h-2 rounded-full transition-all duration-300 cursor-pointer"
+              :class="currentTestimonialIndex === idx 
+                ? 'w-8 bg-slate-900 dark:bg-white shadow-xs' 
+                : 'w-2 bg-slate-300 dark:bg-neutral-800 hover:bg-slate-400 dark:hover:bg-neutral-600'"
+              :title="`Jump to endorsement ${idx + 1}`"
+            />
+          </div>
+
+          <!-- Counter Pill -->
+          <span class="text-xs font-mono font-medium text-slate-400 dark:text-neutral-500 select-none">
+            0{{ currentTestimonialIndex + 1 }} / 0{{ displayedTestimonials.length }}
+          </span>
+
+          <!-- Mobile Next Button -->
+          <button
+            @click="nextTestimonial"
+            class="sm:hidden w-8 h-8 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 text-slate-700 dark:text-neutral-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-95"
+            title="Next Endorsement"
+          >
+            <ChevronRight class="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. LATEST TECHNICAL ARTICLES & CASE STUDIES -->
+    <section id="articles" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300 border-t border-slate-200/80 dark:border-neutral-800/60">
+      <div class="text-center space-y-4 mb-16 max-w-3xl mx-auto">
+        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Technical Articles</h2>
+        <h3 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Engineering Notes &amp; Case Studies</h3>
+        <p class="text-slate-600 dark:text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">
+          In-depth architectural writeups and software optimization benchmarks.
+        </p>
+      </div>
+
+      <!-- Articles Grid -->
+      <div v-if="displayedArticles.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <article
+          v-for="article in displayedArticles"
+          :key="article.id"
+          class="rounded-md border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-neutral-700 hover:shadow-md transition-all flex flex-col justify-between group"
+        >
+          <div>
+            <!-- Thumbnail -->
+            <div class="w-full h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-900 relative">
+              <img
+                v-if="article.cover_image"
+                :src="article.cover_image"
+                :alt="article.title"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div v-else class="w-full h-full flex items-center justify-center text-slate-400 dark:text-neutral-600">
+                <BookOpen class="h-8 w-8" />
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 space-y-3">
+              <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-neutral-400">
+                <span class="flex items-center gap-1">
+                  <Clock class="h-3 w-3" />
+                  <span>{{ article.read_time || 5 }} min read</span>
+                </span>
+                <span>{{ formatArticleDate(article.published_at) }}</span>
+              </div>
+
+              <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                <Link :href="route('articles.show', article.slug)">
+                  {{ article.title }}
+                </Link>
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-neutral-400 line-clamp-3 leading-relaxed">
+                {{ article.excerpt }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="p-6 pt-0 space-y-3 border-t border-slate-100 dark:border-neutral-900/80">
+            <div v-if="article.tags && article.tags.length" class="flex flex-wrap gap-1 pt-3">
+              <span
+                v-for="t in article.tags.slice(0, 3)"
+                :key="t"
+                class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-neutral-900 border border-slate-200/60 dark:border-neutral-800 text-slate-600 dark:text-neutral-400"
+              >
+                {{ t }}
+              </span>
+            </div>
+
+            <Link
+              :href="route('articles.show', article.slug)"
+              class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors pt-1"
+            >
+              <span>Read Full Article</span>
+              <ArrowRight class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </article>
+      </div>
+
+      <!-- Explore Hub CTA -->
+      <div class="mt-12 text-center">
+        <Link
+          :href="route('articles.index')"
+          class="px-6 py-3 rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
+        >
+          <span>Explore All Articles &amp; Case Studies</span>
+          <span class="group-hover:translate-x-1 transition-transform font-mono">→</span>
+        </Link>
+      </div>
+    </section>
+
+    <!-- 7. CREATIVE 2-COLUMN EXECUTIVE CONTACT SECTION -->
     <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
         
@@ -470,7 +736,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
@@ -478,6 +744,16 @@ import ProjectModal from '@/Components/ProjectModal.vue';
 import TechIcon from '@/Components/TechIcon.vue';
 import { usePortfolioStore } from '@/stores/usePortfolioStore';
 import { useToast } from '@/Composables/useToast';
+import {
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  BookOpen,
+  ArrowRight,
+  Linkedin,
+} from 'lucide-vue-next';
 
 const isSubmitting = ref(false);
 const { toast } = useToast();
@@ -486,6 +762,8 @@ const props = defineProps({
   projects: Array,
   skills: Array,
   experiences: Array,
+  testimonials: Array,
+  articles: Array,
   settings: Object,
   canLogin: Boolean,
 });
@@ -756,6 +1034,211 @@ function submitContactForm() {
   })
   .finally(() => {
     isSubmitting.value = false;
+  });
+}
+
+// ----------------------------------------------------------------------
+// Testimonials Carousel Logic
+// ----------------------------------------------------------------------
+const fallbackTestimonials = [
+  {
+    client_name: 'Sarah Jenkins',
+    client_role: 'VP of Engineering',
+    company: 'CloudScale Networks',
+    quote: 'Kashif transformed our legacy admin portal into a lightning-fast Inertia + Vue 3 architecture. His attention to design systems, UX subtleties, and backend query optimization reduced our page load times by over 60%.',
+    rating: 5,
+    project_reference: 'Nexus SaaS Telemetry Dashboard',
+    linkedin_url: 'https://linkedin.com',
+  },
+  {
+    client_name: 'David Sterling',
+    client_role: 'Founder & CEO',
+    company: 'AeroSwift Digital',
+    quote: 'Working with Kashif on the 3D product visualizer was a breath of fresh air. He merged Three.js WebGL rendering with a buttery-smooth Tailwind UI that blew our executive board away. Delivered ahead of schedule with zero friction.',
+    rating: 5,
+    project_reference: 'AeroSwift 3D Product Customizer',
+    linkedin_url: 'https://linkedin.com',
+  },
+];
+
+const displayedTestimonials = computed(() => {
+  if (props.testimonials && props.testimonials.length > 0) {
+    return props.testimonials;
+  }
+  return fallbackTestimonials;
+});
+
+const currentTestimonialIndex = ref(0);
+
+const currentTestimonial = computed(() => {
+  const list = displayedTestimonials.value;
+  if (!list.length) return null;
+  return list[currentTestimonialIndex.value % list.length];
+});
+
+function nextTestimonial() {
+  if (!displayedTestimonials.value.length) return;
+  currentTestimonialIndex.value = (currentTestimonialIndex.value + 1) % displayedTestimonials.value.length;
+}
+
+function prevTestimonial() {
+  if (!displayedTestimonials.value.length) return;
+  currentTestimonialIndex.value = (currentTestimonialIndex.value - 1 + displayedTestimonials.value.length) % displayedTestimonials.value.length;
+}
+
+function isCardActive(index) {
+  const n = displayedTestimonials.value.length;
+  if (!n) return false;
+  return (currentTestimonialIndex.value % n) === index;
+}
+
+function onCardClick(index) {
+  if (currentTestimonialIndex.value !== index) {
+    currentTestimonialIndex.value = index;
+  }
+}
+
+function getCardStyle(index) {
+  const n = displayedTestimonials.value.length;
+  if (!n) return {};
+  if (n === 1) {
+    return {
+      transform: 'translate(-50%, -50%) scale(1)',
+      zIndex: 30,
+      opacity: 1,
+      pointerEvents: 'auto',
+    };
+  }
+
+  // Calculate shortest circular difference from active card
+  let diff = (index - (currentTestimonialIndex.value % n)) % n;
+  if (diff > n / 2) diff -= n;
+  if (diff < -n / 2) diff += n;
+
+  // Active Center Card
+  if (diff === 0) {
+    return {
+      transform: 'translate(-50%, -50%) scale(1)',
+      zIndex: 30,
+      opacity: 1,
+      pointerEvents: 'auto',
+    };
+  }
+
+  // Immediate Left Card
+  if (diff === -1) {
+    return {
+      transform: 'translate(calc(-50% - 46%), -50%) scale(0.9)',
+      zIndex: 20,
+      opacity: 0.72,
+      pointerEvents: 'auto',
+    };
+  }
+
+  // Immediate Right Card
+  if (diff === 1) {
+    return {
+      transform: 'translate(calc(-50% + 46%), -50%) scale(0.9)',
+      zIndex: 20,
+      opacity: 0.72,
+      pointerEvents: 'auto',
+    };
+  }
+
+  // Outer Left Card
+  if (diff === -2) {
+    return {
+      transform: 'translate(calc(-50% - 84%), -50%) scale(0.8)',
+      zIndex: 10,
+      opacity: 0.35,
+      pointerEvents: 'auto',
+    };
+  }
+
+  // Outer Right Card
+  if (diff === 2) {
+    return {
+      transform: 'translate(calc(-50% + 84%), -50%) scale(0.8)',
+      zIndex: 10,
+      opacity: 0.35,
+      pointerEvents: 'auto',
+    };
+  }
+
+  // Far Away Cards (Fade out completely)
+  const xOffset = diff > 0 ? '110%' : '-110%';
+  return {
+    transform: `translate(calc(-50% + ${xOffset}), -50%) scale(0.7)`,
+    zIndex: 0,
+    opacity: 0,
+    pointerEvents: 'none',
+  };
+}
+
+let touchStartX = 0;
+function handleTouchStart(e) {
+  if (e.touches && e.touches[0]) {
+    touchStartX = e.touches[0].clientX;
+  }
+}
+
+function handleTouchEnd(e) {
+  if (e.changedTouches && e.changedTouches[0]) {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 40) {
+      nextTestimonial();
+    } else if (diff < -40) {
+      prevTestimonial();
+    }
+  }
+}
+
+let autoplayTimer = null;
+
+function startAutoplay() {
+  stopAutoplay();
+  autoplayTimer = setInterval(() => {
+    nextTestimonial();
+  }, 7000);
+}
+
+function stopAutoplay() {
+  if (autoplayTimer) {
+    clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  }
+}
+
+function getClientInitials(name) {
+  if (!name) return 'KK';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+}
+
+onMounted(() => {
+  startAutoplay();
+});
+
+onUnmounted(() => {
+  stopAutoplay();
+});
+
+// ----------------------------------------------------------------------
+// Articles Section Logic
+// ----------------------------------------------------------------------
+const displayedArticles = computed(() => {
+  return (props.articles && props.articles.length > 0) ? props.articles.slice(0, 3) : [];
+});
+
+function formatArticleDate(dateStr) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
   });
 }
 </script>

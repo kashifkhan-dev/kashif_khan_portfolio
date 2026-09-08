@@ -442,7 +442,9 @@ import {
   Menu,
   X,
   Sun,
-  Moon
+  Moon,
+  BookOpen,
+  Quote
 } from 'lucide-vue-next';
 
 const page = usePage();
@@ -510,6 +512,8 @@ const searchActions = computed(() => [
   { title: 'Hero Section Editor', desc: 'Customize main landing text & code frame', routeName: 'admin.hero.index', icon: Sparkles },
   { title: 'Contact Section Manager', desc: 'Customize contact pitch, email & form preview', routeName: 'admin.contact.index', icon: MessageSquare },
   { title: 'Projects Manager', desc: 'Create, edit & manage portfolio projects', routeName: 'admin.projects.index', icon: FolderGit2 },
+  { title: 'Articles CMS', desc: 'Publish engineering writeups & technical articles', routeName: 'admin.articles.index', icon: BookOpen },
+  { title: 'Client Testimonials', desc: 'Manage client endorsements & recommendations', routeName: 'admin.testimonials.index', icon: Quote },
   { title: 'Skills Matrix', desc: 'Manage tech stack icons ticker & proficiency', routeName: 'admin.skills.index', icon: Cpu },
   { title: 'Experience Timeline', desc: 'Career background & work milestones', routeName: 'admin.experiences.index', icon: Briefcase },
   { title: 'Inquiries Inbox', desc: 'Manage client messages & Gmail replies', routeName: 'admin.messages.index', icon: Mail },
@@ -586,6 +590,8 @@ const currentRouteTitle = computed(() => {
   if (route().current('admin.hero.*')) return 'Hero Section Editor';
   if (route().current('admin.contact.*')) return 'Contact Section Manager';
   if (route().current('admin.projects.*')) return 'Projects Manager';
+  if (route().current('admin.articles.*')) return 'Articles CMS';
+  if (route().current('admin.testimonials.*')) return 'Client Testimonials';
   if (route().current('admin.skills.*')) return 'Skills Matrix';
   if (route().current('admin.experiences.*')) return 'Experience Timeline';
   if (route().current('admin.messages.*')) return 'Inquiries Inbox';
@@ -598,6 +604,8 @@ const navItems = computed(() => [
   { name: 'Hero Section', route: route('admin.hero.index'), active: route().current('admin.hero.*'), icon: Sparkles },
   { name: 'Contact Section', route: route('admin.contact.index'), active: route().current('admin.contact.*'), icon: MessageSquare },
   { name: 'Projects Manager', route: route('admin.projects.index'), active: route().current('admin.projects.*'), icon: FolderGit2 },
+  { name: 'Articles CMS', route: route('admin.articles.index'), active: route().current('admin.articles.*'), icon: BookOpen },
+  { name: 'Testimonials', route: route('admin.testimonials.index'), active: route().current('admin.testimonials.*'), icon: Quote },
   { name: 'Skills Matrix', route: route('admin.skills.index'), active: route().current('admin.skills.*'), icon: Cpu },
   { name: 'Experience Timeline', route: route('admin.experiences.index'), active: route().current('admin.experiences.*'), icon: Briefcase },
   { name: 'Inquiries Inbox', route: route('admin.messages.index'), active: route().current('admin.messages.*'), icon: Mail },

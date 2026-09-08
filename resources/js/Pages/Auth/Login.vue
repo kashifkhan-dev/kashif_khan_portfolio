@@ -71,11 +71,11 @@
           </div>
 
           <div class="flex items-center justify-between pt-1">
-            <label class="flex items-center space-x-2 text-xs text-neutral-300 cursor-pointer">
+            <label class="flex items-center space-x-2 text-xs text-neutral-300 cursor-pointer select-none">
               <input
                 v-model="form.remember"
                 type="checkbox"
-                class="rounded-sm bg-black border-neutral-800 text-blue-500 focus:ring-0 focus:ring-offset-0 cursor-pointer"
+                class="h-4 w-4 rounded-[3px] border border-neutral-600 bg-neutral-900 text-blue-500 checked:bg-blue-500 checked:border-blue-500 focus:ring-0 focus:ring-offset-0 cursor-pointer"
               />
               <span>Remember me</span>
             </label>
