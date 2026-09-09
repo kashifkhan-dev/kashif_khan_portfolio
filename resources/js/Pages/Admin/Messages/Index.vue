@@ -6,62 +6,62 @@
     <div class="space-y-5">
       
       <!-- Top Page Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-neutral-800 pb-4">
         <div>
-          <h1 class="text-2xl font-extrabold tracking-tight text-white flex items-center gap-3">
+          <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
             <Mail class="h-6 w-6 text-red-500" />
             <span>Gmail Inquiries</span>
-            <span class="px-2.5 py-0.5 rounded-[6px] text-xs font-semibold bg-neutral-900 text-neutral-400 border border-neutral-800">
+            <span class="px-2.5 py-0.5 rounded-[6px] text-xs font-semibold bg-white dark:bg-neutral-900 text-slate-700 dark:text-neutral-400 border border-slate-200 dark:border-neutral-800 shadow-2xs">
               {{ unreadCount }} unread
             </span>
           </h1>
-          <p class="text-xs text-neutral-400 mt-1">Manage client messages and reply directly via Gmail SMTP mailer.</p>
+          <p class="text-xs text-slate-500 dark:text-neutral-400 mt-1">Manage client messages and reply directly via Gmail SMTP mailer.</p>
         </div>
 
         <!-- Top Search Bar -->
         <div class="flex items-center gap-3">
           <div class="relative w-full sm:w-80">
-            <Search class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+            <Search class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             <input 
               v-model="searchQuery" 
               type="text" 
               placeholder="Search mail by sender, email, or subject..." 
-              class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-neutral-800 bg-neutral-900 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-neutral-600 transition-colors" 
+              class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-900 dark:text-white text-xs placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white shadow-2xs transition-colors" 
             />
           </div>
         </div>
       </div>
 
       <!-- MAIN GMAIL CANVAS -->
-      <div class="rounded-[10px] border border-neutral-800 bg-neutral-950 shadow-2xl overflow-hidden min-h-[620px] flex flex-col">
+      <div class="rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-xs dark:shadow-2xl overflow-hidden min-h-[620px] flex flex-col">
         
         <!-- GMAIL INBOX LIST VIEW -->
         <div v-if="currentView === 'list'" class="flex-1 flex flex-col">
           
           <!-- Gmail Action Toolbar / Tabs -->
-          <div class="px-3.5 py-2.5 border-b border-neutral-800 bg-neutral-900/60 space-y-2.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between text-xs">
+          <div class="px-3.5 py-2.5 border-b border-slate-200 dark:border-neutral-800 bg-slate-50/70 dark:bg-neutral-900/60 space-y-2.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between text-xs">
             <!-- Left Side: Checkbox, Refresh & Wrapped Filter Tabs -->
             <div class="flex flex-wrap items-center gap-2">
               <div class="flex items-center gap-2 shrink-0">
                 <!-- Select All Checkbox -->
-                <label class="flex items-center gap-2 cursor-pointer text-neutral-400 hover:text-white select-none">
+                <label class="flex items-center gap-2 cursor-pointer text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white select-none">
                   <input 
                     type="checkbox" 
                     :checked="isAllSelected" 
                     @change="toggleSelectAll" 
-                    class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer" 
+                    class="rounded-[4px] border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-slate-900 focus:ring-0 h-4 w-4 cursor-pointer" 
                   />
                 </label>
 
                 <button 
                   @click="refreshList" 
-                  class="p-1.5 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer" 
+                  class="p-1.5 rounded-[4px] hover:bg-slate-200/60 dark:hover:bg-neutral-800 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-colors cursor-pointer" 
                   title="Refresh Inbox"
                 >
                   <RotateCw class="h-4 w-4" />
                 </button>
 
-                <div class="h-4 w-px bg-neutral-800"></div>
+                <div class="h-4 w-px bg-slate-200 dark:bg-neutral-800"></div>
               </div>
 
               <!-- Filter Tabs (Flex Wrapped, No Scrollbar) -->
@@ -69,7 +69,7 @@
                 <button 
                   @click="activeTab = 'primary'" 
                   class="px-2.5 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
-                  :class="activeTab === 'primary' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-400 hover:text-white'"
+                  :class="activeTab === 'primary' ? 'bg-white dark:bg-neutral-800 text-slate-900 dark:text-white border border-slate-300 dark:border-neutral-700 shadow-2xs' : 'text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white'"
                 >
                   <Inbox class="h-3.5 w-3.5" />
                   <span>Primary ({{ messages.length }})</span>
@@ -78,7 +78,7 @@
                 <button 
                   @click="activeTab = 'unread'" 
                   class="px-2.5 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
-                  :class="activeTab === 'unread' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-400 hover:text-white'"
+                  :class="activeTab === 'unread' ? 'bg-white dark:bg-neutral-800 text-slate-900 dark:text-white border border-slate-300 dark:border-neutral-700 shadow-2xs' : 'text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white'"
                 >
                   <MailUnread class="h-3.5 w-3.5" />
                   <span>Unread ({{ unreadCount }})</span>
@@ -87,7 +87,7 @@
                 <button 
                   @click="activeTab = 'starred'" 
                   class="px-2.5 py-1 rounded-[6px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
-                  :class="activeTab === 'starred' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-400 hover:text-white'"
+                  :class="activeTab === 'starred' ? 'bg-white dark:bg-neutral-800 text-slate-900 dark:text-white border border-slate-300 dark:border-neutral-700 shadow-2xs' : 'text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white'"
                 >
                   <Star class="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
                   <span>Starred ({{ starredIds.length }})</span>
@@ -96,37 +96,37 @@
             </div>
 
             <!-- Right Side: Page Count & Open Gmail Quick Link -->
-            <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
+            <div class="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200 dark:border-neutral-800/60">
               <button 
                 @click="openGmailInbox"
-                class="px-2.5 py-1 rounded-[6px] bg-red-950/40 hover:bg-red-900/60 border border-red-800/60 text-red-300 hover:text-white text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                class="px-2.5 py-1 rounded-[6px] bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-300 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 title="Open Gmail Inbox in a new browser tab"
               >
-                <ExternalLink class="h-3.5 w-3.5 text-red-400" />
+                <ExternalLink class="h-3.5 w-3.5 text-red-500" />
                 <span>Open Gmail</span>
               </button>
 
-              <div class="text-[11px] text-neutral-500 font-mono">
+              <div class="text-[11px] text-slate-500 dark:text-neutral-500 font-mono">
                 1–{{ filteredMessages.length }} of {{ filteredMessages.length }}
               </div>
             </div>
           </div>
 
           <!-- Empty Inbox State -->
-          <div v-if="!filteredMessages.length" class="flex-1 flex flex-col items-center justify-center p-16 text-center text-neutral-500">
-            <Inbox class="h-12 w-12 text-neutral-700 mb-3" />
-            <h3 class="text-sm font-bold text-neutral-300">Your inbox is empty</h3>
-            <p class="text-xs text-neutral-500 mt-1">No email messages match your filter query.</p>
+          <div v-if="!filteredMessages.length" class="flex-1 flex flex-col items-center justify-center p-16 text-center text-slate-400 dark:text-neutral-500">
+            <Inbox class="h-12 w-12 text-slate-300 dark:text-neutral-700 mb-3" />
+            <h3 class="text-sm font-bold text-slate-800 dark:text-neutral-300">Your inbox is empty</h3>
+            <p class="text-xs text-slate-400 dark:text-neutral-500 mt-1">No email messages match your filter query.</p>
           </div>
 
           <!-- Gmail Table Rows -->
-          <div v-else class="divide-y divide-neutral-800/60 overflow-y-auto max-h-[580px]">
+          <div v-else class="divide-y divide-slate-100 dark:divide-neutral-800/60 overflow-y-auto max-h-[580px]">
             <div 
               v-for="msg in filteredMessages" 
               :key="msg.id"
               @click="openMessageDetail(msg)"
-              class="transition-all cursor-pointer group hover:bg-neutral-900/80"
-              :class="!msg.is_read ? 'bg-neutral-900/40 font-bold' : 'bg-neutral-950 text-neutral-300'"
+              class="transition-all cursor-pointer group hover:bg-slate-50 dark:hover:bg-neutral-900/80"
+              :class="!msg.is_read ? 'bg-slate-50/80 dark:bg-neutral-900/40 font-bold' : 'bg-white dark:bg-neutral-950 text-slate-600 dark:text-neutral-300'"
             >
               <!-- Mobile Item View (< sm) -->
               <div class="sm:hidden p-3.5 space-y-2">
@@ -135,31 +135,31 @@
                     <input 
                       type="checkbox" 
                       :value="msg.id" 
-                      v-model="selectedIds"
+                      v-model="selectedIds" 
                       @click.stop 
-                      class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
+                      class="rounded-[4px] border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-slate-900 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
                     />
                     <button 
                       @click.stop="toggleStar(msg.id)" 
-                      class="text-neutral-600 hover:text-amber-400 transition-colors shrink-0"
+                      class="text-slate-300 hover:text-amber-400 dark:text-neutral-600 transition-colors shrink-0"
                     >
-                      <Star class="h-4 w-4" :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'" />
+                      <Star class="h-4 w-4" :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-slate-300 dark:text-neutral-600'" />
                     </button>
-                    <span class="text-xs font-bold text-white truncate">{{ msg.sender_name }}</span>
+                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">{{ msg.sender_name }}</span>
                   </div>
 
-                  <span class="text-[10px] text-neutral-500 font-mono shrink-0">{{ formatDate(msg.created_at) }}</span>
+                  <span class="text-[10px] text-slate-400 dark:text-neutral-500 font-mono shrink-0">{{ formatDate(msg.created_at) }}</span>
                 </div>
 
-                <div class="pl-6.5 text-xs line-clamp-1" :class="!msg.is_read ? 'font-bold text-neutral-100' : 'text-neutral-300'">
-                  <span class="text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
+                <div class="pl-6.5 text-xs line-clamp-1" :class="!msg.is_read ? 'font-bold text-slate-900 dark:text-neutral-100' : 'text-slate-600 dark:text-neutral-300'">
+                  <span class="text-slate-400 dark:text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
                 </div>
 
                 <div class="pl-6.5 flex items-center justify-between gap-2">
-                  <span class="text-[11px] text-neutral-500 line-clamp-1 font-normal flex-1">
+                  <span class="text-[11px] text-slate-500 dark:text-neutral-500 line-clamp-1 font-normal flex-1">
                     {{ getLatestSnippet(msg) }}
                   </span>
-                  <span v-if="msg.replied_at" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 shrink-0">
+                  <span v-if="msg.replied_at" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800 shrink-0">
                     Replied
                   </span>
                 </div>
@@ -171,20 +171,20 @@
                 <input 
                   type="checkbox" 
                   :value="msg.id" 
-                  v-model="selectedIds"
+                  v-model="selectedIds" 
                   @click.stop 
-                  class="rounded border-neutral-700 bg-neutral-900 text-indigo-500 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
+                  class="rounded-[4px] border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-slate-900 focus:ring-0 h-4 w-4 cursor-pointer shrink-0" 
                 />
 
                 <!-- Star Icon -->
                 <button 
                   @click.stop="toggleStar(msg.id)" 
-                  class="text-neutral-600 hover:text-amber-400 transition-colors shrink-0"
+                  class="text-slate-300 hover:text-amber-400 dark:text-neutral-600 transition-colors shrink-0 cursor-pointer"
                   title="Star message"
                 >
                   <Star 
                     class="h-4 w-4" 
-                    :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-neutral-600'" 
+                    :class="starredIds.includes(msg.id) ? 'text-amber-400 fill-amber-400' : 'text-slate-300 dark:text-neutral-600'" 
                   />
                 </button>
 
@@ -192,7 +192,7 @@
                 <div class="w-44 shrink-0 truncate">
                   <span 
                     class="text-xs" 
-                    :class="!msg.is_read ? 'font-black text-white' : 'font-semibold text-neutral-300'"
+                    :class="!msg.is_read ? 'font-bold text-slate-900 dark:text-white' : 'font-semibold text-slate-600 dark:text-neutral-300'"
                   >
                     {{ msg.sender_name }}
                   </span>
@@ -202,12 +202,12 @@
                 <div class="flex-1 min-w-0 flex items-center gap-2 truncate">
                   <span 
                     class="text-xs shrink-0 truncate max-w-[240px]"
-                    :class="!msg.is_read ? 'font-bold text-neutral-100' : 'text-neutral-300'"
+                    :class="!msg.is_read ? 'font-bold text-slate-900 dark:text-neutral-100' : 'text-slate-700 dark:text-neutral-300'"
                   >
-                    <span class="text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
+                    <span class="text-slate-400 dark:text-neutral-500 font-medium">Subject:</span> {{ msg.subject || 'No Subject' }}
                   </span>
-                  <span class="text-neutral-600 text-xs">—</span>
-                  <span class="text-xs text-neutral-500 truncate font-normal">
+                  <span class="text-slate-300 dark:text-neutral-600 text-xs">—</span>
+                  <span class="text-xs text-slate-500 dark:text-neutral-500 truncate font-normal">
                     {{ getLatestSnippet(msg) }}
                   </span>
                 </div>
@@ -215,7 +215,7 @@
                 <!-- Status Tag (Replied) -->
                 <span 
                   v-if="msg.replied_at" 
-                  class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 shrink-0"
+                  class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800 shrink-0"
                 >
                   Replied
                 </span>
@@ -225,31 +225,31 @@
                   <div class="hidden group-hover:flex items-center gap-1">
                     <button 
                       @click.stop="openInGmail(msg)" 
-                      class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors"
+                      class="p-1 rounded-[4px] hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-400 hover:text-red-500 transition-colors cursor-pointer"
                       title="Open in Gmail to Reply"
                     >
-                      <ExternalLink class="h-3.5 w-3.5 text-red-400" />
+                      <ExternalLink class="h-3.5 w-3.5 text-red-500" />
                     </button>
 
                     <button 
                       @click.stop="toggleReadStatus(msg)" 
-                      class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
+                      class="p-1 rounded-[4px] hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                       :title="msg.is_read ? 'Mark as Unread' : 'Mark as Read'"
                     >
                       <MailOpen v-if="!msg.is_read" class="h-3.5 w-3.5" />
-                      <Mail class="h-3.5 w-3.5 text-neutral-400" v-else />
+                      <Mail class="h-3.5 w-3.5 text-slate-400" v-else />
                     </button>
 
                     <button 
                       @click.stop="openDeleteModal(msg)" 
-                      class="p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-rose-400 transition-colors"
+                      class="p-1 rounded-[4px] hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-400 hover:text-red-600 transition-colors cursor-pointer"
                       title="Delete message"
                     >
                       <Trash2 class="h-3.5 w-3.5" />
                     </button>
                   </div>
 
-                  <span class="text-xs text-neutral-500 font-mono group-hover:hidden">
+                  <span class="text-xs text-slate-400 dark:text-neutral-500 font-mono group-hover:hidden">
                     {{ formatDate(msg.created_at) }}
                   </span>
                 </div>
@@ -261,25 +261,25 @@
         </div>
 
         <!-- GMAIL THREAD / DETAIL VIEW -->
-        <div v-else-if="currentView === 'detail' && selectedMsg" class="flex-1 flex flex-col bg-neutral-950">
+        <div v-else-if="currentView === 'detail' && selectedMsg" class="flex-1 flex flex-col bg-white dark:bg-neutral-950">
           
           <!-- Gmail Action Bar -->
-          <div class="px-5 py-3 border-b border-neutral-800 bg-neutral-900/60 flex items-center justify-between">
+          <div class="px-5 py-3 border-b border-slate-200 dark:border-neutral-800 bg-slate-50/70 dark:bg-neutral-900/60 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <button 
                 @click="closeDetailView" 
-                class="h-8 px-3 rounded-[6px] border border-neutral-800 bg-neutral-900 text-neutral-300 hover:text-white hover:bg-neutral-800 text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+                class="h-8 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-neutral-800 text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 title="Back to inbox list"
               >
                 <ArrowLeft class="h-4 w-4" />
                 <span>Back to Inbox</span>
               </button>
 
-              <div class="h-4 w-px bg-neutral-800"></div>
+              <div class="h-4 w-px bg-slate-200 dark:bg-neutral-800"></div>
 
               <button 
                 @click="toggleReadStatus(selectedMsg)" 
-                class="p-1.5 rounded-[6px] hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                class="p-1.5 rounded-[6px] hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
                 :title="selectedMsg.is_read ? 'Mark as Unread' : 'Mark as Read'"
               >
                 <MailOpen class="h-4 w-4" />
@@ -287,7 +287,7 @@
 
               <button 
                 @click="openDeleteModal(selectedMsg)" 
-                class="p-1.5 rounded-[6px] hover:bg-neutral-800 text-neutral-400 hover:text-rose-400 transition-colors cursor-pointer"
+                class="p-1.5 rounded-[6px] hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-400 hover:text-red-600 transition-colors cursor-pointer"
                 title="Delete Email"
               >
                 <Trash2 class="h-4 w-4" />
@@ -295,29 +295,29 @@
 
               <button 
                 @click="toggleStar(selectedMsg.id)" 
-                class="p-1.5 rounded-[6px] hover:bg-neutral-800 transition-colors cursor-pointer"
+                class="p-1.5 rounded-[6px] hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
                 title="Star Email"
               >
                 <Star 
                   class="h-4 w-4" 
-                  :class="starredIds.includes(selectedMsg.id) ? 'text-amber-400 fill-amber-400' : 'text-neutral-400'" 
+                  :class="starredIds.includes(selectedMsg.id) ? 'text-amber-400 fill-amber-400' : 'text-slate-400'" 
                 />
               </button>
             </div>
 
-            <span class="text-xs text-neutral-500 font-mono">Inquiry #{{ selectedMsg.id }}</span>
+            <span class="text-xs text-slate-400 dark:text-neutral-500 font-mono">Inquiry #{{ selectedMsg.id }}</span>
           </div>
 
           <!-- Clean Gmail Thread Canvas -->
           <div class="p-6 md:p-8 flex-1 overflow-y-auto space-y-6">
             
             <!-- Email Subject Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-neutral-800">
-              <h2 class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span class="text-neutral-400 font-semibold text-sm">Subject:</span>
+            <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-neutral-800">
+              <h2 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                <span class="text-slate-400 dark:text-neutral-400 font-semibold text-sm">Subject:</span>
                 <span>{{ selectedMsg.subject || 'No Subject' }}</span>
               </h2>
-              <span class="px-2.5 py-1 rounded-[6px] text-xs font-bold bg-neutral-900 text-neutral-400 border border-neutral-800">
+              <span class="px-2.5 py-1 rounded-[6px] text-xs font-bold bg-slate-100 text-slate-700 dark:bg-neutral-900 dark:text-neutral-400 border border-slate-200 dark:border-neutral-800">
                 Inbox
               </span>
             </div>
@@ -335,23 +335,23 @@
                     {{ getInitials(selectedMsg.sender_name) }}
                   </div>
                   <div>
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <span>{{ selectedMsg.sender_name }}</span>
-                      <span class="text-xs text-neutral-400 font-mono font-normal">&lt;{{ selectedMsg.sender_email }}&gt;</span>
+                      <span class="text-xs text-slate-400 dark:text-neutral-400 font-mono font-normal">&lt;{{ selectedMsg.sender_email }}&gt;</span>
                     </h3>
-                    <p class="text-xs text-neutral-500 font-mono mt-0.5">
+                    <p class="text-xs text-slate-400 dark:text-neutral-500 font-mono mt-0.5">
                       to me
                     </p>
                   </div>
                 </div>
 
                 <div class="text-right space-y-1">
-                  <span class="text-xs text-neutral-400 font-mono block">
+                  <span class="text-xs text-slate-400 dark:text-neutral-400 font-mono block">
                     {{ formatFullDate(selectedMsg.created_at) }}
                   </span>
                   <button 
                     @click="scrollToReply" 
-                    class="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 font-semibold cursor-pointer"
+                    class="inline-flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-semibold cursor-pointer"
                   >
                     <Reply class="h-3.5 w-3.5" />
                     <span>Reply</span>
@@ -360,7 +360,7 @@
               </div>
 
               <!-- Message Body Text (Clean borderless Gmail typography) -->
-              <div class="sm:pl-14 text-sm text-neutral-200 leading-relaxed whitespace-pre-line font-sans">
+              <div class="sm:pl-14 text-sm text-slate-800 dark:text-neutral-200 leading-relaxed whitespace-pre-line font-sans">
                 {{ selectedMsg.body }}
               </div>
             </div>
@@ -369,7 +369,7 @@
             <div 
               v-for="(reply, idx) in messageReplies" 
               :key="idx" 
-              class="pt-6 border-t border-neutral-800/80 space-y-4"
+              class="pt-6 border-t border-slate-200 dark:border-neutral-800/80 space-y-4"
             >
               <!-- Admin Reply Details Bar -->
               <div class="flex items-start justify-between gap-4">
@@ -378,57 +378,57 @@
                     YOU
                   </div>
                   <div>
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <span>You</span>
-                      <span class="text-xs text-neutral-400 font-mono font-normal">to {{ selectedMsg.sender_name }}</span>
-                      <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800/80">
+                      <span class="text-xs text-slate-400 dark:text-neutral-400 font-mono font-normal">to {{ selectedMsg.sender_name }}</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800/80">
                         {{ messageReplies.length > 1 ? `Reply #${idx + 1}` : 'Replied' }}
                       </span>
                     </h3>
-                    <p class="text-xs text-neutral-500 font-mono mt-0.5">
+                    <p class="text-xs text-slate-400 dark:text-neutral-500 font-mono mt-0.5">
                       from &lt;{{ selectedMsg.sender_email }}&gt;
                     </p>
                   </div>
                 </div>
 
-                <span class="text-xs text-neutral-400 font-mono" v-if="reply.created_at">
+                <span class="text-xs text-slate-400 dark:text-neutral-400 font-mono" v-if="reply.created_at">
                   {{ formatFullDate(reply.created_at) }}
                 </span>
               </div>
 
               <!-- Sent Reply Body Text -->
-              <div class="sm:pl-14 text-sm text-neutral-200 leading-relaxed whitespace-pre-line font-sans border-l-2 border-emerald-500/40 pl-3 py-1">
+              <div class="sm:pl-14 text-sm text-slate-800 dark:text-neutral-200 leading-relaxed whitespace-pre-line font-sans border-l-2 border-emerald-500/40 pl-3 py-1">
                 {{ reply.body }}
               </div>
             </div>
 
             <!-- DIRECT GMAIL REPLY ACTION CARD -->
-            <div id="reply-composer" class="rounded-[8px] border border-neutral-800 bg-neutral-900/80 p-8 shadow-xl text-center space-y-4 mt-6">
-              <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-red-500/10 border border-red-500/20 text-red-400">
+            <div id="reply-composer" class="rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-slate-50/70 dark:bg-neutral-900/80 p-8 shadow-xs text-center space-y-4 mt-6">
+              <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-red-500/10 border border-red-500/20 text-red-500">
                 <Mail class="h-6 w-6" />
               </div>
               
               <div class="max-w-md mx-auto space-y-1">
-                <h4 class="text-sm font-bold text-white">Reply Directly via Gmail</h4>
-                <p class="text-xs text-neutral-400 leading-relaxed">
-                  Manage all client conversations seamlessly from your Gmail inbox. Click below to compose your reply to <strong class="text-white font-mono">{{ selectedMsg.sender_email }}</strong>.
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Reply Directly via Gmail</h4>
+                <p class="text-xs text-slate-500 dark:text-neutral-400 leading-relaxed">
+                  Manage all client conversations seamlessly from your Gmail inbox. Click below to compose your reply to <strong class="text-slate-900 dark:text-white font-mono">{{ selectedMsg.sender_email }}</strong>.
                 </p>
               </div>
 
               <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
                 <button 
-                  @click="openInGmail(selectedMsg)"
-                  class="h-10 px-6 rounded-[6px] bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  @click="openInGmail(selectedMsg)" 
+                  class="h-10 px-6 rounded-[6px] bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition-all shadow flex items-center gap-2 cursor-pointer"
                 >
                   <ExternalLink class="h-4 w-4" />
                   <span>Open in Gmail Web</span>
                 </button>
 
                 <a 
-                  :href="`mailto:${selectedMsg.sender_email}?subject=Re: ${encodeURIComponent(selectedMsg.subject || 'Portfolio Inquiry')}`"
-                  class="h-10 px-5 rounded-[6px] border border-neutral-700 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer"
+                  :href="`mailto:${selectedMsg.sender_email}?subject=Re: ${encodeURIComponent(selectedMsg.subject || 'Portfolio Inquiry')}`" 
+                  class="h-10 px-5 rounded-[6px] border border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 hover:bg-slate-50 dark:hover:bg-neutral-700 text-slate-700 dark:text-white text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer shadow-2xs"
                 >
-                  <Mail class="h-4 w-4 text-neutral-400" />
+                  <Mail class="h-4 w-4 text-slate-500 dark:text-neutral-400" />
                   <span>Open Mail App</span>
                 </a>
               </div>

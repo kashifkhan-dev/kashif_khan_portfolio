@@ -5,17 +5,17 @@
 
     <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 dark:border-neutral-800 pb-6">
         <div>
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
             Projects Showcase Manager
           </h1>
-          <p class="text-sm text-muted-foreground mt-1">Full control over portfolio projects, tech stack tags, live demos, and hero showcase positioning.</p>
+          <p class="text-sm text-neutral-500 dark:text-muted-foreground mt-1">Full control over portfolio projects, tech stack tags, live demos, and hero showcase positioning.</p>
         </div>
 
         <Link
           :href="route('admin.projects.create')"
-          class="h-9 px-4 text-xs font-bold rounded-[8px] bg-white hover:bg-neutral-200 text-black transition-all inline-flex items-center justify-center gap-2 shadow-sm shrink-0 cursor-pointer self-start sm:self-auto"
+          class="h-9 px-4 text-xs font-bold rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black transition-all inline-flex items-center justify-center gap-2 shadow-sm shrink-0 cursor-pointer self-start sm:self-auto"
         >
           <Plus class="h-4 w-4" />
           <span>Add New Project</span>
@@ -24,49 +24,49 @@
 
       <!-- Quick Metrics Grid -->
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-xl border bg-card text-card-foreground p-5 shadow-sm">
-          <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Total Projects</span>
-          <div class="text-2xl font-bold tracking-tight mt-1 text-foreground">{{ projects.length }}</div>
-          <span class="text-[11px] text-muted-foreground mt-1 block">Active in portfolio database</span>
+        <div class="rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card text-card-foreground p-5 shadow-xs">
+          <span class="text-xs font-medium text-slate-500 dark:text-muted-foreground uppercase tracking-wider">Total Projects</span>
+          <div class="text-2xl font-bold tracking-tight mt-1 text-slate-900 dark:text-foreground">{{ projects.length }}</div>
+          <span class="text-[11px] text-slate-400 dark:text-muted-foreground mt-1 block">Active in portfolio database</span>
         </div>
-        <div class="rounded-xl border bg-card text-card-foreground p-5 shadow-sm">
-          <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Featured Showcase</span>
+        <div class="rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card text-card-foreground p-5 shadow-xs">
+          <span class="text-xs font-medium text-slate-500 dark:text-muted-foreground uppercase tracking-wider">Featured Showcase</span>
           <div class="text-2xl font-bold tracking-tight mt-1 text-emerald-600 dark:text-emerald-400">
             {{ featuredCount }}
           </div>
-          <span class="text-[11px] text-muted-foreground mt-1 block">Displayed on homepage hero</span>
+          <span class="text-[11px] text-slate-400 dark:text-muted-foreground mt-1 block">Displayed on homepage hero</span>
         </div>
-        <div class="rounded-xl border bg-card text-card-foreground p-5 shadow-sm">
-          <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Categories</span>
-          <div class="text-2xl font-bold tracking-tight mt-1 text-foreground">{{ categoriesCount }}</div>
-          <span class="text-[11px] text-muted-foreground mt-1 block">Distinct technology domains</span>
+        <div class="rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card text-card-foreground p-5 shadow-xs">
+          <span class="text-xs font-medium text-slate-500 dark:text-muted-foreground uppercase tracking-wider">Categories</span>
+          <div class="text-2xl font-bold tracking-tight mt-1 text-slate-900 dark:text-foreground">{{ categoriesCount }}</div>
+          <span class="text-[11px] text-slate-400 dark:text-muted-foreground mt-1 block">Distinct technology domains</span>
         </div>
-        <div class="rounded-xl border bg-card text-card-foreground p-5 shadow-sm">
-          <span class="text-xs font-medium text-muted-foreground uppercase tracking-wider">Live Demos</span>
+        <div class="rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card text-card-foreground p-5 shadow-xs">
+          <span class="text-xs font-medium text-slate-500 dark:text-muted-foreground uppercase tracking-wider">Live Demos</span>
           <div class="text-2xl font-bold tracking-tight mt-1 text-indigo-600 dark:text-indigo-400">
             {{ liveDemosCount }}
           </div>
-          <span class="text-[11px] text-muted-foreground mt-1 block">Verified demo links</span>
+          <span class="text-[11px] text-slate-400 dark:text-muted-foreground mt-1 block">Verified demo links</span>
         </div>
       </div>
 
       <!-- Executive Table View Card -->
-      <div class="rounded-xl border bg-card text-card-foreground shadow-sm overflow-visible">
+      <div class="rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card text-card-foreground shadow-xs overflow-visible">
         
         <!-- Table Search & Filter Bar Header -->
-        <div class="p-4 border-b flex flex-col sm:flex-row items-center justify-between gap-4 bg-neutral-50/50 dark:bg-neutral-900/40">
+        <div class="p-4 border-b border-slate-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-neutral-900/40 rounded-t-xl">
           <div class="relative w-full sm:w-80">
-            <Search class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+            <Search class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-muted-foreground pointer-events-none" />
             <input 
               v-model="searchQuery" 
               type="text" 
               placeholder="Search projects by title, summary, or tech..." 
-              class="w-full h-9 pl-9 pr-3 rounded-lg border bg-background text-xs text-foreground placeholder:text-neutral-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all" 
+              class="w-full h-9 pl-9 pr-3 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-background text-xs text-slate-900 dark:text-foreground placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:border-slate-900 dark:focus:border-indigo-500 focus:ring-1 focus:ring-slate-900 dark:focus:ring-indigo-500 outline-none transition-all" 
             />
           </div>
 
           <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-            <span class="text-xs font-semibold text-neutral-400">Filter Category:</span>
+            <span class="text-xs font-semibold text-slate-700 dark:text-neutral-300">Filter Category:</span>
             <div class="w-48 shrink-0">
               <ShadcnSelect
                 v-model="selectedCategoryFilter"
@@ -78,12 +78,12 @@
         </div>
 
         <!-- Mobile Card List View (< md screens) -->
-        <div class="block md:hidden divide-y divide-neutral-800 border-t-0">
+        <div class="block md:hidden divide-y divide-slate-200 dark:divide-neutral-800 border-t-0 rounded-b-xl">
           <div 
             v-for="proj in filteredProjects" 
             :key="proj.id" 
             :class="[
-              activeDropdownId === proj.id ? 'relative z-50 bg-neutral-900/95' : 'hover:bg-muted/30',
+              activeDropdownId === proj.id ? 'relative z-50 bg-slate-50 dark:bg-neutral-900/95' : 'hover:bg-slate-50/60 dark:hover:bg-muted/30',
               'p-4 space-y-3 transition-colors text-xs'
             ]"
           >
@@ -92,18 +92,18 @@
               <div class="flex items-start space-x-3 min-w-0">
                 <img 
                   :src="proj.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&q=80'" 
-                  class="w-12 h-12 rounded-lg object-cover border bg-muted shrink-0 shadow-sm" 
+                  class="w-12 h-12 rounded-lg object-cover border border-slate-200 dark:border-neutral-700 bg-muted shrink-0 shadow-xs" 
                   @error="handleImageError"
                 />
                 <div class="min-w-0 space-y-1">
                   <div class="flex items-center gap-1.5 flex-wrap">
-                    <h4 class="font-bold text-neutral-900 dark:text-neutral-50 text-sm truncate">{{ proj.title }}</h4>
+                    <h4 class="font-bold text-slate-900 dark:text-neutral-50 text-sm truncate">{{ proj.title }}</h4>
                     <a 
                       v-if="proj.demo_url" 
                       :href="proj.demo_url" 
                       target="_blank" 
                       title="Open Live Demo"
-                      class="text-muted-foreground hover:text-foreground transition-colors"
+                      class="text-slate-400 hover:text-slate-900 dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                     >
                       <ExternalLink class="h-3.5 w-3.5" />
                     </a>
@@ -112,12 +112,12 @@
                       :href="proj.github_url" 
                       target="_blank" 
                       title="View GitHub Repository"
-                      class="text-muted-foreground hover:text-foreground transition-colors"
+                      class="text-slate-400 hover:text-slate-900 dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                     >
                       <Github class="h-3.5 w-3.5" />
                     </a>
                   </div>
-                  <p class="text-[11px] text-muted-foreground leading-snug line-clamp-2">{{ proj.summary }}</p>
+                  <p class="text-[11px] text-slate-500 dark:text-muted-foreground leading-snug line-clamp-2">{{ proj.summary }}</p>
                 </div>
               </div>
 
@@ -125,7 +125,7 @@
               <div class="relative shrink-0">
                 <button 
                   @click.stop="toggleDropdown(proj.id)"
-                  class="h-8 w-8 rounded-lg border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-white transition-colors inline-flex items-center justify-center shadow-sm cursor-pointer"
+                  class="h-8 w-8 rounded-md border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-700 dark:text-white transition-colors inline-flex items-center justify-center shadow-xs cursor-pointer"
                   title="Actions Menu"
                 >
                   <MoreVertical class="h-4 w-4" />
@@ -135,24 +135,24 @@
                 <div 
                   v-if="activeDropdownId === proj.id"
                   @click.stop
-                  class="absolute right-0 mt-2 w-48 rounded-xl border border-neutral-800 bg-neutral-950 p-1.5 shadow-2xl z-[9999] text-left space-y-0.5 divide-y divide-neutral-800/80"
+                  class="absolute right-0 mt-2 w-48 rounded-md border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-1.5 shadow-2xl z-[9999] text-left space-y-0.5 divide-y divide-slate-100 dark:divide-neutral-800/80"
                 >
                   <div class="py-1 space-y-0.5">
                     <a 
                       :href="route('projects.show', proj.slug || proj.id)" 
                       target="_blank"
-                      class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-800/80 rounded-lg transition-colors"
+                      class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800/80 rounded-md transition-colors"
                       @click="activeDropdownId = null"
                     >
-                      <Eye class="h-3.5 w-3.5 text-blue-400" />
+                      <Eye class="h-3.5 w-3.5 text-blue-500" />
                       <span>View Detail Page</span>
                     </a>
                     <Link 
                       :href="route('admin.projects.edit', proj.id)"
-                      class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-800/80 rounded-lg transition-colors"
+                      class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800/80 rounded-md transition-colors"
                       @click="activeDropdownId = null"
                     >
-                      <Edit2 class="h-3.5 w-3.5 text-neutral-400" />
+                      <Edit2 class="h-3.5 w-3.5 text-slate-400 dark:text-neutral-400" />
                       <span>Edit Project</span>
                     </Link>
                   </div>
@@ -160,7 +160,7 @@
                   <div class="pt-1">
                     <button 
                       @click="openDeleteModal(proj); activeDropdownId = null;"
-                      class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
+                      class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:text-rose-300 dark:hover:bg-rose-500/10 rounded-md transition-colors cursor-pointer"
                     >
                       <Trash2 class="h-3.5 w-3.5" />
                       <span>Delete Project</span>
@@ -171,8 +171,8 @@
             </div>
 
             <!-- Category & Status Row -->
-            <div class="flex items-center justify-between gap-2 pt-1 border-t border-neutral-800/40">
-              <span class="px-2.5 py-1 rounded-md bg-muted/60 text-[11px] font-semibold border text-neutral-300">
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-neutral-800/40">
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-neutral-800 text-[11px] font-bold border border-slate-200 dark:border-neutral-700 text-slate-800 dark:text-neutral-100">
                 {{ proj.category }}
               </span>
 
@@ -180,10 +180,10 @@
                 @click="toggleFeaturedStatus(proj)"
                 class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 transition-all hover:scale-105"
                 :class="proj.is_featured 
-                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
-                  : 'bg-muted text-muted-foreground border hover:text-foreground'"
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-bold' 
+                  : 'bg-slate-100 dark:bg-muted text-slate-600 dark:text-muted-foreground border border-slate-200 dark:border-neutral-700 hover:text-foreground'"
               >
-                <span :class="['h-1.5 w-1.5 rounded-full', proj.is_featured ? 'bg-emerald-500' : 'bg-neutral-400']"></span>
+                <span :class="['h-1.5 w-1.5 rounded-full', proj.is_featured ? 'bg-emerald-500' : 'bg-slate-400 dark:bg-neutral-400']"></span>
                 {{ proj.is_featured ? 'Featured' : 'Standard' }}
               </button>
             </div>
@@ -193,7 +193,7 @@
               <span 
                 v-for="(t, i) in (proj.tech_stack || [])" 
                 :key="i" 
-                class="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-[10px] font-medium border text-neutral-700 dark:text-neutral-300"
+                class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-neutral-800 text-[10px] font-medium border border-slate-200 dark:border-neutral-700 text-slate-700 dark:text-neutral-300"
               >
                 {{ t }}
               </span>
@@ -206,9 +206,9 @@
         </div>
 
         <!-- Desktop Table Container (>= md screens) -->
-        <div class="hidden md:block overflow-x-auto overflow-y-visible min-h-[300px]">
+        <div class="hidden md:block overflow-x-auto overflow-y-visible min-h-[300px] rounded-b-xl">
           <table class="w-full text-left border-collapse min-w-[800px]">
-            <thead class="bg-muted/50 border-b text-muted-foreground uppercase text-[10px] font-bold tracking-wider select-none">
+            <thead class="bg-white dark:bg-neutral-900/40 border-b border-slate-200 dark:border-neutral-800 text-slate-500 dark:text-neutral-400 uppercase text-[10px] font-bold tracking-wider select-none">
               <tr>
                 <th class="py-3.5 px-6">Project Info</th>
                 <th class="py-3.5 px-4">Category</th>
@@ -218,12 +218,12 @@
                 <th class="py-3.5 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y border-t-0 overflow-visible">
+            <tbody class="divide-y divide-slate-200 dark:divide-neutral-800 border-t-0 overflow-visible">
               <tr 
                 v-for="proj in filteredProjects" 
                 :key="proj.id" 
                 :class="[
-                  activeDropdownId === proj.id ? 'relative z-50 bg-neutral-900/90' : 'hover:bg-muted/40',
+                  activeDropdownId === proj.id ? 'relative z-50 bg-slate-50 dark:bg-neutral-900/90' : 'hover:bg-slate-50/70 dark:hover:bg-muted/40',
                   'transition-colors text-xs group'
                 ]"
               >
@@ -231,19 +231,19 @@
                   <div class="relative shrink-0 group">
                     <img 
                       :src="proj.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&q=80'" 
-                      class="w-14 h-14 rounded-lg object-cover border bg-muted shadow-sm transition-transform group-hover:scale-105" 
+                      class="w-14 h-14 rounded-lg object-cover border border-slate-200 dark:border-neutral-700 bg-muted shadow-xs transition-transform group-hover:scale-105" 
                       @error="handleImageError"
                     />
                   </div>
                   <div class="min-w-0 space-y-1">
                     <div class="flex items-center gap-2">
-                      <h4 class="font-bold text-neutral-900 dark:text-neutral-50 text-sm truncate">{{ proj.title }}</h4>
+                      <h4 class="font-bold text-slate-900 dark:text-neutral-50 text-sm truncate">{{ proj.title }}</h4>
                       <a 
                         v-if="proj.demo_url" 
                         :href="proj.demo_url" 
                         target="_blank" 
                         title="Open Live Demo"
-                        class="text-muted-foreground hover:text-foreground transition-colors"
+                        class="text-slate-400 hover:text-slate-900 dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                       >
                         <ExternalLink class="h-3.5 w-3.5" />
                       </a>
@@ -252,16 +252,16 @@
                         :href="proj.github_url" 
                         target="_blank" 
                         title="View GitHub Repository"
-                        class="text-muted-foreground hover:text-foreground transition-colors"
+                        class="text-slate-400 hover:text-slate-900 dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                       >
                         <Github class="h-3.5 w-3.5" />
                       </a>
                     </div>
-                    <p class="text-[11px] text-muted-foreground leading-relaxed line-clamp-2 max-w-md">{{ proj.summary }}</p>
+                    <p class="text-[11px] text-slate-500 dark:text-muted-foreground leading-relaxed line-clamp-2 max-w-md">{{ proj.summary }}</p>
                   </div>
                 </td>
                 <td class="py-4 px-4 font-semibold text-foreground">
-                  <span class="px-2.5 py-1 rounded-md bg-muted/60 text-xs font-semibold border whitespace-nowrap">
+                  <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-neutral-800 text-xs font-bold border border-slate-200 dark:border-neutral-700 text-slate-800 dark:text-neutral-100 whitespace-nowrap">
                     {{ proj.category }}
                   </span>
                 </td>
@@ -270,7 +270,7 @@
                     <span 
                       v-for="(t, i) in (proj.tech_stack || [])" 
                       :key="i" 
-                      class="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-[10px] font-medium border text-neutral-700 dark:text-neutral-300"
+                      class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-neutral-800 text-[10px] font-medium border border-slate-200 dark:border-neutral-700 text-slate-700 dark:text-neutral-300"
                     >
                       {{ t }}
                     </span>
@@ -281,22 +281,22 @@
                     @click="toggleFeaturedStatus(proj)"
                     class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 transition-all hover:scale-105"
                     :class="proj.is_featured 
-                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
-                      : 'bg-muted text-muted-foreground border hover:text-foreground'"
+                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-bold' 
+                      : 'bg-slate-100 dark:bg-muted text-slate-600 dark:text-muted-foreground border border-slate-200 dark:border-neutral-700 hover:text-foreground'"
                   >
-                    <span :class="['h-1.5 w-1.5 rounded-full', proj.is_featured ? 'bg-emerald-500' : 'bg-neutral-400']"></span>
+                    <span :class="['h-1.5 w-1.5 rounded-full', proj.is_featured ? 'bg-emerald-500' : 'bg-slate-400 dark:bg-neutral-400']"></span>
                     {{ proj.is_featured ? 'Featured' : 'Standard' }}
                   </button>
                 </td>
                 <td class="py-4 px-4 text-center font-mono font-bold text-foreground">
-                  <span class="px-2 py-1 rounded bg-muted font-bold text-xs">{{ proj.order }}</span>
+                  <span class="px-2 py-1 rounded-md bg-slate-100 dark:bg-muted font-bold text-xs border border-slate-200 dark:border-neutral-700 text-slate-800 dark:text-neutral-100">{{ proj.order }}</span>
                 </td>
                 <!-- 3-Dots Actions Menu -->
                 <td class="py-4 px-6 text-right relative z-40">
                   <div class="inline-block text-left relative">
                     <button 
                       @click.stop="toggleDropdown(proj.id)"
-                      class="h-8 w-8 rounded-lg border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-white transition-colors inline-flex items-center justify-center shadow-sm cursor-pointer"
+                      class="h-8 w-8 rounded-md border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-700 dark:text-white transition-colors inline-flex items-center justify-center shadow-xs cursor-pointer"
                       title="Actions Menu"
                     >
                       <MoreVertical class="h-4 w-4" />
@@ -306,24 +306,24 @@
                     <div 
                       v-if="activeDropdownId === proj.id"
                       @click.stop
-                      class="absolute right-0 mt-2 w-48 rounded-xl border border-neutral-800 bg-neutral-950 p-1.5 shadow-2xl z-[9999] text-left space-y-0.5 divide-y divide-neutral-800/80"
+                      class="absolute right-0 mt-2 w-48 rounded-md border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-1.5 shadow-2xl z-[9999] text-left space-y-0.5 divide-y divide-slate-100 dark:divide-neutral-800/80"
                     >
                       <div class="py-1 space-y-0.5">
                         <a 
                           :href="route('projects.show', proj.slug || proj.id)" 
                           target="_blank"
-                          class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-800/80 rounded-lg transition-colors"
+                          class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800/80 rounded-md transition-colors"
                           @click="activeDropdownId = null"
                         >
-                          <Eye class="h-3.5 w-3.5 text-blue-400" />
+                          <Eye class="h-3.5 w-3.5 text-blue-500" />
                           <span>View Detail Page</span>
                         </a>
                         <Link 
                           :href="route('admin.projects.edit', proj.id)"
-                          class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-neutral-200 hover:text-white hover:bg-neutral-800/80 rounded-lg transition-colors"
+                          class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800/80 rounded-md transition-colors"
                           @click="activeDropdownId = null"
                         >
-                          <Edit2 class="h-3.5 w-3.5 text-neutral-400" />
+                          <Edit2 class="h-3.5 w-3.5 text-slate-400 dark:text-neutral-400" />
                           <span>Edit Project</span>
                         </Link>
                       </div>
@@ -331,7 +331,7 @@
                       <div class="pt-1">
                         <button 
                           @click="openDeleteModal(proj); activeDropdownId = null;"
-                          class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
+                          class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:text-rose-300 dark:hover:bg-rose-500/10 rounded-md transition-colors cursor-pointer"
                         >
                           <Trash2 class="h-3.5 w-3.5" />
                           <span>Delete Project</span>

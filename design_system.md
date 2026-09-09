@@ -48,6 +48,7 @@ This document defines the **Vercel & Linear Inspired Executive Design System**, 
 ---
 
 ## 🚫 Design Rules & Guidelines
+- **Standard Border Radius**: `6px` (`rounded-md` / `rounded-[6px]`) is the official design standard across all buttons, form input controls, selector chips, and popovers.
 - **Monochrome & High Contrast**: Deep pitch-black base with crisp white & neutral typography.
 - **Micro-Animations**: Smooth 300ms transitions (`cubic-bezier(0.16, 1, 0.3, 1)`) on interactive hover elements.
 - **NO Harsh Purples/Pink Gradients**: Avoid standard saturated purple/pink gradients in favor of high-contrast metallic and subtle blue highlights.

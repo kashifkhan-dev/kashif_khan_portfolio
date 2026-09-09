@@ -34,8 +34,8 @@
             'flex items-center rounded-md text-sm font-medium transition-all group relative',
             isCollapsed ? 'justify-center h-10 w-10 mx-auto px-0' : 'gap-3 px-3 py-2',
             item.active 
-              ? 'bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-50' 
-              : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-neutral-50 dark:hover:bg-neutral-800'
+              ? 'bg-slate-900 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-xs' 
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-neutral-400 dark:hover:text-neutral-50 dark:hover:bg-neutral-800'
           ]"
         >
           <component :is="item.icon" class="h-4 w-4 shrink-0" />
@@ -93,7 +93,7 @@
           <!-- Mobile Hamburger Toggle (No background, matches icon toolbar) -->
           <button
             @click="isMobileMenuOpen = !isMobileMenuOpen"
-            class="lg:hidden p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800/60 transition-colors cursor-pointer shrink-0"
+            class="lg:hidden p-2 rounded-md text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer shrink-0"
             aria-label="Toggle navigation menu"
           >
             <Menu v-if="!isMobileMenuOpen" class="h-5 w-5" />
@@ -114,11 +114,11 @@
           <!-- Global Search Button -->
           <button
             @click="showSearchModal = true"
-            class="relative h-9 w-9 md:w-60 justify-center md:justify-start px-0 md:px-3 text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium rounded-[6px] border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
+            class="relative h-9 w-9 md:w-60 justify-center md:justify-start px-0 md:px-3 text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium rounded-md border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-900 flex items-center transition-colors cursor-pointer"
           >
             <Search class="h-4 w-4 md:mr-2 shrink-0 text-neutral-500 dark:text-neutral-400" />
             <span class="hidden md:inline-flex">Search dashboard...</span>
-            <kbd class="hidden md:inline-flex absolute right-1.5 top-1/2 -translate-y-1/2 h-5 pointer-events-none items-center justify-center gap-1 rounded border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-950 px-1.5 font-mono text-[10px] font-medium text-neutral-500 dark:text-neutral-400 opacity-100 select-none">
+            <kbd class="hidden md:inline-flex absolute right-1.5 top-1/2 -translate-y-1/2 h-5 pointer-events-none items-center justify-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-950 px-1.5 font-mono text-[10px] font-medium text-neutral-500 dark:text-neutral-400 opacity-100 select-none">
               ⌘K
             </kbd>
           </button>
@@ -126,7 +126,7 @@
           <!-- Theme Switcher Button -->
           <button
             @click="toggleTheme"
-            class="h-9 w-9 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer shadow-xs"
+            class="h-9 w-9 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer shadow-xs"
             :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
           >
             <Sun v-if="isDark" class="h-4 w-4 text-amber-400" />
@@ -137,7 +137,7 @@
           <div ref="notificationRef" class="relative">
             <button
               @click="showNotifications = !showNotifications"
-              class="h-9 w-9 rounded-lg hover:bg-neutral-800/60 flex items-center justify-center relative text-neutral-400 hover:text-white transition-colors cursor-pointer"
+              class="h-9 w-9 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center relative text-neutral-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
               title="Notifications"
             >
               <Bell class="h-4 w-4" />
@@ -152,13 +152,13 @@
             <!-- Notifications Dropdown Menu -->
             <div
               v-if="showNotifications"
-              class="absolute right-0 mt-2 w-80 sm:w-88 rounded-[8px] border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl p-3 z-50 space-y-2.5"
+              class="absolute right-0 mt-2 w-80 sm:w-88 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 shadow-2xl p-3 z-50 space-y-2.5"
             >
-              <div class="flex items-center justify-between px-1 pb-2 border-b border-neutral-800/80">
+              <div class="flex items-center justify-between px-1 pb-2 border-b border-neutral-200 dark:border-neutral-800/80">
                 <div class="flex items-center gap-2">
-                  <Mail class="h-3.5 w-3.5 text-indigo-400" />
-                  <span class="font-bold text-xs text-white">Notifications</span>
-                  <span v-if="$page.props.unreadInquiriesCount > 0" class="px-2 py-0.5 rounded-[6px] text-[10px] font-bold bg-indigo-950 text-indigo-400 border border-indigo-800/80">
+                  <Mail class="h-3.5 w-3.5 text-indigo-500 dark:text-indigo-400" />
+                  <span class="font-bold text-xs text-neutral-900 dark:text-white">Notifications</span>
+                  <span v-if="$page.props.unreadInquiriesCount > 0" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/80">
                     {{ $page.props.unreadInquiriesCount }} unread
                   </span>
                 </div>
@@ -166,7 +166,7 @@
                 <button 
                   v-if="$page.props.unreadInquiriesCount > 0"
                   @click="markAllNotificationsRead" 
-                  class="text-[10px] font-semibold text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                  class="text-[10px] font-semibold text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors cursor-pointer"
                 >
                   Mark all as read
                 </button>
@@ -179,18 +179,18 @@
                   :key="inquiry.id"
                   :href="route('admin.messages.index')"
                   @click="showNotifications = false"
-                  class="flex flex-col gap-1 p-2.5 rounded-[6px] bg-neutral-900/60 hover:bg-neutral-900 border border-neutral-800/80 transition-colors text-xs group cursor-pointer"
+                  class="flex flex-col gap-1 p-2.5 rounded-md bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900/60 dark:hover:bg-neutral-900 border border-neutral-200 dark:border-neutral-800/80 transition-colors text-xs group cursor-pointer"
                 >
                   <div class="flex justify-between items-center gap-2">
-                    <span class="font-bold text-white text-xs truncate group-hover:text-indigo-400 transition-colors">
+                    <span class="font-bold text-neutral-900 dark:text-white text-xs truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {{ inquiry.sender_name }}
                     </span>
                     <span class="text-[10px] text-neutral-500 font-mono shrink-0">
                       {{ formatRelativeTime(inquiry.created_at) }}
                     </span>
                   </div>
-                  <p class="text-[11px] text-neutral-400 leading-snug line-clamp-2">
-                    <span class="font-semibold text-neutral-300">{{ inquiry.subject || 'No Subject' }}</span>
+                  <p class="text-[11px] text-neutral-600 dark:text-neutral-400 leading-snug line-clamp-2">
+                    <span class="font-semibold text-neutral-800 dark:text-neutral-300">{{ inquiry.subject || 'No Subject' }}</span>
                     — {{ inquiry.body }}
                   </p>
                 </Link>
@@ -198,9 +198,9 @@
 
               <!-- Empty Notification State -->
               <div v-else class="py-6 text-center">
-                <CheckCircle2 class="h-8 w-8 mx-auto text-neutral-600 mb-2" />
-                <p class="text-sm font-bold text-white">All caught up!</p>
-                <p class="text-xs text-neutral-400 mt-1 font-medium">No new unread client inquiries.</p>
+                <CheckCircle2 class="h-8 w-8 mx-auto text-neutral-400 dark:text-neutral-600 mb-2" />
+                <p class="text-sm font-bold text-neutral-900 dark:text-white">All caught up!</p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-medium">No new unread client inquiries.</p>
               </div>
             </div>
           </div>
@@ -209,24 +209,24 @@
           <div ref="userMenuRef" class="relative">
             <button
               @click="showUserMenu = !showUserMenu"
-              class="h-9 w-9 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 text-xs font-semibold border border-transparent hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"
+              class="h-9 w-9 rounded-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 text-xs font-semibold border border-transparent hover:border-neutral-300 dark:hover:border-neutral-700 transition-all cursor-pointer"
             >
               {{ userInitials }}
             </button>
 
             <div
               v-if="showUserMenu"
-              class="absolute right-0 mt-2 w-60 rounded-[8px] border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl p-2 z-50 text-xs space-y-1"
+              class="absolute right-0 mt-2 w-60 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 shadow-2xl p-2 z-50 text-xs space-y-1"
             >
-              <div class="flex flex-col gap-0.5 px-3 py-2 border-b border-neutral-800/80 mb-1">
-                <span class="font-bold text-xs text-white truncate">{{ $page.props.auth.user.name }}</span>
-                <span class="text-xs text-neutral-400 font-normal truncate">{{ $page.props.auth.user.email }}</span>
+              <div class="flex flex-col gap-0.5 px-3 py-2 border-b border-neutral-200 dark:border-neutral-800/80 mb-1">
+                <span class="font-bold text-xs text-neutral-900 dark:text-white truncate">{{ $page.props.auth.user.name }}</span>
+                <span class="text-xs text-neutral-500 dark:text-neutral-400 font-normal truncate">{{ $page.props.auth.user.email }}</span>
               </div>
               <Link
                 :href="route('home')"
                 target="_blank"
                 @click="showUserMenu = false"
-                class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-neutral-900 text-neutral-200 hover:text-white font-medium transition-colors"
+                class="flex items-center justify-between px-3 py-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-900 text-neutral-700 hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-white font-medium transition-colors"
               >
                 <span>Public Portfolio</span>
                 <ExternalLink class="h-3.5 w-3.5 text-neutral-400" />
@@ -236,7 +236,7 @@
                 method="post"
                 as="button"
                 @click="showUserMenu = false"
-                class="w-full flex items-center justify-between px-3 py-2 rounded-[6px] text-red-400 hover:bg-red-950/30 hover:text-red-300 font-semibold transition-colors cursor-pointer"
+                class="w-full flex items-center justify-between px-3 py-2 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-700 dark:hover:text-red-300 font-semibold transition-colors cursor-pointer"
               >
                 <span>Log out</span>
                 <LogOut class="h-3.5 w-3.5" />
@@ -260,23 +260,23 @@
     <!-- Command Palette / Global Search Modal -->
     <div
       v-if="showSearchModal"
-      class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/70 backdrop-blur-sm"
+      class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/60 backdrop-blur-sm"
       @click.self="showSearchModal = false"
     >
-      <div class="w-full max-w-xl rounded-[10px] border border-neutral-800 bg-neutral-950 text-neutral-100 shadow-2xl overflow-hidden flex flex-col">
+      <div class="w-full max-w-xl rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 shadow-2xl overflow-hidden flex flex-col">
         <!-- Search Input Bar -->
-        <div class="flex items-center px-4 py-3 border-b border-neutral-800 gap-3">
-          <Search class="h-4 w-4 text-indigo-400 shrink-0" />
+        <div class="flex items-center px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 gap-3">
+          <Search class="h-4 w-4 text-indigo-500 dark:text-indigo-400 shrink-0" />
           <input
             ref="searchInputRef"
             v-model="searchQuery"
             type="text"
             placeholder="Search commands, pages, or tools..."
-            class="flex-1 bg-transparent text-sm text-white placeholder-neutral-500 outline-none focus:outline-none focus:ring-0 ring-0 border-0 focus:border-none p-0 shadow-none"
+            class="flex-1 bg-transparent text-sm text-neutral-900 dark:text-white placeholder-neutral-400 outline-none focus:outline-none focus:ring-0 ring-0 border-0 focus:border-none p-0 shadow-none"
           />
           <kbd
             @click="showSearchModal = false"
-            class="px-2 py-0.5 text-[10px] font-mono font-semibold text-neutral-400 bg-neutral-900 border border-neutral-800 rounded-[4px] cursor-pointer hover:text-white"
+            class="px-2 py-0.5 text-[10px] font-mono font-semibold text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-md cursor-pointer hover:text-neutral-900 dark:hover:text-white"
           >
             ESC
           </kbd>
@@ -285,36 +285,36 @@
         <!-- Search Results / Commands List -->
         <div class="max-h-80 overflow-y-auto p-2 space-y-1">
           <div v-if="filteredSearchActions.length" class="space-y-1">
-            <div class="px-2.5 py-1 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">
+            <div class="px-2.5 py-1 text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
               Quick Navigation & Pages
             </div>
             <button
               v-for="action in filteredSearchActions"
               :key="action.title"
               @click="navigateSearch(action)"
-              class="w-full flex items-center justify-between p-2.5 rounded-[6px] hover:bg-neutral-900 text-left group transition-colors cursor-pointer"
+              class="w-full flex items-center justify-between p-2.5 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-900 text-left group transition-colors cursor-pointer"
             >
               <div class="flex items-center gap-3 min-w-0">
-                <div class="p-2 rounded-[6px] bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-indigo-400 group-hover:border-indigo-800/80 transition-colors shrink-0">
+                <div class="p-2 rounded-md bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:border-indigo-300 dark:group-hover:border-indigo-800/80 transition-colors shrink-0">
                   <component :is="action.icon" class="h-4 w-4" />
                 </div>
                 <div class="min-w-0">
-                  <div class="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors truncate">
+                  <div class="text-xs font-bold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
                     {{ action.title }}
                   </div>
-                  <div class="text-[11px] text-neutral-400 truncate">
+                  <div class="text-[11px] text-neutral-500 dark:text-neutral-400 truncate">
                     {{ action.desc }}
                   </div>
                 </div>
               </div>
-              <ChevronRight class="h-4 w-4 text-neutral-600 group-hover:text-neutral-300 transition-colors shrink-0 ml-2" />
+              <ChevronRight class="h-4 w-4 text-neutral-400 dark:text-neutral-600 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors shrink-0 ml-2" />
             </button>
           </div>
 
-          <div v-else class="py-8 text-center text-neutral-500">
-            <Search class="h-6 w-6 mx-auto text-neutral-700 mb-2" />
-            <p class="text-xs font-bold text-neutral-300">No matching commands</p>
-            <p class="text-[11px] text-neutral-500 mt-0.5">Try searching for "Projects", "Skills", "Inbox", or "Settings"</p>
+          <div v-else class="py-8 text-center text-neutral-400">
+            <Search class="h-6 w-6 mx-auto text-neutral-300 dark:text-neutral-700 mb-2" />
+            <p class="text-xs font-bold text-neutral-700 dark:text-neutral-300">No matching commands</p>
+            <p class="text-[11px] text-neutral-400 mt-0.5">Try searching for "Projects", "Skills", "Inbox", or "Settings"</p>
           </div>
         </div>
       </div>
@@ -349,30 +349,30 @@
       >
         <aside
           v-if="isMobileMenuOpen"
-          class="fixed inset-y-0 left-0 z-50 w-72 bg-neutral-950 border-r border-neutral-800 text-white flex flex-col shadow-2xl lg:hidden"
+          class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-neutral-950 border-r border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-neutral-100 flex flex-col shadow-2xl lg:hidden"
         >
           <!-- Logo & Close Header -->
-          <div class="h-16 flex items-center justify-between px-4 border-b border-neutral-800 shrink-0">
+          <div class="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-neutral-800 shrink-0">
             <div class="flex items-center gap-3">
-              <div class="h-9 w-9 rounded-full bg-neutral-900 flex items-center justify-center shrink-0 border border-neutral-800">
-                <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="h-9 w-9 rounded-full bg-slate-900 dark:bg-neutral-50 flex items-center justify-center shrink-0 border border-slate-200 dark:border-neutral-800">
+                <svg class="h-5 w-5 text-white dark:text-neutral-900" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <span class="font-bold text-sm tracking-tight">Kashif Khan Dev</span>
+              <span class="font-bold text-sm tracking-tight text-slate-900 dark:text-white">Kashif Khan Dev</span>
             </div>
 
             <button
               @click="isMobileMenuOpen = false"
-              class="p-2 text-neutral-400 hover:text-white rounded-md hover:bg-neutral-900 transition-colors cursor-pointer"
+              class="p-2 text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-neutral-900 transition-colors cursor-pointer"
             >
               <X class="h-5 w-5" />
             </button>
           </div>
 
-          <!-- Mobile Navigation Links (Matches desktop sidebar styling exactly) -->
+          <!-- Mobile Navigation Links -->
           <div class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
             <Link
               v-for="item in navItems"
@@ -380,32 +380,42 @@
               :href="item.route"
               @click="isMobileMenuOpen = false"
               :class="[
-                'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all',
+                'flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-all',
                 item.active 
-                  ? 'bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-50' 
-                  : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:text-neutral-50 dark:hover:bg-neutral-800'
+                  ? 'bg-slate-900 text-white dark:bg-white dark:text-neutral-950 font-semibold shadow-xs' 
+                  : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-900'
               ]"
             >
-              <component :is="item.icon" class="h-4 w-4 shrink-0" />
-              <span class="truncate">{{ item.name }}</span>
+              <div class="flex items-center gap-3 min-w-0">
+                <component :is="item.icon" class="h-4 w-4 shrink-0" />
+                <span class="truncate">{{ item.name }}</span>
+              </div>
+
+              <!-- Unread inquiries badge pill -->
+              <span
+                v-if="item.name.toLowerCase().includes('inquir') && $page.props.unreadInquiriesCount > 0"
+                class="px-2 py-0.5 text-[10px] font-black rounded-full bg-red-600 text-white shadow-xs"
+              >
+                {{ $page.props.unreadInquiriesCount }}
+              </span>
             </Link>
           </div>
 
           <!-- Mobile User Profile & Footer -->
-          <div class="border-t border-neutral-800 p-4 shrink-0 bg-neutral-950">
+          <div class="border-t border-slate-200 dark:border-neutral-800 p-4 shrink-0 bg-slate-50/80 dark:bg-neutral-950">
             <div class="flex items-center gap-3">
-              <div class="h-9 w-9 rounded-full bg-neutral-800 flex items-center justify-center text-white text-xs font-semibold shrink-0 border border-neutral-700">
+              <div class="h-9 w-9 rounded-full bg-slate-900 dark:bg-neutral-800 flex items-center justify-center text-white text-xs font-semibold shrink-0 border border-slate-300 dark:border-neutral-700 shadow-xs">
                 {{ userInitials }}
               </div>
               <div class="flex-1 min-w-0">
-                <h4 class="text-xs font-semibold truncate text-white">{{ $page.props.auth.user.name }}</h4>
-                <p class="text-[10px] text-neutral-400 truncate">{{ $page.props.auth.user.email }}</p>
+                <h4 class="text-xs font-semibold truncate text-slate-900 dark:text-white">{{ $page.props.auth.user.name }}</h4>
+                <p class="text-[10px] text-slate-500 dark:text-neutral-400 truncate">{{ $page.props.auth.user.email }}</p>
               </div>
               <Link
                 :href="route('logout')"
                 method="post"
                 as="button"
-                class="p-2 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-lg transition-colors cursor-pointer"
+                class="p-2 text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-md transition-colors cursor-pointer"
                 title="Log Out"
               >
                 <LogOut class="h-4 w-4" />

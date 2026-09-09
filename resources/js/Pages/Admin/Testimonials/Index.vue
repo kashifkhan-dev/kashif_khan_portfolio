@@ -5,16 +5,16 @@
 
     <div class="space-y-6">
       <!-- Top Action Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-200 dark:border-neutral-800 pb-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-neutral-800 pb-5">
         <div>
           <h1 class="text-2xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 flex items-center gap-3">
             <Quote class="h-6 w-6 text-indigo-500" />
             <span>Client Testimonials &amp; Endorsements</span>
-            <span class="px-2.5 py-0.5 rounded-[6px] text-xs font-semibold bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700">
+            <span class="px-2.5 py-0.5 rounded-[6px] text-xs font-semibold bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-300 border border-slate-200 dark:border-neutral-800 shadow-2xs">
               {{ activeCount }} Active &bull; {{ testimonials.length }} Total
             </span>
           </h1>
-          <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+          <p class="text-xs text-slate-500 dark:text-neutral-400 mt-1">
             Curate executive recommendations, client quotes, and LinkedIn endorsements displayed in your portfolio slider.
           </p>
         </div>
@@ -23,7 +23,7 @@
           <button
             type="button"
             @click="openCreateModal"
-            class="h-9 px-4 rounded-[6px] bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:opacity-90 transition-all shadow-md flex items-center gap-2 cursor-pointer"
+            class="h-9 px-4 rounded-[6px] bg-slate-900 text-white dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:bg-slate-800 transition-all shadow-md flex items-center gap-2 cursor-pointer"
           >
             <Plus class="h-3.5 w-3.5" />
             <span>Add Endorsement</span>
@@ -32,16 +32,16 @@
       </div>
 
       <!-- Testimonial Cards Grid -->
-      <div v-if="!testimonials.length" class="py-16 text-center rounded-[8px] border border-dashed border-neutral-300 dark:border-neutral-800 p-8 space-y-3">
-        <Quote class="h-10 w-10 text-neutral-400 dark:text-neutral-600 mx-auto" />
-        <h3 class="text-sm font-bold text-neutral-800 dark:text-neutral-200">No testimonials yet</h3>
-        <p class="text-xs text-neutral-500 max-w-sm mx-auto">
+      <div v-if="!testimonials.length" class="py-16 text-center rounded-[6px] border border-dashed border-slate-300 dark:border-neutral-800 p-8 space-y-3 bg-white dark:bg-card">
+        <Quote class="h-10 w-10 text-slate-400 dark:text-neutral-600 mx-auto" />
+        <h3 class="text-sm font-bold text-slate-800 dark:text-neutral-200">No testimonials yet</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">
           Add recommendations from past clients, founders, and engineering leaders to showcase social proof.
         </p>
         <button
           type="button"
           @click="openCreateModal"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-[6px] bg-neutral-900 text-white dark:bg-white dark:text-black text-xs font-bold shadow hover:opacity-90 transition-all mt-2 cursor-pointer"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-[6px] bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold shadow hover:bg-slate-800 transition-all mt-2 cursor-pointer"
         >
           <Plus class="h-3.5 w-3.5" />
           <span>Add First Testimonial</span>
@@ -52,100 +52,101 @@
         <div
           v-for="item in testimonials"
           :key="item.id"
-          class="rounded-[8px] border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-5 space-y-4 shadow-xs hover:border-neutral-300 dark:hover:border-neutral-700 transition-all flex flex-col justify-between"
+          class="rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card p-6 shadow-xs hover:border-slate-300 dark:hover:border-neutral-700 hover:shadow-md transition-all flex flex-col justify-between group relative space-y-4"
         >
-          <!-- Top Row: Client Info & Status Badge -->
-          <div class="space-y-3">
+          <div class="space-y-3.5">
+            <!-- Top Row: Client Info & Active Status -->
             <div class="flex items-start justify-between gap-3">
-              <!-- Avatar & Bio -->
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="w-12 h-12 rounded-[6px] overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 shrink-0">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 rounded-full overflow-hidden border border-slate-200 dark:border-neutral-700 bg-white shrink-0 shadow-2xs">
                   <img
                     v-if="item.client_avatar"
                     :src="item.client_avatar"
                     :alt="item.client_name"
                     class="w-full h-full object-cover"
                   />
-                  <div v-else class="w-full h-full flex items-center justify-center font-bold text-xs bg-indigo-500 text-white">
+                  <div v-else class="w-full h-full flex items-center justify-center font-bold text-xs bg-slate-900 text-white dark:bg-white dark:text-slate-900">
                     {{ getInitials(item.client_name) }}
                   </div>
                 </div>
 
                 <div class="min-w-0 flex-1">
                   <div class="flex items-center gap-2">
-                    <h3 class="text-sm font-bold text-neutral-900 dark:text-neutral-100 truncate">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-neutral-100 truncate">
                       {{ item.client_name }}
                     </h3>
                     <a
                       v-if="item.linkedin_url"
                       :href="item.linkedin_url"
                       target="_blank"
-                      class="text-neutral-400 hover:text-blue-500 transition-colors"
+                      class="text-slate-400 hover:text-blue-600 transition-colors"
                       title="View LinkedIn Profile"
                     >
                       <Linkedin class="h-3.5 w-3.5" />
                     </a>
                   </div>
-                  <p class="text-xs text-neutral-500 dark:text-neutral-400 truncate">
+                  <p class="text-xs text-slate-500 dark:text-neutral-400 truncate">
                     {{ item.client_role || 'Client' }}
-                    <span v-if="item.company" class="font-medium text-neutral-700 dark:text-neutral-300">
+                    <span v-if="item.company" class="font-semibold text-slate-700 dark:text-neutral-300">
                       &bull; {{ item.company }}
                     </span>
                   </p>
                 </div>
               </div>
 
-              <!-- Active Status Switch -->
+              <!-- Active Status Badge -->
               <button
                 @click="toggleActive(item)"
-                class="px-2.5 py-1 rounded-[4px] text-[11px] font-bold border transition-colors cursor-pointer shrink-0"
+                class="px-2.5 py-1 rounded-full text-[11px] font-bold inline-flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-2xs"
                 :class="item.is_active 
-                  ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' 
-                  : 'bg-neutral-100 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-500 border-neutral-200 dark:border-neutral-800'"
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' 
+                  : 'bg-slate-100 text-slate-500 dark:bg-neutral-900 dark:text-neutral-500 border border-slate-200 dark:border-neutral-800'"
               >
+                <span :class="['h-1.5 w-1.5 rounded-full', item.is_active ? 'bg-emerald-500' : 'bg-slate-400 dark:bg-neutral-400']"></span>
                 {{ item.is_active ? 'Active' : 'Hidden' }}
               </button>
             </div>
 
-            <!-- Star Rating & Project Tag -->
-            <div class="flex items-center justify-between gap-2 pt-1 border-t border-neutral-100 dark:border-neutral-900">
-              <!-- Stars -->
+            <!-- Rating & Project Reference Bar -->
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-neutral-800/80">
+              <!-- Star Rating -->
               <div class="flex items-center gap-1 text-amber-400">
                 <Star
                   v-for="s in 5"
                   :key="s"
                   class="h-3.5 w-3.5"
-                  :class="s <= (item.rating || 5) ? 'fill-amber-400 text-amber-400' : 'text-neutral-300 dark:text-neutral-700'"
+                  :class="s <= (item.rating || 5) ? 'fill-amber-400 text-amber-400' : 'text-slate-200 dark:text-neutral-700'"
                 />
               </div>
 
               <!-- Project Reference -->
               <span
                 v-if="item.project_reference"
-                class="px-2 py-0.5 rounded-[4px] text-[10px] font-medium bg-neutral-100 text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800 truncate max-w-[200px]"
+                class="px-2.5 py-0.5 rounded-[6px] text-[11px] font-semibold bg-white dark:bg-neutral-900 text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-neutral-700/80 shadow-2xs truncate max-w-[220px]"
               >
                 Project: {{ item.project_reference }}
               </span>
             </div>
 
-            <!-- Quote Body -->
-            <div class="relative pl-3 border-l-2 border-indigo-500/60 dark:border-indigo-500/40 my-2">
-              <p class="text-xs text-neutral-700 dark:text-neutral-300 italic leading-relaxed">
+            <!-- Quote Text with Decorative Icon -->
+            <div class="relative py-1">
+              <Quote class="h-6 w-6 text-indigo-500/15 dark:text-indigo-400/20 absolute -top-1 -left-1 pointer-events-none" />
+              <p class="text-xs text-slate-700 dark:text-neutral-300 leading-relaxed pl-5 font-normal">
                 &ldquo;{{ item.quote }}&rdquo;
               </p>
             </div>
           </div>
 
-          <!-- Bottom Action Buttons -->
-          <div class="flex items-center justify-between pt-3 border-t border-neutral-100 dark:border-neutral-900 text-xs">
-            <span class="text-[11px] text-neutral-400">
+          <!-- Bottom Action Bar -->
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-neutral-800/80 text-xs">
+            <span class="px-2 py-0.5 rounded-[4px] bg-white dark:bg-neutral-900 text-[11px] font-mono font-bold text-slate-500 dark:text-neutral-400 border border-slate-200 dark:border-neutral-800 shadow-2xs">
               Order: #{{ item.order || 0 }}
             </span>
 
             <div class="flex items-center gap-2">
               <button
                 @click="openEditModal(item)"
-                class="px-2.5 py-1 rounded-[6px] border border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors flex items-center gap-1 cursor-pointer"
+                class="h-8 px-3 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-700 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:text-slate-900 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
               >
                 <Edit3 class="h-3.5 w-3.5" />
                 <span>Edit</span>
@@ -153,7 +154,7 @@
 
               <button
                 @click="openDeleteModal(item)"
-                class="p-1.5 rounded-[6px] border border-red-200 dark:border-red-900/40 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                class="h-8 w-8 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
                 title="Delete Testimonial"
               >
                 <Trash2 class="h-3.5 w-3.5" />
@@ -165,220 +166,323 @@
     </div>
 
     <!-- Create / Edit Modal -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
-    >
-      <div class="relative w-full max-w-xl rounded-[8px] border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-3">
-          <div class="flex items-center gap-2">
-            <Quote class="h-5 w-5 text-indigo-500" />
-            <h2 class="text-base font-bold text-neutral-900 dark:text-neutral-50">
-              {{ isEditing ? 'Edit Client Testimonial' : 'Add Client Recommendation' }}
-            </h2>
-          </div>
-          <button
-            @click="closeModal"
-            class="text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 text-lg leading-none cursor-pointer"
-          >
-            &times;
-          </button>
-        </div>
-
-        <form @submit.prevent="submitModalForm" class="space-y-4">
-          <!-- Client Name & Role -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-                Client / Leader Name <span class="text-red-500">*</span>
-              </label>
-              <input
-                v-model="form.client_name"
-                type="text"
-                placeholder="e.g., Sarah Jenkins"
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-                :class="{ 'border-red-500': form.errors.client_name }"
-              />
-              <p v-if="form.errors.client_name" class="text-xs text-red-500">{{ form.errors.client_name }}</p>
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-                Role / Title
-              </label>
-              <input
-                v-model="form.client_role"
-                type="text"
-                placeholder="e.g., VP of Engineering"
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-              />
-            </div>
-          </div>
-
-          <!-- Company & Project Reference -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-                Company / Organization
-              </label>
-              <input
-                v-model="form.company"
-                type="text"
-                placeholder="e.g., CloudScale Networks"
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-              />
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-                Project Reference
-              </label>
-              <input
-                v-model="form.project_reference"
-                type="text"
-                placeholder="e.g., Nexus SaaS Dashboard"
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-              />
-            </div>
-          </div>
-
-          <!-- Star Rating & LinkedIn URL -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-                Star Rating
-              </label>
-              <div class="flex items-center gap-1.5 h-9">
-                <button
-                  v-for="star in 5"
-                  :key="star"
-                  type="button"
-                  @click="form.rating = star"
-                  class="p-1 hover:scale-110 transition-transform cursor-pointer"
-                >
-                  <Star
-                    class="h-5 w-5"
-                    :class="star <= form.rating ? 'fill-amber-400 text-amber-400' : 'text-neutral-300 dark:text-neutral-700'"
-                  />
-                </button>
-                <span class="text-xs font-bold ml-2 text-neutral-700 dark:text-neutral-300">{{ form.rating }} / 5</span>
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-                LinkedIn Profile URL
-              </label>
-              <input
-                v-model="form.linkedin_url"
-                type="text"
-                placeholder="https://linkedin.com/in/..."
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-              />
-            </div>
-          </div>
-
-          <!-- Client Avatar / Photo -->
-          <div class="space-y-1.5">
-            <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-              Client Avatar (Photo URL or Upload)
-            </label>
+    <Teleport to="body">
+      <div
+        v-if="isModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/60 backdrop-blur-xs overflow-y-auto"
+        @click.self="closeModal"
+        @keydown.esc="closeModal"
+      >
+        <div class="relative w-full max-w-2xl rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl overflow-hidden my-auto">
+          <!-- Modal Header -->
+          <div class="px-6 py-4 border-b border-slate-200 dark:border-neutral-800 flex items-center justify-between bg-white dark:bg-neutral-950">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-[6px] overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 shrink-0">
-                <img
-                  v-if="modalAvatarPreview"
-                  :src="modalAvatarPreview"
-                  class="w-full h-full object-cover"
-                />
-                <div v-else class="w-full h-full flex items-center justify-center text-xs font-bold bg-neutral-800 text-white">
-                  ?
-                </div>
+              <div class="h-9 w-9 rounded-[6px] bg-slate-900 text-white dark:bg-white dark:text-slate-950 flex items-center justify-center shadow-2xs shrink-0">
+                <Quote class="h-4.5 w-4.5" />
               </div>
-
-              <input
-                v-model="form.client_avatar"
-                type="text"
-                placeholder="Image URL: https://images.unsplash.com/..."
-                class="flex-1 h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-              />
-
-              <input
-                type="file"
-                accept="image/*"
-                @change="handleAvatarUpload"
-                class="hidden"
-                ref="avatarFileInput"
-              />
-              <button
-                type="button"
-                @click="$refs.avatarFileInput.click()"
-                class="h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-800 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors shrink-0 cursor-pointer"
-              >
-                Upload File
-              </button>
-            </div>
-          </div>
-
-          <!-- Endorsement Quote -->
-          <div class="space-y-1.5">
-            <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200">
-              Recommendation Quote <span class="text-red-500">*</span>
-            </label>
-            <textarea
-              v-model="form.quote"
-              rows="4"
-              placeholder="What did the client or executive say about your engineering delivery, technical ownership, communication, or speed?"
-              class="w-full p-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
-              :class="{ 'border-red-500': form.errors.quote }"
-            ></textarea>
-            <p v-if="form.errors.quote" class="text-xs text-red-500">{{ form.errors.quote }}</p>
-          </div>
-
-          <!-- Order & Active Checkbox -->
-          <div class="flex items-center justify-between pt-2 border-t border-neutral-100 dark:border-neutral-900">
-            <div class="flex items-center gap-2">
-              <label class="text-xs font-bold text-neutral-800 dark:text-neutral-200">Display Order:</label>
-              <input
-                v-model.number="form.order"
-                type="number"
-                min="0"
-                class="w-16 h-8 px-2 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 text-center"
-              />
+              <div>
+                <h2 class="text-sm font-bold text-slate-900 dark:text-white leading-none">
+                  {{ isEditing ? 'Edit Client Recommendation' : 'Add Client Recommendation' }}
+                </h2>
+                <p class="text-[11px] text-slate-500 dark:text-neutral-400 mt-1">
+                  Executive praise, testimonials, and verified social proof.
+                </p>
+              </div>
             </div>
 
-            <label class="flex items-center gap-2.5 cursor-pointer select-none">
-              <input
-                v-model="form.is_active"
-                type="checkbox"
-                class="h-5 w-5 rounded-[4px] border-2 border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 text-blue-600 dark:text-blue-500 checked:bg-blue-600 dark:checked:bg-blue-500 checked:border-blue-600 dark:checked:border-blue-500 focus:ring-0 focus:ring-offset-0 cursor-pointer transition-all shadow-xs shrink-0"
-              />
-              <span class="text-xs font-bold text-neutral-800 dark:text-neutral-200">Active (Visible in Carousel)</span>
-            </label>
-          </div>
-
-          <!-- Modal Actions -->
-          <div class="flex items-center justify-end gap-3 pt-3 border-t border-neutral-200 dark:border-neutral-800">
             <button
               type="button"
               @click="closeModal"
-              class="h-9 px-4 rounded-[6px] border border-neutral-200 dark:border-neutral-800 text-xs font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors cursor-pointer"
+              class="h-8 w-8 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-400 hover:text-slate-700 dark:hover:text-neutral-200 hover:bg-slate-50 dark:hover:bg-neutral-800 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
             >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              :disabled="form.processing"
-              class="h-9 px-5 rounded-[6px] bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:opacity-90 transition-all shadow flex items-center gap-2 cursor-pointer disabled:opacity-50"
-            >
-              <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
-              <Save v-else class="h-4 w-4" />
-              <span>{{ isEditing ? 'Save Changes' : 'Add Testimonial' }}</span>
+              <X class="h-4 w-4" />
             </button>
           </div>
-        </form>
+
+          <!-- Form Body -->
+          <form @submit.prevent="submitModalForm" class="p-6 space-y-5 max-h-[calc(85vh-130px)] overflow-y-auto">
+            <!-- SECTION 1: Client Profile Header & Avatar -->
+            <div class="p-4 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 space-y-3.5 shadow-2xs">
+              <div class="flex items-start gap-4">
+                <!-- Avatar Upload Slot -->
+                <div class="flex flex-col items-center gap-1.5 shrink-0">
+                  <div
+                    @click="$refs.avatarFileInput.click()"
+                    class="relative w-20 h-20 rounded-full border-2 border-dashed border-slate-300 hover:border-slate-900 dark:border-neutral-700 dark:hover:border-neutral-400 bg-slate-50 dark:bg-neutral-900 overflow-hidden cursor-pointer group transition-all flex items-center justify-center shadow-2xs"
+                    title="Click to upload client photo"
+                  >
+                    <img
+                      v-if="modalAvatarPreview"
+                      :src="modalAvatarPreview"
+                      alt="Client Avatar Preview"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                    <div v-else class="flex flex-col items-center justify-center text-slate-400 group-hover:text-slate-700 dark:text-neutral-500 dark:group-hover:text-neutral-200 transition-colors">
+                      <Camera class="h-6 w-6 stroke-[1.5]" />
+                      <span class="text-[10px] font-semibold mt-1">Photo</span>
+                    </div>
+
+                    <!-- Hover Overlay -->
+                    <div
+                      v-if="modalAvatarPreview"
+                      class="absolute inset-0 bg-black/50 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white"
+                    >
+                      <Upload class="h-4 w-4 mb-0.5" />
+                      <span class="text-[9px] font-bold uppercase tracking-wider">Change</span>
+                    </div>
+                  </div>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    @change="handleAvatarUpload"
+                    class="hidden"
+                    ref="avatarFileInput"
+                  />
+
+                  <div class="flex items-center gap-2">
+                    <button
+                      type="button"
+                      @click="showUrlInput = !showUrlInput"
+                      class="text-[10px] font-medium text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white underline underline-offset-2 transition-colors cursor-pointer"
+                    >
+                      {{ showUrlInput ? 'Hide URL' : 'Paste URL' }}
+                    </button>
+                    <button
+                      v-if="modalAvatarPreview"
+                      type="button"
+                      @click="removeAvatar"
+                      class="text-[10px] font-medium text-red-500 hover:text-red-700 transition-colors cursor-pointer"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Primary Identity Fields -->
+                <div class="flex-1 space-y-3">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Client Name -->
+                    <div class="space-y-1">
+                      <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                        Client / Leader Name <span class="text-red-500">*</span>
+                      </label>
+                      <div class="relative">
+                        <User class="h-3.5 w-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          v-model="form.client_name"
+                          type="text"
+                          placeholder="e.g., Sarah Jenkins"
+                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                          :class="{ 'border-red-500': form.errors.client_name }"
+                        />
+                      </div>
+                      <p v-if="form.errors.client_name" class="text-[11px] text-red-500">{{ form.errors.client_name }}</p>
+                    </div>
+
+                    <!-- Role / Title -->
+                    <div class="space-y-1">
+                      <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                        Role / Title
+                      </label>
+                      <div class="relative">
+                        <Briefcase class="h-3.5 w-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          v-model="form.client_role"
+                          type="text"
+                          placeholder="e.g., VP of Engineering"
+                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Company -->
+                    <div class="space-y-1">
+                      <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                        Company / Organization
+                      </label>
+                      <div class="relative">
+                        <Building class="h-3.5 w-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          v-model="form.company"
+                          type="text"
+                          placeholder="e.g., CloudScale Networks"
+                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- LinkedIn URL -->
+                    <div class="space-y-1">
+                      <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                        LinkedIn Profile URL
+                      </label>
+                      <div class="relative">
+                        <Linkedin class="h-3.5 w-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        <input
+                          v-model="form.linkedin_url"
+                          type="text"
+                          placeholder="https://linkedin.com/in/..."
+                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Collapsible Image URL input -->
+              <div v-if="showUrlInput" class="pt-2 border-t border-slate-100 dark:border-neutral-800">
+                <label class="block text-[11px] font-bold text-slate-600 dark:text-neutral-400 mb-1">
+                  Direct Avatar Image URL
+                </label>
+                <input
+                  v-model="form.client_avatar"
+                  type="text"
+                  placeholder="https://images.unsplash.com/..."
+                  class="w-full h-8 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900"
+                />
+              </div>
+            </div>
+
+            <!-- SECTION 2: Project Reference & Interactive Star Rating -->
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+                <!-- Project Reference -->
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                    Associated Project
+                  </label>
+                  <div class="relative">
+                    <Folder class="h-3.5 w-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <input
+                      v-model="form.project_reference"
+                      type="text"
+                      placeholder="e.g., Nexus SaaS Dashboard"
+                      class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                    />
+                  </div>
+                </div>
+
+                <!-- Star Rating Selector -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between">
+                    <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                      Client Star Rating
+                    </label>
+                    <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+                      {{ currentRatingLabel }}
+                    </span>
+                  </div>
+                  <div class="h-9 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 flex items-center justify-between">
+                    <div class="flex items-center gap-1.5" @mouseleave="hoverRating = 0">
+                      <button
+                        v-for="star in 5"
+                        :key="star"
+                        type="button"
+                        @mouseenter="hoverRating = star"
+                        @click="form.rating = star"
+                        class="p-0.5 hover:scale-120 transition-transform cursor-pointer"
+                        :title="`Rate ${star} Stars`"
+                      >
+                        <Star
+                          class="h-4.5 w-4.5 transition-colors"
+                          :class="star <= (hoverRating || form.rating)
+                            ? 'fill-amber-400 text-amber-400'
+                            : 'text-slate-200 dark:text-neutral-700'"
+                        />
+                      </button>
+                    </div>
+                    <span class="text-xs font-mono font-bold text-slate-500 dark:text-neutral-400">
+                      {{ form.rating }} / 5
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recommendation Quote -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <label class="block text-xs font-bold text-slate-800 dark:text-neutral-200">
+                    Recommendation Quote <span class="text-red-500">*</span>
+                  </label>
+                  <span class="text-[11px] text-slate-400 font-medium">Rendered on live portfolio card</span>
+                </div>
+                <textarea
+                  v-model="form.quote"
+                  rows="4"
+                  placeholder="What did the client or executive highlight regarding technical velocity, backend architecture, communication, or project execution?"
+                  class="w-full p-3.5 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 leading-relaxed"
+                  :class="{ 'border-red-500': form.errors.quote }"
+                ></textarea>
+                <p v-if="form.errors.quote" class="text-[11px] text-red-500">{{ form.errors.quote }}</p>
+              </div>
+            </div>
+
+            <!-- SECTION 3: Live Visibility Toggle & Sort Order -->
+            <div class="p-3.5 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+              <!-- Modern Toggle Switch -->
+              <div class="flex items-center gap-3">
+                <button
+                  type="button"
+                  @click="form.is_active = !form.is_active"
+                  :class="form.is_active ? 'bg-slate-900 dark:bg-white' : 'bg-slate-200 dark:bg-neutral-800'"
+                  class="relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-0.5"
+                  role="switch"
+                  :aria-checked="form.is_active"
+                >
+                  <span
+                    :class="form.is_active ? 'translate-x-5 bg-white dark:bg-slate-900' : 'translate-x-0 bg-white dark:bg-neutral-400'"
+                    class="pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-xs ring-0 transition duration-200 ease-in-out"
+                  />
+                </button>
+                <div>
+                  <span class="text-xs font-bold text-slate-900 dark:text-white block leading-none">
+                    Active &bull; Visible in Carousel
+                  </span>
+                  <span class="text-[11px] text-slate-500 dark:text-neutral-400 mt-0.5 block">
+                    Displayed prominently on your portfolio homepage.
+                  </span>
+                </div>
+              </div>
+
+              <!-- Order Input -->
+              <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                <span class="text-xs font-bold text-slate-700 dark:text-neutral-300">Sort Order:</span>
+                <input
+                  v-model.number="form.order"
+                  type="number"
+                  min="0"
+                  class="w-14 h-8 px-2 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 text-center font-mono font-bold focus:outline-none focus:border-slate-900"
+                />
+              </div>
+            </div>
+
+            <!-- Modal Footer Actions -->
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-200 dark:border-neutral-800">
+              <button
+                type="button"
+                @click="closeModal"
+                class="h-9 px-4 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-xs font-semibold text-slate-700 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer shadow-2xs"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                :disabled="form.processing"
+                class="h-9 px-5 rounded-[6px] bg-slate-900 text-white dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:bg-slate-800 transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
+                <Save v-else class="h-4 w-4" />
+                <span>{{ isEditing ? 'Save Changes' : 'Create Endorsement' }}</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </Teleport>
 
     <!-- Delete Confirmation Modal -->
     <DeleteConfirmModal
@@ -393,7 +497,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteConfirmModal from '@/Components/DeleteConfirmModal.vue';
@@ -406,6 +510,13 @@ import {
   Linkedin,
   Save,
   Loader2,
+  User,
+  Briefcase,
+  Building,
+  Camera,
+  Upload,
+  X,
+  Folder,
 } from 'lucide-vue-next';
 
 const props = defineProps({
@@ -424,6 +535,21 @@ const isModalOpen = ref(false);
 const isEditing = ref(false);
 const editingId = ref(null);
 const localAvatarPreview = ref(null);
+const showUrlInput = ref(false);
+const hoverRating = ref(0);
+
+const ratingLabels = {
+  5: '5.0 ★ Exceptional',
+  4: '4.0 ★ Highly Recommended',
+  3: '3.0 ★ Good Delivery',
+  2: '2.0 ★ Fair',
+  1: '1.0 ★ Needs Improvement',
+};
+
+const currentRatingLabel = computed(() => {
+  const r = hoverRating.value || form.rating || 5;
+  return ratingLabels[r] || `${r}.0 ★ Rated`;
+});
 
 const form = useForm({
   client_name: '',
@@ -453,10 +579,18 @@ function handleAvatarUpload(e) {
   localAvatarPreview.value = URL.createObjectURL(file);
 }
 
+function removeAvatar() {
+  form.client_avatar = '';
+  form.avatar_file = null;
+  localAvatarPreview.value = null;
+}
+
 function openCreateModal() {
   isEditing.value = false;
   editingId.value = null;
   localAvatarPreview.value = null;
+  showUrlInput.value = false;
+  hoverRating.value = 0;
   form.reset();
   form.clearErrors();
   form.rating = 5;
@@ -469,6 +603,8 @@ function openEditModal(item) {
   isEditing.value = true;
   editingId.value = item.id;
   localAvatarPreview.value = null;
+  showUrlInput.value = Boolean(item.client_avatar && !item.client_avatar.startsWith('/storage/'));
+  hoverRating.value = 0;
   form.clearErrors();
   form.client_name = item.client_name || '';
   form.client_role = item.client_role || '';
@@ -489,6 +625,14 @@ function closeModal() {
   isModalOpen.value = false;
   form.reset();
 }
+
+watch(isModalOpen, (open) => {
+  if (open) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+});
 
 function submitModalForm() {
   if (isEditing.value) {

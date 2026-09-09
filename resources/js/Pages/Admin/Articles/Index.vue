@@ -41,15 +41,15 @@
       </div>
 
       <!-- Filters & Search Toolbar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-neutral-50/50 dark:bg-neutral-900/40 p-2.5 rounded-[8px] border border-neutral-200 dark:border-neutral-800">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-card p-2.5 rounded-[6px] border border-slate-200 dark:border-neutral-800 shadow-xs">
         <!-- Status Tabs -->
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-1.5">
           <button
             @click="activeFilter = 'all'"
             class="px-3 py-1.5 rounded-[6px] text-xs font-semibold transition-all cursor-pointer"
             :class="activeFilter === 'all' 
-              ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 shadow-xs border border-neutral-200 dark:border-neutral-700' 
-              : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50'"
+              ? 'bg-slate-900 text-white dark:bg-white dark:text-neutral-950 font-bold shadow-xs' 
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-neutral-400 dark:hover:text-neutral-50'"
           >
             All ({{ articles.length }})
           </button>
@@ -57,8 +57,8 @@
             @click="activeFilter = 'published'"
             class="px-3 py-1.5 rounded-[6px] text-xs font-semibold transition-all cursor-pointer"
             :class="activeFilter === 'published' 
-              ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 shadow-xs border border-neutral-200 dark:border-neutral-700' 
-              : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50'"
+              ? 'bg-slate-900 text-white dark:bg-white dark:text-neutral-950 font-bold shadow-xs' 
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-neutral-400 dark:hover:text-neutral-50'"
           >
             Published ({{ publishedCount }})
           </button>
@@ -66,8 +66,8 @@
             @click="activeFilter = 'draft'"
             class="px-3 py-1.5 rounded-[6px] text-xs font-semibold transition-all cursor-pointer"
             :class="activeFilter === 'draft' 
-              ? 'bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 shadow-xs border border-neutral-200 dark:border-neutral-700' 
-              : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-50'"
+              ? 'bg-slate-900 text-white dark:bg-white dark:text-neutral-950 font-bold shadow-xs' 
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-neutral-400 dark:hover:text-neutral-50'"
           >
             Drafts ({{ articles.length - publishedCount }})
           </button>
@@ -75,12 +75,12 @@
 
         <!-- Search input -->
         <div class="relative w-full sm:w-72">
-          <Search class="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" />
+          <Search class="h-3.5 w-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-neutral-400 pointer-events-none" />
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Search articles by title or tag..."
-            class="w-full h-8 pl-8 pr-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-xs text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500 transition-colors"
+            class="w-full h-8 pl-8 pr-3 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-xs text-slate-900 dark:text-neutral-100 placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-slate-900 dark:focus:border-neutral-500 transition-colors"
           />
         </div>
       </div>

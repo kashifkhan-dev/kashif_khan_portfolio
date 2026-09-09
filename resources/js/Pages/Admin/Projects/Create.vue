@@ -25,7 +25,7 @@
         <div class="flex items-center gap-3 shrink-0">
           <Link 
             :href="route('admin.projects.index')" 
-            class="h-9 px-4 rounded-lg border bg-background text-xs font-semibold text-foreground hover:bg-muted transition-colors flex items-center justify-center"
+            class="h-9 px-4 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-background text-xs font-semibold text-slate-700 dark:text-foreground hover:bg-slate-50 transition-colors flex items-center justify-center shadow-xs"
           >
             Cancel
           </Link>
@@ -33,7 +33,7 @@
             type="button"
             @click="submitForm"
             :disabled="form.processing" 
-            class="h-9 px-5 rounded-lg bg-neutral-900 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:opacity-90 transition-all shadow-md flex items-center gap-2"
+            class="h-9 px-5 rounded-md bg-slate-900 text-white dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2 cursor-pointer"
           >
             <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
             <Save v-else class="h-4 w-4" />
@@ -49,15 +49,15 @@
         <div class="lg:col-span-2 space-y-6">
           
           <!-- Card 1: Project Identity & Documentation -->
-          <div class="rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-card text-card-foreground shadow-sm p-6 space-y-5">
-            <div class="flex items-center gap-2 border-b border-neutral-200 dark:border-neutral-800/80 pb-3 text-sm font-bold text-neutral-900 dark:text-neutral-50">
+          <div class="rounded-xl border border-slate-200 dark:border-neutral-800/80 bg-white dark:bg-card text-card-foreground shadow-xs p-6 space-y-5">
+            <div class="flex items-center gap-2 border-b border-slate-200 dark:border-neutral-800/80 pb-3 text-sm font-bold text-slate-900 dark:text-neutral-50">
               <FileText class="h-4 w-4 text-indigo-500" />
               <span>Project Identity & Content</span>
             </div>
 
             <!-- Project Title -->
             <div class="space-y-1.5">
-              <label class="font-semibold text-foreground text-xs">
+              <label class="font-semibold text-slate-800 dark:text-foreground text-xs">
                 Project Title <span class="text-rose-500">*</span>
               </label>
               <input 
@@ -65,7 +65,7 @@
                 type="text" 
                 placeholder="e.g. Nexus SaaS Telemetry Dashboard"
                 required 
-                class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all" 
+                class="w-full h-10 px-3.5 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-900 dark:text-neutral-100 text-xs placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:border-slate-900 dark:focus:border-indigo-500 focus:ring-1 focus:ring-slate-900 dark:focus:ring-indigo-500 outline-none transition-all" 
               />
             </div>
 
@@ -73,7 +73,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <!-- Category Domain -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-foreground text-xs">Category Domain</label>
+                <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Category Domain</label>
                 <ShadcnSelect 
                   v-model="form.category" 
                   :options="categoryOptions" 
@@ -83,22 +83,22 @@
 
               <!-- Featured Hero -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-foreground text-xs">Featured Hero</label>
+                <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Featured Hero</label>
                 <button 
                   type="button"
                   @click="form.is_featured = !form.is_featured"
                   :class="[
-                    'w-full h-10 px-3 rounded-lg border transition-all flex items-center justify-between font-semibold text-xs cursor-pointer select-none',
+                    'w-full h-10 px-3 rounded-md border transition-all flex items-center justify-between font-semibold text-xs cursor-pointer select-none',
                     form.is_featured 
-                      ? 'border-indigo-500/50 bg-indigo-500/10 text-indigo-400 dark:text-indigo-300' 
-                      : 'border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-muted-foreground hover:text-foreground'
+                      ? 'border-indigo-500/40 bg-white dark:bg-neutral-900/60 text-indigo-600 dark:text-indigo-300' 
+                      : 'border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-600 dark:text-muted-foreground hover:text-foreground'
                   ]"
                 >
                   <span>{{ form.is_featured ? 'Featured Hero' : 'Standard' }}</span>
                   <div 
                     :class="[
                       'relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out',
-                      form.is_featured ? 'bg-indigo-600' : 'bg-neutral-300 dark:bg-neutral-700'
+                      form.is_featured ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-neutral-700'
                     ]"
                   >
                     <span 
@@ -113,12 +113,12 @@
 
               <!-- Display Order -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-foreground text-xs">Display Order</label>
-                <div class="h-10 px-2 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 flex items-center justify-between gap-1">
+                <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Display Order</label>
+                <div class="h-10 px-2 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 flex items-center justify-between gap-1">
                   <button 
                     type="button" 
                     @click="form.order = Math.max(0, (parseInt(form.order) || 0) - 1)" 
-                    class="h-7 w-7 flex items-center justify-center rounded text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition-colors select-none shrink-0"
+                    class="h-7 w-7 flex items-center justify-center rounded text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors select-none shrink-0 cursor-pointer"
                     title="Decrease Order"
                   >
                     <Minus class="h-3.5 w-3.5" />
@@ -127,12 +127,12 @@
                     v-model.number="form.order" 
                     type="number" 
                     min="0"
-                    class="w-full h-8 text-center bg-transparent text-neutral-900 dark:text-neutral-100 text-xs font-mono font-bold outline-none border-none focus:outline-none focus:ring-0 focus:border-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                    class="w-full h-8 text-center bg-transparent text-slate-900 dark:text-neutral-100 text-xs font-mono font-bold outline-none border-none focus:outline-none focus:ring-0 focus:border-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
                   />
                   <button 
                     type="button" 
                     @click="form.order = (parseInt(form.order) || 0) + 1" 
-                    class="h-7 w-7 flex items-center justify-center rounded text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200/60 dark:hover:bg-neutral-800 transition-colors select-none shrink-0"
+                    class="h-7 w-7 flex items-center justify-center rounded text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors select-none shrink-0 cursor-pointer"
                     title="Increase Order"
                   >
                     <Plus class="h-3.5 w-3.5" />
@@ -143,27 +143,27 @@
 
             <!-- Short Summary -->
             <div class="space-y-1.5">
-              <label class="font-semibold text-foreground text-xs">Short Summary</label>
+              <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Short Summary</label>
               <textarea 
                 v-model="form.summary" 
                 rows="3"
                 placeholder="e.g. Concise overview snippet displayed on portfolio card previews..."
-                class="w-full p-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all leading-relaxed" 
+                class="w-full p-3.5 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-900 dark:text-neutral-100 text-xs placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:border-slate-900 dark:focus:border-indigo-500 focus:ring-1 focus:ring-slate-900 dark:focus:ring-indigo-500 outline-none transition-all leading-relaxed" 
               ></textarea>
             </div>
 
             <!-- Technologies & Frameworks Tag Manager -->
             <div class="space-y-1.5">
-              <label class="font-semibold text-foreground text-xs flex items-center justify-between">
+              <label class="font-semibold text-slate-800 dark:text-foreground text-xs flex items-center justify-between">
                 <span>Technologies & Frameworks</span>
-                <span class="text-[11px] text-muted-foreground font-normal">Search preset tech or type custom</span>
+                <span class="text-[11px] text-slate-500 dark:text-muted-foreground font-normal">Search preset tech or type custom</span>
               </label>
               <TechStackSelector v-model="techChips" />
             </div>
 
             <!-- Detailed Project Overview (Rich Text Editor) -->
             <div class="space-y-1.5">
-              <label class="font-semibold text-foreground text-xs">Detailed Project Overview</label>
+              <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Detailed Project Overview</label>
               <RichTextEditor 
                 v-model="form.description" 
                 placeholder="e.g. Comprehensive breakdown of project features, database architecture, key accomplishments, and performance optimizations..."
@@ -176,17 +176,17 @@
         <div class="lg:col-span-1 space-y-6">
           
           <!-- Card 2: Cover Media & Deployment Links -->
-          <div class="rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-card text-card-foreground shadow-sm p-6 space-y-5">
-            <div class="flex items-center gap-2 border-b border-neutral-200 dark:border-neutral-800/80 pb-3 text-sm font-bold text-neutral-900 dark:text-neutral-50">
+          <div class="rounded-xl border border-slate-200 dark:border-neutral-800/80 bg-white dark:bg-card text-card-foreground shadow-xs p-6 space-y-5">
+            <div class="flex items-center gap-2 border-b border-slate-200 dark:border-neutral-800/80 pb-3 text-sm font-bold text-slate-900 dark:text-neutral-50">
               <ImageIcon class="h-4 w-4 text-indigo-500" />
               <span>Media & External Links</span>
             </div>
 
             <!-- Cover Image Local Uploader & Preview -->
             <div class="space-y-2">
-              <label class="font-semibold text-foreground text-xs flex items-center justify-between">
+              <label class="font-semibold text-slate-800 dark:text-foreground text-xs flex items-center justify-between">
                 <span>Project Cover Image</span>
-                <span class="text-[11px] text-muted-foreground font-normal">PNG, JPG, WEBP (Max 5MB)</span>
+                <span class="text-[11px] text-slate-500 dark:text-muted-foreground font-normal">PNG, JPG, WEBP (Max 5MB)</span>
               </label>
 
               <!-- Hidden File Input -->
@@ -205,10 +205,10 @@
                 @dragleave.prevent="isDragging = false"
                 @drop.prevent="handleFileDrop"
                 :class="[
-                  'relative min-h-[200px] w-full rounded-xl border-2 border-dashed transition-all duration-200 flex flex-col items-center justify-center overflow-hidden cursor-pointer group',
+                  'relative min-h-[200px] w-full rounded-md border-2 border-dashed transition-all duration-200 flex flex-col items-center justify-center overflow-hidden cursor-pointer group',
                   isDragging 
-                    ? 'border-indigo-500 bg-indigo-500/10' 
-                    : 'border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/40 hover:border-indigo-500/50 hover:bg-neutral-100/50 dark:hover:bg-neutral-900/60'
+                    ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-500/10' 
+                    : 'border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 hover:border-slate-400 hover:bg-slate-50/50 dark:hover:bg-neutral-900/60'
                 ]"
               >
                 <!-- Preview Image if set -->
@@ -223,7 +223,7 @@
                     <button 
                       type="button" 
                       @click.stop="triggerFileSelect"
-                      class="px-3 py-1.5 rounded-lg bg-white/90 dark:bg-neutral-900/90 text-neutral-900 dark:text-neutral-100 text-xs font-bold shadow-md hover:bg-white transition-all flex items-center gap-1.5"
+                      class="px-3 py-1.5 rounded-md bg-white/90 dark:bg-neutral-900/90 text-neutral-900 dark:text-neutral-100 text-xs font-bold shadow-md hover:bg-white transition-all flex items-center gap-1.5"
                     >
                       <UploadCloud class="h-3.5 w-3.5 text-indigo-500" />
                       <span>Change Image</span>
@@ -231,7 +231,7 @@
                     <button 
                       type="button" 
                       @click.stop="removeImage"
-                      class="px-3 py-1.5 rounded-lg bg-rose-600/90 text-white text-xs font-bold shadow-md hover:bg-rose-600 transition-all flex items-center gap-1.5"
+                      class="px-3 py-1.5 rounded-md bg-rose-600/90 text-white text-xs font-bold shadow-md hover:bg-rose-600 transition-all flex items-center gap-1.5"
                     >
                       <X class="h-3.5 w-3.5" />
                       <span>Remove</span>
@@ -246,20 +246,20 @@
                       <UploadCloud class="h-6 w-6" />
                     </div>
                     <div>
-                      <p class="text-xs font-bold text-neutral-900 dark:text-neutral-100">
-                        Click to upload <span class="text-neutral-500 font-normal">or drag & drop</span>
+                      <p class="text-xs font-bold text-slate-900 dark:text-neutral-100">
+                        Click to upload <span class="text-slate-500 dark:text-neutral-500 font-normal">or drag & drop</span>
                       </p>
-                      <p class="text-[11px] text-neutral-500 mt-0.5">e.g. High resolution portfolio image from local computer</p>
+                      <p class="text-[11px] text-slate-500 dark:text-neutral-500 mt-0.5">e.g. High resolution portfolio image from local computer</p>
                     </div>
                   </div>
                 </template>
               </div>
             </div>
 
-            <div class="border-t border-neutral-200 dark:border-neutral-800 pt-4 space-y-4">
+            <div class="border-t border-slate-200 dark:border-neutral-800 pt-4 space-y-4">
               <!-- Live Demo URL -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-foreground text-xs flex items-center gap-1.5">
+                <label class="font-semibold text-slate-800 dark:text-foreground text-xs flex items-center gap-1.5">
                   <Globe class="h-3.5 w-3.5 text-indigo-500" />
                   <span>Live Demo Website URL</span>
                 </label>
@@ -267,13 +267,13 @@
                   v-model="form.demo_url" 
                   type="url" 
                   placeholder="e.g. https://myproject.com" 
-                  class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
+                  class="w-full h-10 px-3.5 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-900 dark:text-neutral-100 text-xs placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:border-slate-900 dark:focus:border-indigo-500 focus:ring-1 focus:ring-slate-900 dark:focus:ring-indigo-500 outline-none" 
                 />
               </div>
 
               <!-- GitHub URL -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-foreground text-xs flex items-center gap-1.5">
+                <label class="font-semibold text-slate-800 dark:text-foreground text-xs flex items-center gap-1.5">
                   <Github class="h-3.5 w-3.5 text-indigo-500" />
                   <span>GitHub Repository URL</span>
                 </label>
@@ -281,7 +281,7 @@
                   v-model="form.github_url" 
                   type="url" 
                   placeholder="e.g. https://github.com/user/repo" 
-                  class="w-full h-10 px-3.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-neutral-900 dark:text-neutral-100 text-xs placeholder:text-neutral-500 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none" 
+                  class="w-full h-10 px-3.5 rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-900 dark:text-neutral-100 text-xs placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:border-slate-900 dark:focus:border-indigo-500 focus:ring-1 focus:ring-slate-900 dark:focus:ring-indigo-500 outline-none" 
                 />
               </div>
             </div>
