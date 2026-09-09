@@ -3,16 +3,16 @@
     <!-- Trigger Input Box -->
     <div 
       @click="togglePopover"
-      class="w-full h-10 px-3.5 rounded-[6px] border border-neutral-800 bg-neutral-900 text-white text-xs flex items-center justify-between transition-all"
+      class="w-full h-10 px-3.5 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-900 dark:text-white text-xs flex items-center justify-between transition-all shadow-2xs"
       :class="[
-        disabled ? 'opacity-40 cursor-not-allowed bg-neutral-900/50' : 'cursor-pointer hover:border-neutral-700 group',
-        isOpen ? 'border-white ring-1 ring-white' : ''
+        disabled ? 'opacity-40 cursor-not-allowed bg-slate-50 dark:bg-neutral-900/50' : 'cursor-pointer hover:border-slate-400 dark:hover:border-neutral-700 group',
+        isOpen ? 'border-slate-900 ring-1 ring-slate-900 dark:border-white dark:ring-white' : ''
       ]"
     >
       <div class="flex items-center gap-2.5 overflow-hidden">
-        <Calendar class="h-4 w-4 text-neutral-400 group-hover:text-neutral-200 shrink-0 transition-colors" />
-        <span v-if="displayValue" class="font-medium text-neutral-100 truncate">{{ displayValue }}</span>
-        <span v-else class="text-neutral-500 truncate">{{ placeholder }}</span>
+        <Calendar class="h-4 w-4 text-slate-400 group-hover:text-slate-600 dark:text-neutral-400 dark:group-hover:text-neutral-200 shrink-0 transition-colors" />
+        <span v-if="displayValue" class="font-medium text-slate-900 dark:text-neutral-100 truncate">{{ displayValue }}</span>
+        <span v-else class="text-slate-400 dark:text-neutral-500 truncate">{{ placeholder }}</span>
       </div>
 
       <div class="flex items-center gap-1">
@@ -20,37 +20,37 @@
           v-if="modelValue && !disabled" 
           type="button" 
           @click.stop="clearValue" 
-          class="p-0.5 rounded hover:text-white hover:bg-neutral-800 text-neutral-400 transition-colors"
+          class="p-0.5 rounded-[4px] hover:text-slate-900 hover:bg-slate-100 dark:hover:text-white dark:hover:bg-neutral-800 text-slate-400 transition-colors cursor-pointer"
           title="Clear date"
         >
           <X class="h-3.5 w-3.5" />
         </button>
-        <ChevronDown class="h-3.5 w-3.5 text-neutral-400 group-hover:text-neutral-200 shrink-0 transition-colors" />
+        <ChevronDown class="h-3.5 w-3.5 text-slate-400 group-hover:text-slate-600 dark:text-neutral-400 dark:group-hover:text-neutral-200 shrink-0 transition-colors" />
       </div>
     </div>
 
     <!-- Shadcn Custom Calendar Popover -->
     <div 
       v-if="isOpen && !disabled" 
-      class="absolute left-0 mt-1.5 w-72 p-3 rounded-[8px] border border-neutral-800 bg-neutral-950 shadow-2xl z-50 animate-in fade-in-50 duration-150"
+      class="absolute left-0 mt-1.5 w-72 p-3 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-xl z-50 animate-in fade-in-50 duration-150"
     >
       <!-- Popover Header: Month & Year Controls -->
-      <div class="flex items-center justify-between pb-2 mb-2 border-b border-neutral-800/80">
+      <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 dark:border-neutral-800/80">
         <button 
           type="button" 
           @click="prevMonth"
-          class="h-7 w-7 rounded-[6px] hover:bg-neutral-900 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+          class="h-7 w-7 rounded-[6px] hover:bg-slate-100 dark:hover:bg-neutral-900 text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer"
         >
           <ChevronLeft class="h-4 w-4" />
         </button>
 
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-2">
           <!-- Month Dropdown -->
           <select 
             v-model="currentMonth" 
-            class="bg-transparent text-white text-xs font-semibold rounded px-1.5 py-1 outline-none cursor-pointer hover:bg-neutral-900 transition-colors border-none"
+            class="date-picker-select bg-slate-100/90 hover:bg-slate-200/80 dark:bg-neutral-900 dark:hover:bg-neutral-800 text-slate-900 dark:text-white text-xs font-bold rounded-[6px] border border-slate-200 dark:border-neutral-800 outline-none cursor-pointer transition-colors text-center shadow-2xs"
           >
-            <option v-for="(m, idx) in monthNames" :key="idx" :value="idx" class="bg-neutral-950 text-white">
+            <option v-for="(m, idx) in monthNames" :key="idx" :value="idx" class="bg-white dark:bg-neutral-950 text-slate-900 dark:text-white">
               {{ m }}
             </option>
           </select>
@@ -58,9 +58,9 @@
           <!-- Year Dropdown -->
           <select 
             v-model="currentYear" 
-            class="bg-transparent text-white text-xs font-semibold rounded px-1.5 py-1 outline-none cursor-pointer hover:bg-neutral-900 transition-colors border-none"
+            class="date-picker-select bg-slate-100/90 hover:bg-slate-200/80 dark:bg-neutral-900 dark:hover:bg-neutral-800 text-slate-900 dark:text-white text-xs font-bold rounded-[6px] border border-slate-200 dark:border-neutral-800 outline-none cursor-pointer transition-colors text-center shadow-2xs"
           >
-            <option v-for="y in yearOptions" :key="y" :value="y" class="bg-neutral-950 text-white">
+            <option v-for="y in yearOptions" :key="y" :value="y" class="bg-white dark:bg-neutral-950 text-slate-900 dark:text-white">
               {{ y }}
             </option>
           </select>
@@ -69,14 +69,14 @@
         <button 
           type="button" 
           @click="nextMonth"
-          class="h-7 w-7 rounded-[6px] hover:bg-neutral-900 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+          class="h-7 w-7 rounded-[6px] hover:bg-slate-100 dark:hover:bg-neutral-900 text-slate-500 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer"
         >
           <ChevronRight class="h-4 w-4" />
         </button>
       </div>
 
       <!-- Days of Week Header -->
-      <div class="grid grid-cols-7 text-center mb-1 text-[11px] font-semibold text-neutral-400 select-none">
+      <div class="grid grid-cols-7 text-center mb-1 text-[11px] font-bold text-slate-400 dark:text-neutral-400 select-none">
         <span>Su</span>
         <span>Mo</span>
         <span>Tu</span>
@@ -93,11 +93,11 @@
           :key="idx"
           type="button"
           @click="selectDay(dayObj)"
-          class="h-8 w-8 rounded-[6px] flex items-center justify-center text-xs transition-all cursor-pointer"
+          class="h-8 w-8 rounded-[6px] flex items-center justify-center text-xs transition-all cursor-pointer font-medium"
           :class="[
-            !dayObj.isCurrentMonth ? 'text-neutral-600 hover:text-neutral-400' : 'text-neutral-200',
-            dayObj.isSelected ? 'bg-white text-black font-extrabold shadow-sm' : 'hover:bg-neutral-800 hover:text-white',
-            dayObj.isToday && !dayObj.isSelected ? 'border border-neutral-700 text-indigo-400 font-bold' : ''
+            !dayObj.isCurrentMonth ? 'text-slate-300 dark:text-neutral-600 hover:text-slate-500 dark:hover:text-neutral-400' : 'text-slate-700 dark:text-neutral-200',
+            dayObj.isSelected ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-extrabold shadow-sm' : 'hover:bg-slate-100 dark:hover:bg-neutral-800 hover:text-slate-900 dark:hover:text-white',
+            dayObj.isToday && !dayObj.isSelected ? 'border border-indigo-200 dark:border-neutral-700 text-indigo-600 dark:text-indigo-400 font-bold' : ''
           ]"
         >
           {{ dayObj.day }}
@@ -293,3 +293,20 @@ onUnmounted(() => {
   window.removeEventListener('click', handleClickOutside);
 });
 </script>
+
+<style scoped>
+.date-picker-select {
+  background-image: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  padding-left: 0.625rem !important;
+  padding-right: 0.625rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  line-height: 1.25rem !important;
+}
+.date-picker-select::-ms-expand {
+  display: none !important;
+}
+</style>

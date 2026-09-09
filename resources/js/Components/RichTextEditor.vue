@@ -1,7 +1,7 @@
 <template>
-  <div class="rounded-[6px] border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 overflow-hidden focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all">
+  <div class="rounded-md border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 overflow-hidden focus-within:border-slate-900 dark:focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-slate-900 dark:focus-within:ring-indigo-500 transition-all">
     <!-- Formatting Toolbar -->
-    <div class="flex flex-wrap items-center gap-1 p-2 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/80 text-foreground select-none">
+    <div class="flex flex-wrap items-center gap-1 p-2 border-b border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/80 text-foreground select-none">
       
       <!-- Text Styles -->
       <button 

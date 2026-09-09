@@ -3,19 +3,19 @@
     <!-- Tag Chips Box & Search Input -->
     <div 
       @click="focusInput"
-      class="p-3 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 min-h-[60px] flex flex-wrap items-center gap-2 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all cursor-text"
+      class="p-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 min-h-[60px] flex flex-wrap items-center gap-2 focus-within:border-slate-900 dark:focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-slate-900 dark:focus-within:ring-indigo-500 transition-all cursor-text"
     >
       <!-- Selected Tech Chips -->
       <span 
         v-for="(chip, index) in modelValue" 
         :key="index"
-        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-neutral-200/80 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 text-xs font-semibold border border-neutral-300 dark:border-neutral-700/60 shadow-xs group"
+        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] bg-slate-100 dark:bg-neutral-800 text-slate-800 dark:text-neutral-100 text-xs font-semibold border border-slate-200 dark:border-neutral-700/60 shadow-xs group"
       >
         <span>{{ chip }}</span>
         <button 
           type="button" 
           @click.stop="removeTech(index)" 
-          class="text-muted-foreground hover:text-rose-500 transition-colors"
+          class="text-slate-400 hover:text-rose-500 transition-colors"
           title="Remove technology"
         >
           <X class="h-3.5 w-3.5" />
@@ -47,10 +47,10 @@
     >
       <div 
         v-if="isOpen"
-        class="absolute left-0 right-0 bottom-full mb-2 z-50 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/98 dark:bg-neutral-950/98 backdrop-blur-xl shadow-2xl p-3 space-y-2 max-h-72 overflow-y-auto"
+        class="absolute left-0 right-0 bottom-full mb-2 z-50 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-2xl p-3 space-y-2 max-h-72 overflow-y-auto"
       >
         <!-- Header -->
-        <div class="flex items-center justify-between text-[11px] font-semibold text-muted-foreground border-b border-neutral-100 dark:border-neutral-800/80 pb-2">
+        <div class="flex items-center justify-between text-[11px] font-semibold text-muted-foreground border-b border-slate-100 dark:border-neutral-800/80 pb-2">
           <span class="flex items-center gap-1.5 text-neutral-700 dark:text-neutral-300">
             <Sparkles class="h-3.5 w-3.5 text-indigo-500" />
             <span>Select Technologies</span>
@@ -63,7 +63,7 @@
           v-if="searchQuery.trim() && !exactMatchExists"
           type="button"
           @mousedown.prevent="addTech(searchQuery.trim())"
-          class="w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-left bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/20"
+          class="w-full px-3 py-2 rounded-[6px] text-xs font-semibold flex items-center gap-2 transition-all text-left bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/20"
         >
           <Plus class="h-3.5 w-3.5 shrink-0" />
           <span>Add custom technology <strong>"{{ searchQuery.trim() }}"</strong></span>
@@ -76,7 +76,7 @@
             :key="tech"
             type="button"
             @mousedown.prevent="addTech(tech)"
-            class="px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-between transition-all text-left border border-neutral-200 dark:border-neutral-800/80 bg-neutral-50 dark:bg-neutral-900/60 text-neutral-800 dark:text-neutral-200 hover:border-indigo-500/60 hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-300"
+            class="px-2.5 py-1.5 rounded-[6px] text-xs font-semibold flex items-center justify-between transition-all text-left border border-slate-200 dark:border-neutral-800/80 bg-white dark:bg-neutral-800 text-slate-800 dark:text-neutral-200 hover:border-indigo-500/60 hover:bg-slate-50 dark:hover:bg-neutral-700 hover:text-indigo-600 dark:hover:text-indigo-300 shadow-2xs"
           >
             <span class="truncate">{{ tech }}</span>
             <Plus class="h-3 w-3 text-muted-foreground shrink-0 ml-1 opacity-60" />

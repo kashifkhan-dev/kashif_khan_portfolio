@@ -5,30 +5,30 @@
 
     <div class="space-y-8">
       <!-- Page Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 dark:border-neutral-800 pb-6">
         <div>
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
             Skills &amp; Tech Stack
           </h1>
-          <p class="text-sm text-muted-foreground mt-1">Manage technical skills and icons displayed live in the landing page ticker marquee.</p>
+          <p class="text-sm text-slate-500 dark:text-muted-foreground mt-1">Manage technical skills and icons displayed live in the landing page ticker marquee.</p>
         </div>
 
         <div class="flex items-center space-x-3">
           <!-- Search Filter Bar -->
           <div class="relative flex items-center w-48 sm:w-60">
-            <Search class="h-3.5 w-3.5 absolute left-3 text-neutral-400 pointer-events-none" />
+            <Search class="h-3.5 w-3.5 absolute left-3 text-slate-400 dark:text-neutral-400 pointer-events-none" />
             <input
               v-model="pageSearchQuery"
               type="text"
               placeholder="Filter skills..."
-              class="w-full h-9 pl-9 pr-3 rounded-[8px] border border-neutral-800 bg-neutral-900/60 text-white text-xs focus:outline-none focus:border-white transition-colors"
+              class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-900 dark:text-white text-xs placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-1 focus:ring-slate-900 dark:focus:ring-white transition-colors shadow-2xs"
             />
           </div>
 
           <!-- Add Button -->
           <button
             @click="openCreateModal"
-            class="h-9 px-3.5 text-xs font-bold rounded-[8px] bg-white hover:bg-neutral-200 text-black transition-all flex items-center gap-2 shadow-sm shrink-0 cursor-pointer"
+            class="h-9 px-3.5 text-xs font-bold rounded-[6px] bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black transition-all flex items-center gap-2 shadow-sm shrink-0 cursor-pointer"
           >
             <Plus class="h-4 w-4" />
             <span>Add Skill</span>
@@ -41,15 +41,15 @@
         <div
           v-for="skill in filteredPageSkills"
           :key="skill.id"
-          class="p-3.5 rounded-[8px] border border-neutral-800/80 bg-neutral-900/40 hover:bg-neutral-900/90 hover:border-neutral-700 transition-all shadow-sm flex items-center justify-between group"
+          class="p-3.5 rounded-[6px] border border-slate-200 dark:border-neutral-800/80 bg-white dark:bg-card hover:border-slate-300 dark:hover:border-neutral-700 hover:shadow-md transition-all shadow-xs flex items-center justify-between group"
         >
           <div class="flex items-center space-x-3 min-w-0">
-            <div class="w-10 h-10 rounded-[8px] bg-neutral-950 border border-neutral-800 flex items-center justify-center shrink-0 group-hover:border-neutral-700 transition-colors shadow-inner">
+            <div class="w-10 h-10 rounded-[6px] bg-slate-50 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 flex items-center justify-center shrink-0 group-hover:border-slate-300 dark:group-hover:border-neutral-700 transition-colors shadow-2xs">
               <TechIcon :name="skill.icon || 'api'" class="w-5 h-5" />
             </div>
             <div class="min-w-0 space-y-0.5">
-              <h4 class="font-semibold text-xs text-neutral-200 group-hover:text-white truncate transition-colors">{{ skill.name }}</h4>
-              <span class="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block truncate">{{ skill.icon || 'api' }}</span>
+              <h4 class="font-bold text-xs text-slate-900 dark:text-neutral-100 group-hover:text-black dark:group-hover:text-white truncate transition-colors">{{ skill.name }}</h4>
+              <span class="text-[10px] font-mono text-slate-500 dark:text-neutral-400 uppercase tracking-wider block truncate">{{ skill.icon || 'api' }}</span>
             </div>
           </div>
 
@@ -57,14 +57,14 @@
             <button
               @click="openEditModal(skill)"
               title="Edit Skill"
-              class="p-1.5 rounded-[8px] text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors cursor-pointer"
+              class="p-1.5 rounded-[6px] text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
             >
               <Edit3 class="h-3.5 w-3.5" />
             </button>
             <button
               @click="openDeleteModal(skill)"
               title="Delete Skill"
-              class="p-1.5 rounded-[8px] text-neutral-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors cursor-pointer"
+              class="p-1.5 rounded-[6px] text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
             >
               <Trash2 class="h-3.5 w-3.5" />
             </button>
@@ -73,11 +73,11 @@
       </div>
 
       <!-- Empty State -->
-      <div v-else class="p-12 text-center border border-dashed border-neutral-800 rounded-[8px] bg-neutral-900/20 space-y-3">
-        <p class="text-xs text-neutral-400">No skills match your filter.</p>
+      <div v-else class="p-12 text-center border border-dashed border-slate-300 dark:border-neutral-800 rounded-[6px] bg-white dark:bg-neutral-900/20 space-y-3">
+        <p class="text-xs text-slate-500 dark:text-neutral-400">No skills match your filter.</p>
         <button
           @click="pageSearchQuery = ''"
-          class="text-xs text-white underline hover:no-underline cursor-pointer"
+          class="text-xs text-slate-900 dark:text-white underline hover:no-underline cursor-pointer font-bold"
         >
           Clear filter
         </button>
@@ -85,61 +85,61 @@
 
       <!-- MODAL DIALOG -->
       <teleport to="body">
-        <div v-if="isModalOpen" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in-50">
-          <div class="rounded-[8px] border border-neutral-800 bg-neutral-950 text-neutral-50 shadow-2xl p-6 max-w-lg w-full space-y-6 relative max-h-[90vh] flex flex-col overflow-hidden">
+        <div v-if="isModalOpen" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in-50">
+          <div class="rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-slate-900 dark:text-neutral-50 shadow-2xl p-6 max-w-lg w-full space-y-5 relative max-h-[90vh] flex flex-col overflow-hidden">
             <!-- Close Button -->
-            <button @click="closeModal" class="absolute top-4 right-4 text-neutral-400 hover:text-white p-1.5 rounded-[8px] hover:bg-neutral-900 transition-colors z-10">
+            <button @click="closeModal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white p-1.5 rounded-[6px] border border-slate-200 dark:border-neutral-800 hover:bg-slate-50 dark:hover:bg-neutral-900 transition-colors z-10 cursor-pointer shadow-2xs">
               <X class="h-4 w-4" />
             </button>
             
             <div class="shrink-0">
-              <h3 class="text-lg font-bold text-white">{{ isEditing ? 'Edit Skill' : 'Add New Skill' }}</h3>
-              <p class="text-xs text-neutral-400 mt-0.5">Enter skill name and pick a tech icon from the 3,000+ icon library below.</p>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ isEditing ? 'Edit Skill' : 'Add New Skill' }}</h3>
+              <p class="text-xs text-slate-500 dark:text-neutral-400 mt-0.5">Enter skill name and pick a tech icon from the 3,000+ icon library below.</p>
             </div>
 
-            <form @submit.prevent="submitForm" class="space-y-5 text-xs flex-1 overflow-y-auto pr-1">
+            <form @submit.prevent="submitForm" class="space-y-4 text-xs flex-1 overflow-y-auto pr-1">
               <!-- Skill Name Input -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-neutral-300 uppercase tracking-wider text-[10px]">Skill Name</label>
+                <label class="font-bold text-slate-800 dark:text-neutral-300 uppercase tracking-wider text-[10px]">Skill Name</label>
                 <input 
                   v-model="form.name" 
                   type="text" 
                   required 
                   placeholder="e.g. React.js, Bootstrap, Docker"
-                  class="w-full h-9 px-3 rounded-[8px] border border-neutral-800 bg-neutral-900 text-white text-xs focus:ring-1 focus:ring-white focus:border-white outline-none transition-colors" 
+                  class="w-full h-9 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-900 dark:text-white text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-slate-900 focus:border-slate-900 dark:focus:ring-white dark:focus:border-white outline-none transition-colors" 
                 />
               </div>
 
               <!-- Visual Icon Selector Grid -->
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                  <label class="font-semibold text-neutral-300 uppercase tracking-wider text-[10px]">Select Tech Icon</label>
+                  <label class="font-bold text-slate-800 dark:text-neutral-300 uppercase tracking-wider text-[10px]">Select Tech Icon</label>
                   <div class="flex items-center space-x-2">
-                    <span class="text-[10px] text-neutral-400 font-mono">Selected: {{ form.icon }}</span>
+                    <span class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">Selected: {{ form.icon }}</span>
                     <TechIcon :name="form.icon" class="w-4 h-4" />
                   </div>
                 </div>
 
                 <!-- Icon Search Filter -->
                 <div class="relative flex items-center">
-                  <Search class="h-4 w-4 absolute left-3 text-neutral-400 pointer-events-none" />
+                  <Search class="h-4 w-4 absolute left-3 text-slate-400 pointer-events-none" />
                   <input
                     v-model="iconSearchQuery"
                     type="text"
                     placeholder="Search 3,000+ tech icons (e.g. bootstrap, flutter, go, rust)..."
-                    class="w-full h-9 pl-9 pr-3 rounded-[8px] border border-neutral-800 bg-neutral-900 text-white text-xs focus:outline-none focus:border-white transition-colors"
+                    class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-900 dark:text-white text-xs placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
                   />
                 </div>
 
                 <!-- Icons Grid Picker -->
-                <div class="grid grid-cols-4 sm:grid-cols-6 gap-2 p-2 rounded-[8px] border border-neutral-800 bg-neutral-900/60 max-h-48 overflow-y-auto">
+                <div class="grid grid-cols-4 sm:grid-cols-6 gap-2 p-2 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-slate-50/60 dark:bg-neutral-900/60 max-h-48 overflow-y-auto">
                   <button
                     v-for="opt in filteredIcons"
                     :key="opt.value"
                     type="button"
                     @click="form.icon = opt.value"
-                    class="p-2.5 rounded-[8px] border flex flex-col items-center justify-center space-y-1 transition-all cursor-pointer group"
-                    :class="form.icon === opt.value ? 'bg-white text-black border-white shadow-lg' : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-600 hover:text-white'"
+                    class="p-2.5 rounded-[6px] border flex flex-col items-center justify-center space-y-1 transition-all cursor-pointer group shadow-2xs"
+                    :class="form.icon === opt.value ? 'bg-slate-900 text-white border-slate-900 shadow-sm dark:bg-white dark:text-black dark:border-white' : 'bg-white dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-neutral-300 hover:border-slate-400 hover:text-slate-900 dark:hover:border-neutral-600 dark:hover:text-white'"
                     :title="opt.label"
                   >
                     <TechIcon :name="opt.value" class="w-5 h-5 shrink-0" />
@@ -151,7 +151,7 @@
                     v-if="iconSearchQuery && !exactMatchFound"
                     type="button"
                     @click="form.icon = iconSearchQuery.toLowerCase().trim()"
-                    class="col-span-full p-3 rounded-[8px] border border-dashed border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                    class="col-span-full p-3 rounded-[6px] border border-dashed border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 hover:bg-slate-50 dark:hover:bg-neutral-800 text-slate-700 dark:text-neutral-200 flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-2xs"
                   >
                     <TechIcon :name="iconSearchQuery.toLowerCase().trim()" class="w-5 h-5" />
                     <span class="font-bold text-xs">Use custom icon "{{ iconSearchQuery }}" from library</span>
@@ -160,11 +160,11 @@
               </div>
 
               <!-- Custom Icon Link Toggle -->
-              <div class="pt-1 border-t border-neutral-800/80">
+              <div class="pt-1 border-t border-slate-200 dark:border-neutral-800/80">
                 <button
                   type="button"
                   @click="useCustomInput = !useCustomInput"
-                  class="text-[11px] text-neutral-400 hover:text-white flex items-center space-x-1.5 transition-colors cursor-pointer"
+                  class="text-[11px] text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white flex items-center space-x-1.5 transition-colors cursor-pointer"
                 >
                   <LinkIcon class="h-3 w-3" />
                   <span>{{ useCustomInput ? 'Hide Custom Image Input' : '+ Use Custom Image URL (PNG, SVG)' }}</span>
@@ -175,25 +175,25 @@
                     v-model="form.icon"
                     type="text"
                     placeholder="https://example.com/icon.png"
-                    class="w-full h-9 px-3 rounded-[8px] border border-neutral-800 bg-neutral-900 text-white text-xs focus:outline-none focus:border-white"
+                    class="w-full h-9 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-900 dark:text-white text-xs placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white"
                   />
-                  <p class="text-[10px] text-neutral-400">Paste any direct image URL (PNG, SVG, WebP).</p>
+                  <p class="text-[10px] text-slate-400 dark:text-neutral-400">Paste any direct image URL (PNG, SVG, WebP).</p>
                 </div>
               </div>
 
               <!-- Action Buttons -->
-              <div class="pt-4 border-t border-neutral-800 flex justify-end gap-2 shrink-0">
+              <div class="pt-3 border-t border-slate-200 dark:border-neutral-800 flex justify-end gap-2 shrink-0">
                 <button 
                   type="button" 
                   @click="closeModal" 
-                  class="h-9 px-4 rounded-[8px] border border-neutral-800 bg-neutral-900 text-xs font-semibold text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors cursor-pointer"
+                  class="h-9 px-4 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-xs font-semibold text-slate-700 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer shadow-2xs"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
                   :disabled="form.processing" 
-                  class="h-9 px-5 rounded-[8px] bg-white hover:bg-neutral-200 text-black text-xs font-extrabold transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  class="h-9 px-5 rounded-[6px] bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black text-xs font-bold transition-all shadow cursor-pointer disabled:opacity-50"
                 >
                   {{ isEditing ? 'Save Changes' : 'Create Skill' }}
                 </button>

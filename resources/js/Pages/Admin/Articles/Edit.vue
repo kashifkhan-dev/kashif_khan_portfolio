@@ -68,7 +68,7 @@
               <input
                 v-model="form.title"
                 type="text"
-                class="w-full h-10 px-3.5 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-sm text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500 transition-all"
+                class="w-full h-10 px-3.5 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-sm text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 focus:outline-none focus:border-slate-900 dark:focus:border-neutral-500 transition-all"
                 :class="{ 'border-red-500': form.errors.title }"
               />
               <p v-if="form.errors.title" class="text-xs text-red-500 mt-1">{{ form.errors.title }}</p>
@@ -81,8 +81,8 @@
                   URL Slug
                 </label>
               </div>
-              <div class="flex items-center rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 overflow-hidden focus-within:border-neutral-600 dark:focus-within:border-neutral-500 transition-all">
-                <span class="px-3 text-xs text-neutral-500 border-r border-neutral-200 dark:border-neutral-800 font-mono select-none">
+              <div class="flex items-center rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 overflow-hidden focus-within:border-slate-900 dark:focus-within:border-neutral-500 transition-all">
+                <span class="px-3 text-xs text-neutral-500 border-r border-slate-300 dark:border-neutral-800 font-mono select-none">
                   /articles/
                 </span>
                 <input
@@ -103,7 +103,7 @@
               <textarea
                 v-model="form.excerpt"
                 rows="3"
-                class="w-full p-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500 transition-all"
+                class="w-full p-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 focus:outline-none focus:border-slate-900 dark:focus:border-neutral-500 transition-all"
                 :class="{ 'border-red-500': form.errors.excerpt }"
               ></textarea>
               <p v-if="form.errors.excerpt" class="text-xs text-red-500 mt-1">{{ form.errors.excerpt }}</p>
@@ -140,7 +140,7 @@
             </h3>
 
             <!-- Published Toggle -->
-            <label class="flex items-center justify-between p-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/40 cursor-pointer hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors select-none">
+            <label class="flex items-center justify-between p-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 cursor-pointer hover:border-slate-400 dark:hover:border-neutral-700 transition-colors select-none shadow-2xs">
               <div class="space-y-0.5">
                 <span class="text-xs font-bold text-neutral-900 dark:text-neutral-50">Publish Live</span>
                 <p class="text-[10px] text-neutral-500">Visible on public portfolio and articles hub</p>
@@ -166,7 +166,7 @@
                   Auto-Calculate
                 </button>
               </div>
-              <div class="flex items-center rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 px-3 focus-within:border-neutral-600 dark:focus-within:border-neutral-500 transition-all">
+              <div class="flex items-center rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 px-3 focus-within:border-slate-900 dark:focus-within:border-neutral-500 transition-all">
                 <Clock class="h-3.5 w-3.5 text-neutral-400 mr-2 shrink-0" />
                 <input
                   v-model.number="form.read_time"
@@ -187,12 +187,12 @@
                 v-model.number="form.order"
                 type="number"
                 min="0"
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
+                class="w-full h-9 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-slate-900 dark:focus:border-neutral-500"
               />
             </div>
 
             <!-- Analytics Info -->
-            <div class="p-3 rounded-[6px] bg-neutral-100 dark:bg-neutral-900/80 border border-neutral-200 dark:border-neutral-800 text-xs space-y-1">
+            <div class="p-3 rounded-[6px] bg-white dark:bg-neutral-900/80 border border-slate-300 dark:border-neutral-800 text-xs space-y-1 shadow-2xs">
               <div class="flex items-center justify-between text-neutral-500">
                 <span>Total Views:</span>
                 <span class="font-bold text-neutral-900 dark:text-neutral-100">{{ article.views_count || 0 }}</span>
@@ -211,7 +211,7 @@
             </h3>
 
             <!-- Cover Image Preview -->
-            <div class="w-full h-36 rounded-[6px] overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 relative">
+            <div class="w-full h-36 rounded-[6px] overflow-hidden border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 relative">
               <img
                 v-if="coverPreviewUrl"
                 :src="coverPreviewUrl"
@@ -248,7 +248,7 @@
                 v-model="form.cover_image"
                 type="text"
                 placeholder="https://images.unsplash.com/..."
-                class="w-full h-9 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
+                class="w-full h-9 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-slate-900 dark:focus:border-neutral-500"
               />
             </div>
           </div>
@@ -266,7 +266,7 @@
                 @keydown.enter.prevent="addCustomTag"
                 type="text"
                 placeholder="Add tag and press Enter..."
-                class="flex-1 h-8 px-3 rounded-[6px] border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-neutral-600 dark:focus:border-neutral-500"
+                class="flex-1 h-8 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-neutral-900 dark:text-neutral-50 focus:outline-none focus:border-slate-900 dark:focus:border-neutral-500"
               />
               <button
                 type="button"
