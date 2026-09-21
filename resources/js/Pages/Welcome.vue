@@ -242,11 +242,11 @@
               <!-- Role Header Row -->
               <div
                 @click="toggleRole(cIdx, rIdx)"
-                class="flex items-start justify-between cursor-pointer group py-1 select-none"
+                class="flex flex-col sm:flex-row sm:items-center justify-between cursor-pointer group py-1 select-none gap-2 sm:gap-4"
               >
-                <div class="flex items-start space-x-3">
+                <div class="flex items-center space-x-3">
                   <!-- Code Icon Badge -->
-                  <div class="w-7 h-7 rounded-md bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:border-slate-300 dark:group-hover:border-neutral-700 text-xs font-mono flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                  <div class="w-7 h-7 rounded-md bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:border-slate-300 dark:group-hover:border-neutral-700 text-xs font-mono flex items-center justify-center shrink-0 transition-colors">
                     <span>&lt;/&gt;</span>
                   </div>
 
@@ -254,29 +254,39 @@
                     <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-neutral-200 transition-colors">
                       {{ role.role }}
                     </h4>
-                    <p class="text-xs font-mono text-slate-500 dark:text-neutral-400 mt-0.5 flex items-center space-x-2">
-                      <span>{{ role.employmentType }}</span>
-                      <span>&bull;</span>
-                      <span>{{ role.period }}</span>
+                    <p v-if="role.workType" class="text-xs font-mono text-slate-500 dark:text-neutral-400 mt-0.5">
+                      {{ role.workType }}
                     </p>
                   </div>
                 </div>
 
-                <!-- Chevron Collapse Button -->
-                <button
-                  class="p-1.5 text-slate-500 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors cursor-pointer"
-                  :aria-label="role.isOpen ? 'Collapse details' : 'Expand details'"
-                >
-                  <svg
-                    class="w-4 h-4 transform transition-transform duration-200"
-                    :class="{ 'rotate-180': role.isOpen }"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <!-- Right Side: Date above, Location below, and Collapse Chevron -->
+                <div class="flex items-center justify-between sm:justify-end space-x-3 pl-10 sm:pl-0">
+                  <div class="text-left sm:text-right font-mono">
+                    <div class="text-xs font-semibold text-slate-800 dark:text-neutral-200">
+                      {{ role.period }}
+                    </div>
+                    <div v-if="role.location" class="text-[11px] sm:text-xs text-slate-500 dark:text-neutral-400 mt-0.5">
+                      {{ role.location }}
+                    </div>
+                  </div>
+
+                  <!-- Chevron Collapse Button -->
+                  <button
+                    class="p-1.5 text-slate-500 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors cursor-pointer shrink-0"
+                    :aria-label="role.isOpen ? 'Collapse details' : 'Expand details'"
                   >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                  </svg>
-                </button>
+                    <svg
+                      class="w-4 h-4 transform transition-transform duration-200"
+                      :class="{ 'rotate-180': role.isOpen }"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
 
               <!-- Expanded Role Details (Bullet Points & Rich Text Description & Tech Stack Tags) -->
@@ -827,80 +837,192 @@ const groupedSkills = computed(() => {
 // Notion / Linear Style Nested Collapsible Experience Data
 const defaultExperiences = [
   {
-    id: 'apex',
-    company: 'Apex Cloud Systems',
-    logoText: 'AC',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-white',
+    id: 'meshsq',
+    company: 'Meshsq Pvt Ltd',
+    logoText: 'MP',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-cyan-400',
     isActive: true,
     roles: [
       {
-        id: 'lead-dev',
-        role: 'Lead Full-Stack Engineer',
-        employmentType: 'Full-time',
-        period: '07.2024 — Present',
+        id: 'meshsq-dev',
+        role: 'Full Stack Developer',
+        workType: 'Full-time',
+        location: 'Rawalpindi, Pakistan',
+        employmentType: 'Rawalpindi, Pakistan • Full-time',
+        period: 'April 20, 2026 – Present',
         isOpen: true,
         bullets: [
-          'Develop scalable SaaS applications using modern web technologies including Laravel 11, Vue 3, and Inertia.js.',
-          'Build cross-platform applications, custom API integrations, and real-time dashboard notification systems.',
-          'Architect and develop full-stack solutions with high-performance MySQL databases and Redis queues.',
-          'Design and implement RESTful APIs with PHP 8.2+, Node.js, Express, and microservices architecture.',
-          'Build responsive, performant frontend applications with Vue 3, Tailwind CSS, and Pinia state management.',
-          'Integrate third-party APIs, webhooks, and real-time features using WebSockets.',
-          'Collaborate with cross-functional teams in a remote environment to drive architecture and design decisions.',
-          'Optimize application performance, SQL query execution plans, and ensure overall code quality.'
+          'Contributing to the development of DocHyve, a full-stack web application built with Laravel, React.js, and Tailwind CSS.',
+          'Developing and maintaining scalable backend functionality using Laravel, including RESTful APIs, business logic, database operations, and application integrations.',
+          'Building responsive and reusable frontend components with React.js and Tailwind CSS, focusing on usability, performance, and maintainable UI architecture.',
+          'Collaborating with the development team to analyze requirements, implement new features, troubleshoot issues, and continuously improve the DocHyve platform.',
+          'Following clean coding practices, Git-based development workflows, code reviews, and established software engineering standards to deliver reliable and maintainable solutions.'
         ],
-        tags: [
-          'Laravel 11', 'Vue.js 3', 'Inertia.js', 'Tailwind CSS', 'TypeScript',
-          'MySQL', 'Redis', 'RESTful APIs', 'SaaS Development', 'Remote Work', 'WebSockets', 'Problem-solving'
-        ]
+        tags: ['Laravel', 'React.js', 'Tailwind CSS', 'RESTful APIs', 'Git']
       }
     ]
   },
   {
-    id: 'digital-hub',
-    company: 'Digital Innovations Hub',
-    logoText: 'DH',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-blue-400',
+    id: 'goritmi',
+    company: 'Goritmi Pvt Ltd',
+    logoText: 'GP',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-indigo-400',
     isActive: false,
     roles: [
       {
-        id: 'pos-dev',
-        role: 'Senior Frontend & Laravel Specialist',
-        employmentType: 'Full-time',
-        period: '01.2022 — 01.2024',
+        id: 'goritmi-lead',
+        role: 'Senior Software Developer | Team Lead',
+        workType: 'Full-time',
+        location: 'Peshawar, Pakistan',
+        employmentType: 'Peshawar, Pakistan • Full-time',
+        period: 'Sept 1, 2025 – 1 April, 2026',
         isOpen: false,
         bullets: [
-          'Developed custom web portals, customer management systems, and interactive client dashboards.',
-          'Built custom payment integrations with Stripe and automated billing workflows.'
+          'Led a cross-functional development team in architecting and delivering a scalable, high-performance EPOS System using Laravel, Vue.js, and Tailwind CSS.',
+          'Architected and implemented key modules, including POS order management, cashier and shift tracking, promotions and discounts, automated receipt printing, customer display interface, real-time inventory synchronization, and automated X and Z reports.',
+          'Built real-time customer view and live order updates, enhancing user engagement and operational efficiency.',
+          'Integrated third-party services including Stripe, SendGrid, and AWS S3 to enhance system functionality and reliability.',
+          'Optimized database performance through efficient indexing, caching, and query tuning, while enforcing clean architecture and modular coding practices to ensure long-term maintainability.',
+          'Collaborated with stakeholders and internal teams to define product requirements, manage sprints, and deliver critical features on schedule, improving business operations and user experience.'
         ],
-        tags: ['React.js', 'Next.js', 'Laravel Breeze', 'Tailwind CSS', 'Stripe', 'PostgreSQL']
+        tags: ['Laravel', 'Vue.js', 'Tailwind CSS', 'Stripe', 'SendGrid', 'AWS S3', 'EPOS System', 'RESTful APIs']
       }
     ]
   },
   {
-    id: 'education',
-    company: 'University of Computer Science',
-    logoText: 'BS',
+    id: 'cloud-rexpo',
+    company: 'Cloud Rexpo',
+    logoText: 'CR',
     logoBg: 'bg-neutral-900 border border-neutral-800 text-emerald-400',
     isActive: false,
     roles: [
       {
-        id: 'web-inst',
-        role: 'B.S. in Software Engineering',
-        employmentType: 'Honor Graduate',
-        period: '09.2018 — 06.2022',
+        id: 'rexpo-dev',
+        role: 'Laravel Developer',
+        workType: 'Full-time',
+        location: 'Rawalpindi, Pakistan',
+        employmentType: 'Rawalpindi, Pakistan • Full-time',
+        period: 'May, 2025 – 30 Aug, 2025',
         isOpen: false,
         bullets: [
-          'Focused on Data Structures, Object-Oriented Design, Relational Database Systems, and Distributed Computing.',
-          'Completed senior capstone project on automated application security auditing and web performance optimization.'
+          'Contributed to the development of a Real Estate CRM System built with Laravel.',
+          'Collaborated with senior developers to debug complex issues, refactor legacy code, and integrate additional modules, including Stripe payment integration, Google Calendar, AWS for image upload, SendGrid, and Gmail Inbox.',
+          'Engineered a secure user role-based access control (RBAC) system and introduced real-time notifications, improving operational transparency and reducing response time for user actions.'
         ],
-        tags: ['Software Architecture', 'Algorithms', 'Databases', 'Git', 'System Design']
+        tags: ['Laravel', 'Stripe', 'Google Calendar', 'AWS S3', 'SendGrid', 'RBAC', 'RESTful APIs']
+      }
+    ]
+  },
+  {
+    id: 'techinn360',
+    company: 'Techinn360',
+    logoText: 'TI',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-amber-400',
+    isActive: false,
+    roles: [
+      {
+        id: 'techinn-dev',
+        role: 'Full Stack Developer',
+        workType: 'Full-time',
+        location: 'Rawalpindi, Pakistan',
+        employmentType: 'Rawalpindi, Pakistan • Full-time',
+        period: 'June, 2024 – May 2025',
+        isOpen: false,
+        bullets: [
+          'Leveraged full-stack expertise (Laravel, Vue.js, React) to architect, develop, and implement diverse web applications, including a UAE-based Automotive E-Commerce Platform serving customers across the UAE and the wider GCC region (Oman, Saudi Arabia, Bahrain, Kuwait, Qatar) with a 168+ product catalog, a Real-Time Speed Auction Application, and a Spartan Learning Management System.',
+          'Achieved a 93 Accessibility, 96 Best Practices, and 100 SEO score (Google Lighthouse) on the Automotive E-Commerce Platform, ensuring compliance with Web Content Accessibility Guidelines (WCAG) 2.2 and improving accessibility for users.',
+          'Applied Test-Driven Development (TDD) practices to deliver high-quality, maintainable, and reliable code.',
+          'Enhanced team collaboration and streamlined development workflows by adopting Agile methodologies, including Scrum, resulting in more efficient software delivery and better adaptation to project needs.',
+          'Effectively analyzed complex technical challenges, such as optimizing application performance for high traffic, integrating systems, and implementing robust state management solutions in complex UIs, and implemented creative and efficient solutions, contributing to the successful development and deployment of applications.',
+          'Ensured code quality and resolved issues through thorough debugging, comprehensive testing, and adherence to established best practices.'
+        ],
+        tags: ['Laravel', 'Vue.js', 'React', 'TDD', 'Agile/Scrum', 'WCAG 2.2', 'SEO', 'E-Commerce']
+      }
+    ]
+  },
+  {
+    id: 'tritech',
+    company: 'TriTech Soft Solutions',
+    logoText: 'TS',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-rose-400',
+    isActive: false,
+    roles: [
+      {
+        id: 'tritech-dev',
+        role: 'Junior Laravel Developer',
+        workType: 'Full-time',
+        location: 'Mardan, Pakistan',
+        employmentType: 'Mardan, Pakistan • Full-time',
+        period: 'March, 2023 – June 2024',
+        isOpen: false,
+        bullets: [
+          'Worked extensively with databases, JavaScript, React.js, Vue.js, and Laravel to develop and maintain dynamic web applications, implementing efficient backend logic and robust database management practices.',
+          'Developed and maintained RESTful APIs for a CRM System, showcasing strong backend logic experience transferable to Laravel’s MVC structure and API resources.',
+          'Utilized Git version control for seamless collaboration with team members, effectively organizing modifications and tracking task assignments.'
+        ],
+        tags: ['Laravel', 'JavaScript', 'React.js', 'Vue.js', 'RESTful APIs', 'Git', 'MySQL']
+      }
+    ]
+  },
+  {
+    id: 'nftp',
+    company: 'National Freelancing Training Program (NFTP)',
+    logoText: 'NF',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-sky-400',
+    isActive: false,
+    roles: [
+      {
+        id: 'nftp-trainee',
+        role: 'Full Stack Training',
+        workType: 'Full-time',
+        location: 'Mardan, Pakistan',
+        employmentType: 'Mardan, Pakistan • Full-time',
+        period: 'Dec 09, 2022 – March 2023',
+        isOpen: false,
+        bullets: [
+          'Completed comprehensive freelancing and software development training, focusing on industry-standard tools and practices.',
+          'Developed practical skills in areas such as full-stack development, project management, and client communication.'
+        ],
+        tags: ['Full Stack Development', 'JavaScript', 'PHP', 'Freelancing', 'Project Management']
+      }
+    ]
+  },
+  {
+    id: 'uet-mardan',
+    company: 'University of Engineering and Technology Mardan',
+    logoText: 'UE',
+    logoBg: 'bg-neutral-900 border border-neutral-800 text-purple-400',
+    isActive: false,
+    roles: [
+      {
+        id: 'uet-degree',
+        role: 'Bachelor of Computer Software Engineering',
+        workType: 'Degree',
+        location: 'Mardan, Pakistan',
+        employmentType: 'Mardan, Pakistan • Degree',
+        period: 'Oct, 2020 – June 2024',
+        isOpen: false,
+        bullets: [
+          'Bachelor of Computer Software Engineering with core focus on Software Architecture, Data Structures, Relational Database Systems, and Object-Oriented Software Design.',
+          'Studied modern web technologies, distributed applications, and engineering best practices.'
+        ],
+        tags: ['Software Engineering', 'Algorithms', 'Databases', 'Git', 'Web Development']
       }
     ]
   }
 ];
 
 const companyExperiences = ref(defaultExperiences);
+
+const badgeColors = [
+  'bg-neutral-900 border border-neutral-800 text-cyan-400',
+  'bg-neutral-900 border border-neutral-800 text-indigo-400',
+  'bg-neutral-900 border border-neutral-800 text-emerald-400',
+  'bg-neutral-900 border border-neutral-800 text-amber-400',
+  'bg-neutral-900 border border-neutral-800 text-rose-400',
+  'bg-neutral-900 border border-neutral-800 text-sky-400',
+  'bg-neutral-900 border border-neutral-800 text-purple-400',
+];
 
 // Known technology keywords for auto-tagging
 const knownTechs = [
@@ -958,12 +1080,14 @@ if (props.experiences && props.experiences.length) {
       id: exp.id || `db-exp-${idx}`,
       company: exp.company || 'Company Name',
       logoText: logoInitials,
-      logoBg: 'bg-neutral-900 border border-neutral-800 text-white',
+      logoBg: badgeColors[idx % badgeColors.length],
       isActive: idx === 0,
       roles: [
         {
           id: `role-${exp.id || idx}`,
           role: exp.role || exp.title || 'Software Engineer',
+          workType: exp.work_type || 'Full-time',
+          location: exp.location || '',
           employmentType: empType,
           period: exp.period || '2024 — Present',
           isOpen: idx === 0,
@@ -1007,33 +1131,23 @@ const displayedProjects = computed(() => {
 });
 
 function submitContactForm() {
-  if (isSubmitting.value) return;
-
-  isSubmitting.value = true;
-
-  axios.post(route('contact.store'), {
-    sender_name: form.sender_name,
-    sender_email: form.sender_email,
-    subject: form.subject,
-    body: form.body,
-  })
-  .then(() => {
-    form.reset();
-    toast({
-      title: 'Message Sent Successfully!',
-      description: 'Thank you for reaching out. Your message has been received.',
-      type: 'success',
-    });
-  })
-  .catch((err) => {
-    toast({
-      title: 'Form Error',
-      description: err.response?.data?.message || 'Please check your inputs and try again.',
-      type: 'error',
-    });
-  })
-  .finally(() => {
-    isSubmitting.value = false;
+  form.post(route('contact.store'), {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset();
+      toast({
+        title: 'Message Sent Successfully!',
+        description: 'Thank you for reaching out. Your message has been received.',
+        type: 'success',
+      });
+    },
+    onError: (errors) => {
+      toast({
+        title: 'Form Error',
+        description: Object.values(errors)[0] || 'Please check your inputs and try again.',
+        type: 'error',
+      });
+    },
   });
 }
 

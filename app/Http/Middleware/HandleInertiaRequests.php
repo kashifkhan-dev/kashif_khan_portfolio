@@ -41,6 +41,10 @@ class HandleInertiaRequests extends Middleware
             'unreadInquiriesCount' => fn () => $request->user() 
                 ? Message::where('is_read', false)->count()
                 : 0,
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
         ];
     }
 }

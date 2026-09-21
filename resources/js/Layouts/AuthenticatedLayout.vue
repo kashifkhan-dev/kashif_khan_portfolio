@@ -431,6 +431,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import ToastNotification from '@/Components/ToastNotification.vue';
 import { useToast } from '@/Composables/useToast';
 import { useTheme } from '@/Composables/useTheme';
 import {

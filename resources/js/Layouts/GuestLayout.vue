@@ -256,6 +256,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import { useTheme } from '@/Composables/useTheme';
+import { useToast } from '@/Composables/useToast';
 import {
   Sun,
   Moon,
@@ -280,6 +281,28 @@ defineProps({
 
 const page = usePage();
 const { isDark, toggleTheme, initTheme } = useTheme();
+const { toast } = useToast();
+
+watch(
+  () => page.props.flash,
+  (flash) => {
+    if (flash?.success) {
+      toast({
+        title: 'Success',
+        description: flash.success,
+        type: 'success',
+      });
+    }
+    if (flash?.error) {
+      toast({
+        title: 'Error',
+        description: flash.error,
+        type: 'error',
+      });
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const navLinks = [
   { href: '#about', label: 'About', id: 'about', icon: User },
