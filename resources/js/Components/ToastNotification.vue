@@ -1,35 +1,37 @@
 <template>
-  <div class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-sm pointer-events-none px-4 sm:px-0">
-    <transition-group name="toast-slide">
-      <div
-        v-for="t in toasts"
-        :key="t.id"
-        class="pointer-events-auto w-full flex items-start gap-3 p-4 rounded-md border bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-xl dark:shadow-2xl text-sm leading-relaxed transition-all duration-300"
-        :class="getBorderClass(t.type)"
-      >
-        <!-- Icon based on type -->
-        <component 
-          :is="getIcon(t.type)" 
-          class="h-5 w-5 shrink-0 mt-0.5" 
-          :class="getIconColorClass(t.type)"
-        />
-
-        <!-- Title & Description -->
-        <div class="flex-1 space-y-0.5">
-          <h4 class="font-bold text-slate-900 dark:text-white text-sm tracking-tight">{{ t.title }}</h4>
-          <p v-if="t.description" class="text-xs text-slate-600 dark:text-neutral-400 leading-normal">{{ t.description }}</p>
-        </div>
-
-        <!-- Close Button -->
-        <button 
-          class="h-5 w-5 shrink-0 flex items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-900 dark:text-neutral-500 dark:hover:bg-neutral-900 dark:hover:text-white transition-colors"
-          @click="dismiss(t.id)"
+  <Teleport to="body">
+    <div class="fixed top-5 right-5 z-[99999] flex flex-col gap-3 w-full max-w-sm pointer-events-none px-4 sm:px-0">
+      <transition-group name="toast-slide">
+        <div
+          v-for="t in toasts"
+          :key="t.id"
+          class="pointer-events-auto w-full flex items-start gap-3 p-4 rounded-md border bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-xl dark:shadow-2xl text-sm leading-relaxed transition-all duration-300"
+          :class="getBorderClass(t.type)"
         >
-          <X class="h-3.5 w-3.5" />
-        </button>
-      </div>
-    </transition-group>
-  </div>
+          <!-- Icon based on type -->
+          <component 
+            :is="getIcon(t.type)" 
+            class="h-5 w-5 shrink-0 mt-0.5" 
+            :class="getIconColorClass(t.type)"
+          />
+
+          <!-- Title & Description -->
+          <div class="flex-1 space-y-0.5">
+            <h4 class="font-bold text-slate-900 dark:text-white text-sm tracking-tight">{{ t.title }}</h4>
+            <p v-if="t.description" class="text-xs text-slate-600 dark:text-neutral-400 leading-normal">{{ t.description }}</p>
+          </div>
+
+          <!-- Close Button -->
+          <button 
+            class="h-5 w-5 shrink-0 flex items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-900 dark:text-neutral-500 dark:hover:bg-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+            @click="dismiss(t.id)"
+          >
+            <X class="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </transition-group>
+    </div>
+  </Teleport>
 </template>
 
 <script setup>
