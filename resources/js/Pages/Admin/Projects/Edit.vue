@@ -69,7 +69,7 @@
               />
             </div>
 
-            <!-- Row 2: Category, Featured Hero & Display Order Side-by-Side -->
+            <!-- Row 2: Category, Featured Project & Display Order Side-by-Side -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <!-- Category Domain -->
               <div class="space-y-1.5">
@@ -77,13 +77,14 @@
                 <ShadcnSelect 
                   v-model="form.category" 
                   :options="categoryOptions" 
-                  placeholder="Select category domain..."
+                  placeholder="Search or select category..."
+                  search-placeholder="Type category to search or add..."
                 />
               </div>
 
-              <!-- Featured Hero -->
+              <!-- Featured Project -->
               <div class="space-y-1.5">
-                <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Featured Hero</label>
+                <label class="font-semibold text-slate-800 dark:text-foreground text-xs">Featured Project</label>
                 <button 
                   type="button"
                   @click="form.is_featured = !form.is_featured"
@@ -94,7 +95,7 @@
                       : 'border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-slate-600 dark:text-muted-foreground hover:text-foreground'
                   ]"
                 >
-                  <span>{{ form.is_featured ? 'Featured Hero' : 'Standard' }}</span>
+                  <span>{{ form.is_featured ? 'Featured' : 'Standard' }}</span>
                   <div 
                     :class="[
                       'relative inline-flex h-5 w-9 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out',
@@ -304,11 +305,22 @@ import ShadcnSelect from '@/Components/ShadcnSelect.vue';
 import TechStackSelector from '@/Components/TechStackSelector.vue';
 
 const categoryOptions = [
-  { label: 'Fullstack Application', value: 'Fullstack' },
-  { label: 'Frontend Experience', value: 'Frontend' },
-  { label: 'Laravel & Vue Architecture', value: 'Laravel & Vue' },
+  { label: 'Frontend', value: 'Frontend' },
+  { label: 'Backend', value: 'Backend' },
+  { label: 'Fullstack', value: 'Fullstack' },
+  { label: 'Laravel & Vue', value: 'Laravel & Vue' },
   { label: 'AI & Machine Learning', value: 'AI' },
-  { label: 'Mobile Application', value: 'Mobile' },
+  { label: 'Mobile App', value: 'Mobile' },
+  { label: 'SaaS Platform', value: 'SaaS Platform' },
+  { label: 'Cloud & DevOps', value: 'Cloud & DevOps' },
+  { label: 'API & Microservices', value: 'API & Microservices' },
+  { label: 'E-Commerce', value: 'E-Commerce' },
+  { label: 'UI/UX & Design Systems', value: 'UI/UX & Design Systems' },
+  { label: 'Web3 & Blockchain', value: 'Web3 & Blockchain' },
+  { label: 'Open Source & Tools', value: 'Open Source' },
+  { label: 'Cybersecurity', value: 'Cybersecurity' },
+  { label: 'Data Engineering & Analytics', value: 'Data Engineering' },
+  { label: 'Desktop Application', value: 'Desktop App' },
 ];
 import { 
   ArrowLeft, 

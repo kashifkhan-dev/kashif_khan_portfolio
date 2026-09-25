@@ -8,6 +8,9 @@ export const usePortfolioStore = defineStore('portfolio', {
     selectedProject: null,
     isProjectModalOpen: false,
     isDarkMode: true,
+    isResumeModalOpen: false,
+    resumeModalUrl: '',
+    resumeModalTitle: 'Resume / Curriculum Vitae',
   }),
 
   getters: {
@@ -16,6 +19,9 @@ export const usePortfolioStore = defineStore('portfolio', {
 
   actions: {
     setProjectCategory(category) {
+      this.activeProjectCategory = category;
+    },
+    setActiveCategory(category) {
       this.activeProjectCategory = category;
     },
     setSkillCategory(category) {
@@ -31,6 +37,18 @@ export const usePortfolioStore = defineStore('portfolio', {
     closeProjectModal() {
       this.isProjectModalOpen = false;
       this.selectedProject = null;
+    },
+    openResumeModal(url, title = 'Resume / Curriculum Vitae') {
+      if (url) {
+        this.resumeModalUrl = url;
+      }
+      if (title) {
+        this.resumeModalTitle = title;
+      }
+      this.isResumeModalOpen = true;
+    },
+    closeResumeModal() {
+      this.isResumeModalOpen = false;
     },
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;

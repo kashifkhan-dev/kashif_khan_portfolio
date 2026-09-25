@@ -1,6 +1,6 @@
 <template>
   <AuthenticatedLayout>
-    <template #header>Skills Ticker Manager</template>
+    <template #header>Skills & Tech Stack</template>
     <Head title="Skills Manager - Admin" />
 
     <div class="space-y-8">
@@ -10,7 +10,7 @@
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
             Skills &amp; Tech Stack
           </h1>
-          <p class="text-sm text-slate-500 dark:text-muted-foreground mt-1">Manage technical skills and icons displayed live in the landing page ticker marquee.</p>
+          <p class="text-sm text-slate-500 dark:text-muted-foreground mt-1">Manage technical skills and icons displayed live in your portfolio skills section.</p>
         </div>
 
         <div class="flex items-center space-x-3">

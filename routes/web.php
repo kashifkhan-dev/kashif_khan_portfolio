@@ -1,26 +1,27 @@
 <?php
 
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ProjectShowController;
-use App\Http\Controllers\ArticleShowController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Admin\SkillController;
-use App\Http\Controllers\Admin\ExperienceController;
-use App\Http\Controllers\Admin\MessageController;
-use App\Http\Controllers\Admin\HeroController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\ContactSectionController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ContactSectionController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExperienceController;
+use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\ArticleShowController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectShowController;
 use Illuminate\Support\Facades\Route;
 
 // Public Portfolio Routes
 Route::get('/', LandingController::class)->name('home');
 Route::get('/projects', [ProjectShowController::class, 'index'])->name('projects.index');
 Route::get('/projects/{project}', [ProjectShowController::class, 'show'])->name('projects.show');
+Route::get('/blog', [ArticleShowController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [ArticleShowController::class, 'show'])->name('blog.show');
 Route::get('/articles', [ArticleShowController::class, 'index'])->name('articles.index');
 Route::get('/articles/{slug}', [ArticleShowController::class, 'show'])->name('articles.show');
 Route::post('/contact', ContactController::class)->name('contact.store');
@@ -59,18 +60,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Experiences CRUD
     Route::resource('experiences', ExperienceController::class)->except(['show']);
 
-    // Messages Inbox
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::patch('/messages/mark-all-read', [MessageController::class, 'markAllRead'])->name('messages.mark-all-read');
-    Route::patch('/messages/{message}/toggle-read', [MessageController::class, 'toggleRead'])->name('messages.toggle-read');
-    Route::post('/messages/{message}/reply', [MessageController::class, 'reply'])->name('messages.reply');
-    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
-
     // Site Settings Editor
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
 
-    // User Profile
+    // Admin alias for profile
+    Route::redirect('/profile', '/profile')->name('profile.edit');
+});
+
+// Authenticated User Profile Routes
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

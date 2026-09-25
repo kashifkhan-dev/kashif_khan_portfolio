@@ -17,6 +17,7 @@ class UpdateContactSectionRequest extends FormRequest
             'contact_headline_title' => 'nullable|string|max:255',
             'contact_subtitle' => 'nullable|string|max:1000',
             'contact_email' => 'nullable|string|max:255',
+            'cal_url' => 'nullable|string|max:500',
             'contact_location' => 'nullable|string|max:255',
             'contact_response_time' => 'nullable|string|max:255',
             'contact_form_title' => 'nullable|string|max:255',

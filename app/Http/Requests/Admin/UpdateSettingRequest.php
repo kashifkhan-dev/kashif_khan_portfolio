@@ -14,18 +14,11 @@ class UpdateSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'hero_title' => 'nullable|string',
-            'hero_subtitle' => 'nullable|string',
-            'bio' => 'nullable|string',
-            'availability_status' => 'nullable|string',
-            'github_url' => 'nullable|string',
-            'linkedin_url' => 'nullable|string',
-            'twitter_url' => 'nullable|string',
-            'resume_url' => 'nullable|string',
-            'years_experience' => 'nullable|string',
-            'completed_projects' => 'nullable|string',
-            'satisfied_clients' => 'nullable|string',
-            'featured_projects_count' => 'nullable|integer|min:1|max:50',
+            'github_url' => 'nullable|string|max:500',
+            'linkedin_url' => 'nullable|string|max:500',
+            'twitter_url' => 'nullable|string|max:500',
+            'resume_url' => 'nullable|string|max:500',
+            'resume_file' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
         ];
     }
 }

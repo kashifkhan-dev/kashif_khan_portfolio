@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\Project;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProjectService
 {
@@ -15,11 +17,11 @@ class ProjectService
 
     public function createProject(array $data): Project
     {
-        $data['slug'] = Str::slug($data['title']) . '-' . rand(100, 999);
+        $data['slug'] = Str::slug($data['title']).'-'.rand(100, 999);
 
-        if (isset($data['image_file']) && $data['image_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['image_file']) && $data['image_file'] instanceof UploadedFile) {
             $path = $data['image_file']->store('projects', 'public');
-            $data['image_path'] = '/storage/' . $path;
+            $data['image_path'] = '/storage/'.$path;
         }
         unset($data['image_file']);
 
@@ -28,13 +30,13 @@ class ProjectService
 
     public function updateProject(Project $project, array $data): bool
     {
-        if (isset($data['image_file']) && $data['image_file'] instanceof \Illuminate\Http\UploadedFile) {
+        if (isset($data['image_file']) && $data['image_file'] instanceof UploadedFile) {
             if ($project->image_path && Str::startsWith($project->image_path, '/storage/')) {
                 $oldPath = str_replace('/storage/', '', $project->image_path);
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
+                Storage::disk('public')->delete($oldPath);
             }
             $path = $data['image_file']->store('projects', 'public');
-            $data['image_path'] = '/storage/' . $path;
+            $data['image_path'] = '/storage/'.$path;
         }
         unset($data['image_file']);
 
@@ -43,6 +45,11 @@ class ProjectService
 
     public function deleteProject(Project $project): bool
     {
+        if ($project->image_path && Str::startsWith($project->image_path, '/storage/')) {
+            $oldPath = str_replace('/storage/', '', $project->image_path);
+            Storage::disk('public')->delete($oldPath);
+        }
+
         return $project->delete();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateArticleRequest extends FormRequest
@@ -13,13 +14,13 @@ class UpdateArticleRequest extends FormRequest
 
     public function rules(): array
     {
-        $articleId = $this->route('article') instanceof \App\Models\Article 
-            ? $this->route('article')->id 
+        $articleId = $this->route('article') instanceof Article
+            ? $this->route('article')->id
             : $this->route('article');
 
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:articles,slug,' . $articleId,
+            'slug' => 'nullable|string|max:255|unique:articles,slug,'.$articleId,
             'excerpt' => 'nullable|string|max:1000',
             'content' => 'required|string',
             'cover_image' => 'nullable|string',

@@ -15,6 +15,8 @@ class UpdateExperienceRequest extends FormRequest
     {
         return [
             'company' => 'required|string|max:255',
+            'logo' => 'nullable|string|max:500',
+            'logo_file' => 'nullable|image|max:5120',
             'role' => 'required|string|max:255',
             'period' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
@@ -22,7 +24,7 @@ class UpdateExperienceRequest extends FormRequest
             'description' => 'nullable|string',
             'highlights' => 'nullable|array',
             'technologies' => 'nullable|array',
-            'type' => 'required|string|in:work,education',
+            'type' => 'required|string|in:work,education,certification',
             'order' => 'integer',
         ];
     }

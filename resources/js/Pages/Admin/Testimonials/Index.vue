@@ -15,7 +15,7 @@
             </span>
           </h1>
           <p class="text-xs text-slate-500 dark:text-neutral-400 mt-1">
-            Curate executive recommendations, client quotes, and LinkedIn endorsements displayed in your portfolio slider.
+            Curate executive recommendations, client quotes, and LinkedIn endorsements displayed on your portfolio testimonials wall.
           </p>
         </div>
 

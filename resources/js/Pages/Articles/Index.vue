@@ -1,233 +1,107 @@
 <template>
-  <GuestLayout :canLogin="true" :settings="settings">
-    <Head title="Technical Articles & Architecture Writeups - Kashif Khan" />
+  <GuestLayout :canLogin="true" :settings="settings" :hideHeader="true" :hideFooter="true">
+    <Head title="Blog - Thoughts on Software Engineering & Architecture" />
 
-    <div class="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-neutral-100 transition-colors duration-300 py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        <!-- Header & Intro -->
-        <div class="text-center space-y-4 max-w-3xl mx-auto pt-6">
-          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-[6px] bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-neutral-300 text-xs font-mono font-semibold">
-            <BookOpen class="h-3.5 w-3.5 text-indigo-500" />
-            <span>Engineering Blog &amp; Case Studies</span>
-          </div>
+    <main class="min-h-dvh flex flex-col relative z-10 bg-background text-foreground transition-colors duration-300">
+      <!-- Top Flickering Grid Background (Exact Stipple Fade from portfolio) -->
+      <div class="absolute inset-0 top-0 left-0 right-0 h-[120px] overflow-hidden z-0 pointer-events-none">
+        <FlickeringGrid
+          class="h-full w-full"
+          :squareSize="2"
+          :gridGap="2"
+          style="mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);"
+        />
+      </div>
 
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
-            Writing on Scalable Systems, Laravel &amp; Vue 3.
-          </h1>
-
-          <p class="text-base sm:text-lg text-slate-600 dark:text-neutral-400 leading-relaxed">
-            In-depth architecture writeups, performance benchmarks, and real-world engineering patterns from production environments.
-          </p>
-
-          <!-- Search & Filter Controls -->
-          <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <div class="relative w-full sm:w-80">
-              <Search class="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-neutral-500" />
-              <input
-                v-model="searchQuery"
-                type="text"
-                placeholder="Search by keyword, topic, or stack..."
-                class="w-full h-10 pl-10 pr-4 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-900 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
-              />
-            </div>
-          </div>
-
-          <!-- Filter Topic Chips -->
-          <div v-if="allTags && allTags.length" class="flex flex-wrap items-center justify-center gap-2 pt-2">
-            <button
-              @click="activeTag = 'all'"
-              class="px-3 py-1 rounded-[6px] text-xs font-semibold transition-all cursor-pointer"
-              :class="activeTag === 'all'
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-xs'
-                : 'bg-slate-100 dark:bg-neutral-900 text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/80 dark:border-neutral-800'"
-            >
-              All Topics
-            </button>
-            <button
-              v-for="tag in allTags"
-              :key="tag"
-              @click="activeTag = tag"
-              class="px-3 py-1 rounded-[6px] text-xs font-semibold transition-all cursor-pointer"
-              :class="activeTag === tag
-                ? 'bg-slate-900 text-white dark:bg-white dark:text-black shadow-xs'
-                : 'bg-slate-100 dark:bg-neutral-900 text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/80 dark:border-neutral-800'"
-            >
-              {{ tag }}
-            </button>
-          </div>
-        </div>
-
-        <!-- Empty State -->
-        <div v-if="!filteredArticles.length" class="py-20 text-center space-y-3">
-          <BookOpen class="h-12 w-12 text-slate-300 dark:text-neutral-700 mx-auto" />
-          <h3 class="text-base font-bold text-slate-700 dark:text-neutral-300">No articles match your search</h3>
-          <p class="text-xs text-slate-500 dark:text-neutral-500">Try clearing filters or searching for another term.</p>
-          <button
-            @click="clearFilters"
-            class="px-4 py-2 text-xs font-bold rounded-[6px] bg-slate-900 text-white dark:bg-white dark:text-black hover:opacity-90 transition-all cursor-pointer"
-          >
-            Clear Filters
-          </button>
-        </div>
-
-        <div v-else class="space-y-12">
-          <!-- Featured Lead Article Banner (First item when no active search) -->
-          <div
-            v-if="featuredArticle && !searchQuery && activeTag === 'all'"
-            class="group rounded-[8px] border border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-950 overflow-hidden shadow-sm hover:border-slate-300 dark:hover:border-neutral-700 transition-all"
-          >
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
-              <!-- Cover Image (5 cols) -->
-              <div class="lg:col-span-5 h-64 lg:h-auto overflow-hidden relative bg-neutral-900">
-                <img
-                  v-if="featuredArticle.cover_image"
-                  :src="featuredArticle.cover_image"
-                  :alt="featuredArticle.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:hidden"></div>
-                <span class="absolute top-4 left-4 px-2.5 py-1 rounded-[4px] text-[11px] font-bold uppercase tracking-wider bg-slate-900/90 text-white dark:bg-white/90 dark:text-black shadow-md backdrop-blur-xs">
-                  Featured Deep Dive
+      <!-- Main Centered Layout Container matching portfolio/src/app/blog/page.tsx -->
+      <div class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6 flex flex-col w-full">
+        <section id="blog">
+          <!-- Page Header -->
+          <BlurFade :delay="BLUR_FADE_DELAY">
+            <div class="mb-8">
+              <h1 class="text-2xl font-semibold tracking-tight mb-2 text-foreground flex items-center">
+                <span>Blog</span>
+                <span class="ml-2 bg-card border border-border rounded-md px-2 py-0.5 text-muted-foreground text-xs font-mono font-normal">
+                  {{ sortedArticles.length }} {{ sortedArticles.length === 1 ? 'post' : 'posts' }}
                 </span>
-              </div>
-
-              <!-- Content (7 cols) -->
-              <div class="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-4">
-                <div class="space-y-3">
-                  <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-neutral-400">
-                    <span class="flex items-center gap-1">
-                      <Clock class="h-3.5 w-3.5" />
-                      <span>{{ featuredArticle.read_time || 5 }} min read</span>
-                    </span>
-                    <span>&bull;</span>
-                    <span>{{ formatDate(featuredArticle.published_at) }}</span>
-                    <span>&bull;</span>
-                    <span class="flex items-center gap-1">
-                      <Eye class="h-3.5 w-3.5" />
-                      <span>{{ featuredArticle.views_count || 0 }} reads</span>
-                    </span>
-                  </div>
-
-                  <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    <Link :href="route('articles.show', featuredArticle.slug)">
-                      {{ featuredArticle.title }}
-                    </Link>
-                  </h2>
-
-                  <p class="text-sm sm:text-base text-slate-600 dark:text-neutral-300 leading-relaxed line-clamp-3">
-                    {{ featuredArticle.excerpt }}
-                  </p>
-
-                  <div v-if="featuredArticle.tags && featuredArticle.tags.length" class="flex flex-wrap gap-1.5 pt-1">
-                    <span
-                      v-for="tag in featuredArticle.tags"
-                      :key="tag"
-                      class="px-2.5 py-0.5 rounded-[4px] text-xs font-medium bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-neutral-300"
-                    >
-                      {{ tag }}
-                    </span>
-                  </div>
-                </div>
-
-                <div class="pt-4 border-t border-slate-200/80 dark:border-neutral-800/80">
-                  <Link
-                    :href="route('articles.show', featuredArticle.slug)"
-                    class="inline-flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:translate-x-1 transition-transform"
-                  >
-                    <span>Read Complete Case Study</span>
-                    <ArrowRight class="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
+              </h1>
+              <p class="text-sm text-muted-foreground">
+                My thoughts on software development, life, and more.
+              </p>
             </div>
-          </div>
+          </BlurFade>
 
-          <!-- Articles Grid (Remaining items) -->
-          <div class="space-y-6">
-            <h2 v-if="!searchQuery && activeTag === 'all' && gridArticles.length" class="text-xs font-sans font-semibold uppercase tracking-wider text-slate-500 dark:text-neutral-400">
-              More Architecture Notes &amp; Tutorials
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <article
-                v-for="article in (searchQuery || activeTag !== 'all' ? filteredArticles : gridArticles)"
-                :key="article.id"
-                class="rounded-[8px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-neutral-700 hover:shadow-md transition-all flex flex-col justify-between group"
+          <!-- Numbered Post List (Exact styling from portfolio) -->
+          <div v-if="paginatedArticles.length > 0" class="flex flex-col gap-6">
+            <div class="flex flex-col gap-5">
+              <BlurFade
+                v-for="(post, id) in paginatedArticles"
+                :key="post.slug || post.id"
+                :delay="BLUR_FADE_DELAY * 2 + id * 0.05"
               >
-                <div>
-                  <!-- Thumbnail -->
-                  <div class="w-full h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-900 relative">
-                    <img
-                      v-if="article.cover_image"
-                      :src="article.cover_image"
-                      :alt="article.title"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div v-else class="w-full h-full flex items-center justify-center text-slate-400 dark:text-neutral-600">
-                      <BookOpen class="h-8 w-8" />
-                    </div>
-                  </div>
-
-                  <!-- Article Body -->
-                  <div class="p-5 space-y-2.5">
-                    <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-neutral-400">
-                      <span class="flex items-center gap-1">
-                        <Clock class="h-3 w-3" />
-                        <span>{{ article.read_time || 5 }} min read</span>
+                <Link
+                  :href="route('blog.show', post.slug || post.id)"
+                  class="flex items-start gap-x-2 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <span class="text-xs font-mono tabular-nums font-medium mt-[5px] text-muted-foreground group-hover:text-foreground transition-colors">
+                    {{ String((currentPage - 1) * PAGE_SIZE + id + 1).padStart(2, '0') }}.
+                  </span>
+                  <div class="flex flex-col gap-y-1.5 flex-1 min-w-0">
+                    <p class="tracking-tight text-lg font-medium text-foreground">
+                      <span class="group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors inline-flex items-center">
+                        {{ post.title }}
+                        <ChevronRight
+                          class="ml-1 inline-block size-4 stroke-[2.5] text-indigo-600 dark:text-indigo-400 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"
+                          aria-hidden="true"
+                        />
                       </span>
-                      <span>{{ formatDate(article.published_at) }}</span>
-                    </div>
-
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      <Link :href="route('articles.show', article.slug)">
-                        {{ article.title }}
-                      </Link>
-                    </h3>
-
-                    <p class="text-xs text-slate-600 dark:text-neutral-400 line-clamp-3 leading-relaxed">
-                      {{ article.excerpt }}
+                    </p>
+                    <p class="text-xs text-muted-foreground">
+                      {{ formatDate(post.published_at || post.created_at) }}
                     </p>
                   </div>
-                </div>
-
-                <!-- Footer: Tags & Read Link -->
-                <div class="p-5 pt-0 space-y-3">
-                  <div v-if="article.tags && article.tags.length" class="flex flex-wrap gap-1">
-                    <span
-                      v-for="t in article.tags.slice(0, 3)"
-                      :key="t"
-                      class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-neutral-900 border border-slate-200/60 dark:border-neutral-800 text-slate-600 dark:text-neutral-400"
-                    >
-                      {{ t }}
-                    </span>
-                  </div>
-
-                  <Link
-                    :href="route('articles.show', article.slug)"
-                    class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
-                  >
-                    <span>Read Article</span>
-                    <ArrowRight class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </article>
+                </Link>
+              </BlurFade>
             </div>
-          </div>
-        </div>
 
-        <!-- Back to Portfolio Link / CTA -->
-        <div class="pt-6 text-center">
-          <Link
-            href="/"
-            class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-colors"
-          >
-            <ArrowLeft class="h-4 w-4" />
-            <span>Back to Portfolio Showcase</span>
-          </Link>
-        </div>
+            <!-- Pagination Controls -->
+            <BlurFade v-if="totalPages > 1" :delay="BLUR_FADE_DELAY * 3">
+              <div class="flex gap-3 flex-row items-center justify-between mt-8 pt-4 border-t border-border/40 select-none">
+                <div class="text-sm text-muted-foreground font-mono">
+                  Page {{ currentPage }} of {{ totalPages }}
+                </div>
+                <div class="flex gap-2 sm:justify-end">
+                  <button
+                    type="button"
+                    :disabled="currentPage <= 1"
+                    @click="goToPage(currentPage - 1)"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md border border-border bg-card text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    type="button"
+                    :disabled="currentPage >= totalPages"
+                    @click="goToPage(currentPage + 1)"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md border border-border bg-card text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </BlurFade>
+          </div>
+
+          <!-- Empty State -->
+          <div v-else class="py-12 text-left">
+            <p class="text-sm text-muted-foreground">No posts found.</p>
+          </div>
+        </section>
       </div>
-    </div>
+    </main>
+
+    <!-- Floating Bottom Navigation Dock (Exact navbar.tsx from portfolio) -->
+    <MagicDock :settings="settings" />
   </GuestLayout>
 </template>
 
@@ -235,70 +109,53 @@
 import { ref, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import {
-  BookOpen,
-  Search,
-  Clock,
-  Eye,
-  ArrowRight,
-  ArrowLeft,
-} from 'lucide-vue-next';
+import FlickeringGrid from '@/Components/FlickeringGrid.vue';
+import BlurFade from '@/Components/BlurFade.vue';
+import MagicDock from '@/Components/MagicDock.vue';
+import { ChevronRight } from 'lucide-vue-next';
+
+const BLUR_FADE_DELAY = 0.04;
 
 const props = defineProps({
   articles: {
     type: Array,
     default: () => [],
   },
-  allTags: {
-    type: Array,
-    default: () => [],
-  },
-  settings: {
-    type: Object,
-    default: () => ({}),
-  },
+  settings: Object,
 });
 
-const searchQuery = ref('');
-const activeTag = ref('all');
+const PAGE_SIZE = 5;
+const currentPage = ref(1);
 
-const filteredArticles = computed(() => {
-  let list = props.articles;
+const sortedArticles = computed(() => {
+  const list = [...props.articles];
+  return list.sort((a, b) => {
+    const dateA = new Date(a.published_at || a.created_at || 0).getTime();
+    const dateB = new Date(b.published_at || b.created_at || 0).getTime();
+    return dateB - dateA;
+  });
+});
 
-  if (activeTag.value !== 'all') {
-    list = list.filter(a => a.tags && a.tags.includes(activeTag.value));
+const totalPages = computed(() => {
+  return Math.ceil(sortedArticles.value.length / PAGE_SIZE) || 1;
+});
+
+const paginatedArticles = computed(() => {
+  const start = (currentPage.value - 1) * PAGE_SIZE;
+  return sortedArticles.value.slice(start, start + PAGE_SIZE);
+});
+
+function goToPage(page) {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-  if (searchQuery.value.trim()) {
-    const q = searchQuery.value.toLowerCase();
-    list = list.filter(a => {
-      const matchTitle = a.title?.toLowerCase().includes(q);
-      const matchExcerpt = a.excerpt?.toLowerCase().includes(q);
-      const matchContent = a.content?.toLowerCase().includes(q);
-      const matchTag = a.tags?.some(t => t.toLowerCase().includes(q));
-      return matchTitle || matchExcerpt || matchContent || matchTag;
-    });
-  }
-
-  return list;
-});
-
-const featuredArticle = computed(() => {
-  return props.articles.length > 0 ? props.articles[0] : null;
-});
-
-const gridArticles = computed(() => {
-  return props.articles.length > 1 ? props.articles.slice(1) : [];
-});
-
-function clearFilters() {
-  searchQuery.value = '';
-  activeTag.value = 'all';
 }
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('en-US', {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',

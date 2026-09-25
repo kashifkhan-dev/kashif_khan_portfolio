@@ -1,344 +1,196 @@
 <template>
-  <GuestLayout :canLogin="true" :settings="settings">
-    <Head :title="`${project.title} - Project Case Study & Showcase`" />
+  <GuestLayout :canLogin="true" :settings="settings" :hideHeader="true" :hideFooter="true">
+    <Head>
+      <title>{{ `${project.title} - Kashif Khan Projects` }}</title>
+      <meta name="description" :content="project.summary || 'Project case study and software architecture by Kashif Khan.'" />
+      <meta property="og:title" :content="project.title" />
+      <meta property="og:description" :content="project.summary || ''" />
+      <meta v-if="project.image_path" property="og:image" :content="project.image_path" />
+    </Head>
 
-    <div class="min-h-screen pt-4 sm:pt-8 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6 bg-white dark:bg-black transition-colors duration-300">
-      
-      <!-- Clean Top Bar Navigation & Desktop Action Buttons -->
-      <div class="flex items-center justify-between">
-        <Link 
-          :href="route('projects.index')" 
-          class="inline-flex items-center space-x-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-colors group"
-        >
-          <ArrowLeft class="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          <span>Back to All Projects</span>
-        </Link>
-
-        <!-- Action Buttons on Desktop ONLY -->
-        <div class="hidden sm:flex items-center space-x-3">
-          <a
-            v-if="project.demo_url"
-            :href="project.demo_url"
-            target="_blank"
-            class="px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-md"
-          >
-            <ExternalLink class="w-4 h-4" />
-            <span>Launch Live Demo</span>
-          </a>
-          <a
-            v-if="project.github_url"
-            :href="project.github_url"
-            target="_blank"
-            class="px-3.5 py-2 rounded-sm bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-xs font-semibold text-slate-800 dark:text-neutral-300 dark:hover:text-white flex items-center space-x-2 transition-all shadow-xs"
-          >
-            <Github class="w-4 h-4 text-slate-600 dark:text-neutral-400" />
-            <span>Repository</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Hero Title Header -->
-      <div class="space-y-5 max-w-4xl pt-2">
-        <div class="flex flex-wrap items-center gap-2">
-          <span 
-            v-if="project.is_featured"
-            class="px-2.5 py-1 rounded-sm bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold uppercase"
-          >
-            Featured Project
-          </span>
-          <span class="px-2.5 py-1 rounded-sm bg-white dark:bg-neutral-900 text-slate-800 dark:text-neutral-300 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs">
-            {{ project.category }}
-          </span>
-        </div>
-
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-          {{ project.title }}
-        </h1>
-
-        <p v-if="project.summary" class="text-base sm:text-lg text-slate-900 dark:text-neutral-100 font-medium leading-relaxed">
-          {{ project.summary }}
-        </p>
-
-        <!-- Action Buttons on Mobile ONLY -->
-        <div class="flex sm:hidden items-center space-x-3 pt-1">
-          <a
-            v-if="project.demo_url"
-            :href="project.demo_url"
-            target="_blank"
-            class="px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center space-x-2 transition-all shadow-md"
-          >
-            <ExternalLink class="w-4 h-4" />
-            <span>Live Demo</span>
-          </a>
-          <a
-            v-if="project.github_url"
-            :href="project.github_url"
-            target="_blank"
-            class="px-3.5 py-2 rounded-sm bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-xs font-semibold text-slate-800 dark:text-neutral-300 dark:hover:text-white flex items-center space-x-2 transition-all shadow-xs"
-          >
-            <Github class="w-4 h-4 text-slate-600 dark:text-neutral-400" />
-            <span>Repository</span>
-          </a>
-        </div>
-
-        <!-- Inline Tech Stack Chips -->
-        <div v-if="project.tech_stack && project.tech_stack.length" class="flex flex-wrap items-center gap-1.5 pt-1">
-          <span
-            v-for="(tech, i) in project.tech_stack"
-            :key="i"
-            class="px-2.5 py-1 rounded-sm bg-white dark:bg-neutral-900 text-slate-800 dark:text-neutral-300 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs"
-          >
-            {{ tech }}
-          </span>
-        </div>
-      </div>
-
-      <!-- Main Showcase Cover Image -->
-      <div class="relative w-full h-[320px] sm:h-[480px] rounded-xl overflow-hidden border border-slate-200 dark:border-neutral-800 bg-slate-100 dark:bg-neutral-950 shadow-md dark:shadow-2xl group">
-        <img
-          :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80'"
-          :alt="project.title"
-          class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-          @error="handleImageError"
+    <main class="min-h-dvh flex flex-col relative z-10 bg-background text-foreground transition-colors duration-300">
+      <!-- Top Flickering Grid Background (Exact Stipple Fade from portfolio) -->
+      <div class="absolute inset-0 top-0 left-0 right-0 h-[120px] overflow-hidden z-0 pointer-events-none">
+        <FlickeringGrid
+          class="h-full w-full"
+          :squareSize="2"
+          :gridGap="2"
+          style="mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 dark:from-black via-transparent to-transparent opacity-60"></div>
       </div>
 
-      <!-- Full-Width Main Project Overview Section -->
-      <div class="space-y-6 pt-4">
-        <div class="border-b border-slate-200 dark:border-neutral-800 pb-3">
-          <h2 class="text-xs uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400 flex items-center space-x-2">
-            <FileText class="w-4 h-4 text-blue-600 dark:text-blue-400" />
-            <span>Project Overview & Architecture</span>
-          </h2>
-        </div>
-
-        <!-- Formatted HTML Rich Content -->
-        <div 
-          class="prose-custom pt-2 text-slate-900 dark:text-neutral-100 font-normal text-base sm:text-lg leading-relaxed" 
-          v-html="project.description || project.summary || 'No detailed overview provided for this project.'"
-        ></div>
-      </div>
-
-      <!-- RELATED PROJECTS SHOWCASE -->
-      <div v-if="relatedProjects && relatedProjects.length" class="pt-16 border-t border-slate-200 dark:border-neutral-800 space-y-8">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-xs uppercase tracking-widest font-bold text-blue-600 dark:text-blue-400">Explore More Work</h2>
-            <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Related Projects</h3>
-          </div>
-          <Link
-            :href="route('projects.index')"
-            class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            View All Projects &rarr;
-          </Link>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            v-for="rel in relatedProjects"
-            :key="rel.id"
-            class="bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 rounded-md overflow-hidden hover:border-slate-300 dark:hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-sm dark:shadow-lg"
-          >
-            <div>
-              <!-- Image Header -->
+      <!-- Main Centered Layout Container matching Articles/Show.vue -->
+      <div class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6 flex flex-col w-full">
+        <section id="project-detail">
+          
+          <!-- Back to Projects Button -->
+          <BlurFade :delay="BLUR_FADE_DELAY">
+            <div class="flex justify-start gap-4 items-center">
               <Link
-                :href="route('projects.show', rel.slug || rel.id)"
-                class="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-black cursor-pointer block"
+                :href="route('projects.index')"
+                class="text-sm text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-2.5 py-1 inline-flex items-center gap-1.5 mb-6 group cursor-pointer select-none"
+                aria-label="Back to Projects"
               >
-                <img
-                  :src="rel.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
-                  :alt="rel.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
-                  @error="handleImageError"
-                />
-                <div class="absolute top-4 left-4 flex flex-wrap items-center gap-2">
-                  <span
-                    v-if="rel.is_featured"
-                    class="px-2.5 py-1 rounded-md bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold uppercase"
-                  >
-                    Featured
-                  </span>
-                  <span class="px-2.5 py-1 rounded-md bg-white/90 text-slate-800 dark:bg-black/80 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs">
-                    {{ rel.category }}
-                  </span>
-                </div>
+                <ChevronLeft class="size-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                <span>Back to Projects</span>
               </Link>
+            </div>
+          </BlurFade>
 
-              <!-- Content Body -->
-              <div class="p-5 space-y-3">
-                <Link :href="route('projects.show', rel.slug || rel.id)" class="block">
-                  <h4 class="text-xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors cursor-pointer line-clamp-1">
-                    {{ rel.title }}
-                  </h4>
+          <!-- Project Header & Meta -->
+          <BlurFade :delay="BLUR_FADE_DELAY * 2">
+            <div class="flex flex-col gap-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <span
+                  v-if="project.is_featured"
+                  class="px-2 py-0.5 rounded-md bg-foreground text-background text-[10px] font-mono font-bold uppercase tracking-wider"
+                >
+                  Featured
+                </span>
+                <span class="px-2 py-0.5 rounded-md bg-muted/60 text-muted-foreground text-[10px] font-mono border border-border/80">
+                  {{ project.category }}
+                </span>
+              </div>
+
+              <h1 class="title font-semibold text-3xl md:text-4xl tracking-tighter leading-tight text-foreground">
+                {{ project.title }}
+              </h1>
+
+              <p v-if="project.summary" class="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                {{ project.summary }}
+              </p>
+
+              <!-- Action Links (Live Demo & GitHub Repo) -->
+              <div class="flex flex-wrap items-center gap-2.5 pt-1">
+                <a
+                  v-if="project.demo_url"
+                  :href="project.demo_url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="h-8 px-3 rounded-md bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-semibold inline-flex items-center gap-1.5 shadow-2xs transition-colors"
+                >
+                  <Globe class="size-3.5" />
+                  <span>Launch Live Demo</span>
+                  <ArrowUpRight class="size-3 opacity-70" />
+                </a>
+
+                <a
+                  v-if="project.github_url"
+                  :href="project.github_url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="h-8 px-3 rounded-md border border-border bg-card hover:bg-muted text-foreground text-xs font-semibold inline-flex items-center gap-1.5 shadow-2xs transition-colors"
+                >
+                  <Github class="size-3.5" />
+                  <span>Source Code</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Masked Gradient Divider (Exact match to portfolio) -->
+            <div class="my-6 flex w-full items-center">
+              <div
+                class="flex-1 h-px bg-border"
+                style="mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);"
+              />
+            </div>
+          </BlurFade>
+
+          <!-- Main Cover Image -->
+          <BlurFade :delay="BLUR_FADE_DELAY * 2.5">
+            <div
+              v-if="project.image_path"
+              class="mb-8 rounded-xl overflow-hidden border border-border bg-muted aspect-video shadow-xs"
+            >
+              <img :src="project.image_path" :alt="project.title" class="w-full h-full object-cover object-top" />
+            </div>
+          </BlurFade>
+
+          <!-- Project Description / Case Study Body -->
+          <BlurFade :delay="BLUR_FADE_DELAY * 3">
+            <article
+              class="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert prose-headings:text-foreground prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:border prose-pre:border-border prose-pre:bg-muted/50"
+              v-html="project.description || project.summary || '<p>No detailed overview provided for this project.</p>'"
+            ></article>
+
+            <!-- Tech Stack Tags Bar -->
+            <div v-if="project.tech_stack && project.tech_stack.length" class="flex flex-wrap gap-1.5 mt-8 pt-6 border-t border-border/40">
+              <span
+                v-for="tech in project.tech_stack"
+                :key="tech"
+                class="text-xs font-mono font-medium border border-border px-2.5 py-0.5 rounded-md bg-muted/40 text-muted-foreground"
+              >
+                {{ tech }}
+              </span>
+            </div>
+          </BlurFade>
+
+          <!-- Related Projects -->
+          <BlurFade v-if="relatedProjects && relatedProjects.length" :delay="BLUR_FADE_DELAY * 4">
+            <div class="mt-12 pt-8 border-t border-border/60 space-y-4">
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-semibold text-foreground">More Projects</h3>
+                <Link
+                  :href="route('projects.index')"
+                  class="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  View All &rarr;
                 </Link>
-                <p class="text-slate-600 dark:text-neutral-300 text-sm leading-relaxed line-clamp-3">
-                  {{ rel.summary || rel.description }}
-                </p>
+              </div>
 
-                <!-- Tech Pills -->
-                <div class="flex flex-wrap gap-1.5 pt-1">
-                  <span
-                    v-for="(tech, i) in (rel.tech_stack || [])"
-                    :key="i"
-                    class="px-2.5 py-1 rounded-md bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs"
-                  >
-                    {{ tech }}
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <Link
+                  v-for="rel in relatedProjects.slice(0, 2)"
+                  :key="rel.id"
+                  :href="route('projects.show', rel.slug || rel.id)"
+                  class="group flex flex-col gap-1 p-3.5 rounded-lg border border-border bg-card/60 hover:bg-muted/40 transition-colors"
+                >
+                  <span class="text-xs font-medium text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex items-center justify-between">
+                    <span>{{ rel.title }}</span>
+                    <ChevronRight class="size-3 text-indigo-600 dark:text-indigo-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                   </span>
-                </div>
+                  <p class="text-[11px] text-muted-foreground line-clamp-1">
+                    {{ rel.summary || rel.category }}
+                  </p>
+                </Link>
               </div>
             </div>
+          </BlurFade>
 
-            <!-- Card Actions / Footer -->
-            <div class="px-5 py-3.5 flex items-center justify-between border-t border-slate-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-950/60 mt-auto">
-              <Link
-                :href="route('projects.show', rel.slug || rel.id)"
-                class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
-              >
-                <span>View Details</span>
-                <span>→</span>
-              </Link>
-              <div class="flex items-center space-x-3 text-sm">
-                <a
-                  v-if="rel.github_url"
-                  :href="rel.github_url"
-                  target="_blank"
-                  class="text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
-                >
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                  </svg>
-                  <span>GitHub</span>
-                </a>
-                <a
-                  v-if="rel.demo_url"
-                  :href="rel.demo_url"
-                  target="_blank"
-                  class="px-3.5 py-2 rounded-sm bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black font-bold text-xs dark:hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
-                >
-                  <span>Demo</span>
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
+    </main>
 
-    </div>
+    <!-- Floating Bottom Navigation Dock (Exact navbar.tsx from portfolio) -->
+    <MagicDock :settings="settings" />
   </GuestLayout>
 </template>
 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import FlickeringGrid from '@/Components/FlickeringGrid.vue';
+import BlurFade from '@/Components/BlurFade.vue';
+import MagicDock from '@/Components/MagicDock.vue';
 import { 
-  ArrowLeft, 
-  ExternalLink, 
+  ChevronLeft, 
+  ChevronRight, 
+  Globe, 
   Github, 
-  FileText 
+  ArrowUpRight 
 } from 'lucide-vue-next';
 
+const BLUR_FADE_DELAY = 0.04;
+
 defineProps({
-  project: Object,
-  relatedProjects: Array,
+  project: {
+    type: Object,
+    required: true,
+  },
+  relatedProjects: {
+    type: Array,
+    default: () => [],
+  },
   settings: Object,
 });
-
-function handleImageError(e) {
-  e.target.src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80';
-}
 </script>
-
-<style scoped>
-:deep(.prose-custom) {
-  color: #d4d4d4;
-  font-size: 0.95rem;
-  line-height: 1.8;
-}
-:deep(.prose-custom h1) {
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin-top: 1.75rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-}
-:deep(.prose-custom h2) {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px solid #262626;
-  padding-bottom: 0.35rem;
-  letter-spacing: -0.01em;
-}
-:deep(.prose-custom h3) {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #e5e5e5;
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-:deep(.prose-custom p) {
-  margin-bottom: 1rem;
-  color: #a3a3a3;
-}
-:deep(.prose-custom ul) {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1.25rem;
-  margin-top: 0.5rem;
-}
-:deep(.prose-custom ol) {
-  list-style-type: decimal;
-  padding-left: 1.5rem;
-  margin-bottom: 1.25rem;
-  margin-top: 0.5rem;
-}
-:deep(.prose-custom li) {
-  margin-bottom: 0.35rem;
-  color: #d4d4d4;
-}
-:deep(.prose-custom strong) {
-  color: #ffffff;
-  font-weight: 700;
-}
-:deep(.prose-custom pre) {
-  background-color: #0a0a0a;
-  border: 1px solid #262626;
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  overflow-x: auto;
-  margin-top: 1rem;
-  margin-bottom: 1.25rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.85rem;
-  color: #38bdf8;
-  line-height: 1.6;
-}
-:deep(.prose-custom code) {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.85rem;
-  color: #38bdf8;
-  background-color: #171717;
-  padding: 0.15rem 0.4rem;
-  border-radius: 0.25rem;
-  border: 1px solid #262626;
-}
-:deep(.prose-custom pre code) {
-  background-color: transparent;
-  padding: 0;
-  border: none;
-  color: inherit;
-}
-:deep(.prose-custom a) {
-  color: #60a5fa;
-  text-decoration: underline;
-}
-</style>

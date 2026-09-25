@@ -113,7 +113,7 @@ class ExperienceSeeder extends Seeder
                     'Developed practical skills in areas such as full-stack development, project management, and client communication.',
                 ],
                 'technologies' => ['Full Stack Development', 'JavaScript', 'PHP', 'Freelancing', 'Project Management'],
-                'type' => 'work',
+                'type' => 'certification',
                 'order' => 6,
             ],
             [
