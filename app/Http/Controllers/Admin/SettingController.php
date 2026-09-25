@@ -23,7 +23,16 @@ class SettingController extends Controller
 
     public function update(UpdateSettingRequest $request)
     {
-        $this->settingService->updateSettings($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('resume_file')) {
+            $file = $request->file('resume_file');
+            $path = $file->store('resumes', 'public');
+            $data['resume_url'] = '/storage/' . $path;
+        }
+        unset($data['resume_file']);
+
+        $this->settingService->updateSettings($data);
 
         return redirect()->back()->with('success', 'Profile and site settings saved successfully!');
     }

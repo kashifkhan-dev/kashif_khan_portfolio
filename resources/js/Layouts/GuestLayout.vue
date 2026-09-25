@@ -1,7 +1,18 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-neutral-100 transition-colors duration-300 selection:bg-slate-900 selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col font-sans relative overflow-x-hidden">
+  <div class="min-h-screen bg-background text-foreground transition-colors duration-300 selection:bg-primary selection:text-primary-foreground flex flex-col font-sans relative overflow-x-hidden">
+    <!-- Global Interactive Mouse Spotlight (Edge-to-Edge Across Entire Site) -->
+    <div
+      class="fixed inset-0 pointer-events-none global-interactive-spotlight opacity-0 dark:opacity-100 transition-opacity duration-700 z-0"
+      :style="{
+        '--mouse-x': `${globalMousePos.x}px`,
+        '--mouse-y': `${globalMousePos.y}px`,
+      }"
+    ></div>
+
+
     <!-- Navigation Bar -->
     <header
+      v-if="!hideHeader"
       :class="[
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
@@ -206,15 +217,12 @@
     </Teleport>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-14 sm:pt-16">
+    <main :class="['flex-grow', hideHeader ? 'pt-0' : 'pt-14 sm:pt-16']">
       <slot />
     </main>
 
-    <!-- Toast Notification -->
-    <ToastNotification />
-
     <!-- Pure Scoped Footer -->
-    <footer class="border-t border-slate-200 dark:border-neutral-800 py-8 sm:py-10 bg-white dark:bg-black transition-colors duration-300 relative">
+    <footer v-if="!hideFooter" class="border-t border-slate-200 dark:border-neutral-800 py-8 sm:py-10 bg-transparent transition-colors duration-300 relative">
       <div class="w-full max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
         <!-- Left: Logo & Copyright -->
         <div class="flex items-center space-x-3 text-center sm:text-left">
@@ -248,6 +256,12 @@
         </div>
       </div>
     </footer>
+
+    <!-- Global Toast Notification Container -->
+    <ToastNotification />
+
+    <!-- Global Resume / CV PDF Viewer Modal -->
+    <ResumeModal />
   </div>
 </template>
 
@@ -255,6 +269,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
+import ResumeModal from '@/Components/ResumeModal.vue';
 import { useTheme } from '@/Composables/useTheme';
 import { useToast } from '@/Composables/useToast';
 import {
@@ -277,6 +292,14 @@ import {
 defineProps({
   canLogin: Boolean,
   settings: Object,
+  hideHeader: {
+    type: Boolean,
+    default: false,
+  },
+  hideFooter: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const page = usePage();
@@ -352,6 +375,11 @@ watch(mobileMenuOpen, (val) => {
   }
 });
 
+const globalMousePos = ref({ x: -1000, y: -1000 });
+function handleGlobalMouseMove(e) {
+  globalMousePos.value = { x: e.clientX, y: e.clientY };
+}
+
 function handleScroll() {
   isScrolled.value = window.scrollY > 40;
   const sections = navLinks.map(l => l.id);
@@ -371,6 +399,7 @@ function scrollToTop() {
 onMounted(() => {
   initTheme();
   window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
   handleScroll();
 
   if (window.location.hash) {
@@ -386,5 +415,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('mousemove', handleGlobalMouseMove);
 });
 </script>

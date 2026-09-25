@@ -44,23 +44,23 @@ class ArticleService
         if (empty($data['slug'])) {
             $baseSlug = Str::slug($data['title']);
             $count = Article::where('slug', 'like', "{$baseSlug}%")->count();
-            $data['slug'] = $count > 0 ? "{$baseSlug}-" . ($count + 1) : $baseSlug;
+            $data['slug'] = $count > 0 ? "{$baseSlug}-".($count + 1) : $baseSlug;
         } else {
             $data['slug'] = Str::slug($data['slug']);
         }
 
-        if (empty($data['read_time']) && !empty($data['content'])) {
+        if (empty($data['read_time']) && ! empty($data['content'])) {
             $wordCount = str_word_count(strip_tags($data['content']));
             $data['read_time'] = max(1, (int) ceil($wordCount / 200));
         }
 
-        if (!empty($data['is_published']) && empty($data['published_at'])) {
+        if (! empty($data['is_published']) && empty($data['published_at'])) {
             $data['published_at'] = now();
         }
 
         if (isset($data['cover_image_file']) && $data['cover_image_file'] instanceof UploadedFile) {
             $path = $data['cover_image_file']->store('articles', 'public');
-            $data['cover_image'] = '/storage/' . $path;
+            $data['cover_image'] = '/storage/'.$path;
         }
         unset($data['cover_image_file']);
 
@@ -69,16 +69,16 @@ class ArticleService
 
     public function updateArticle(Article $article, array $data): bool
     {
-        if (!empty($data['slug'])) {
+        if (! empty($data['slug'])) {
             $data['slug'] = Str::slug($data['slug']);
         }
 
-        if (empty($data['read_time']) && !empty($data['content'])) {
+        if (empty($data['read_time']) && ! empty($data['content'])) {
             $wordCount = str_word_count(strip_tags($data['content']));
             $data['read_time'] = max(1, (int) ceil($wordCount / 200));
         }
 
-        if (!empty($data['is_published']) && empty($article->published_at) && empty($data['published_at'])) {
+        if (! empty($data['is_published']) && empty($article->published_at) && empty($data['published_at'])) {
             $data['published_at'] = now();
         }
 
@@ -88,7 +88,7 @@ class ArticleService
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $data['cover_image_file']->store('articles', 'public');
-            $data['cover_image'] = '/storage/' . $path;
+            $data['cover_image'] = '/storage/'.$path;
         }
         unset($data['cover_image_file']);
 
@@ -107,8 +107,8 @@ class ArticleService
 
     public function togglePublish(Article $article): bool
     {
-        $newStatus = !$article->is_published;
-        $publishedAt = $newStatus && !$article->published_at ? now() : $article->published_at;
+        $newStatus = ! $article->is_published;
+        $publishedAt = $newStatus && ! $article->published_at ? now() : $article->published_at;
 
         return $article->update([
             'is_published' => $newStatus,

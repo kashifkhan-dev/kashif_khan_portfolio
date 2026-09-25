@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Message;
 use App\Mail\InquiryReplyMail;
+use App\Models\Message;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Mail;
 
@@ -16,7 +16,7 @@ class MessageService
 
     public function toggleReadStatus(Message $message): bool
     {
-        return $message->update(['is_read' => !$message->is_read]);
+        return $message->update(['is_read' => ! $message->is_read]);
     }
 
     public function sendReply(Message $message, string $replyMessage): bool
@@ -28,7 +28,7 @@ class MessageService
         $replies = $message->replies ?? [];
 
         // If replies array is empty but single reply_body exists, include legacy reply
-        if (empty($replies) && !empty($message->reply_body)) {
+        if (empty($replies) && ! empty($message->reply_body)) {
             $replies[] = [
                 'body' => $message->reply_body,
                 'created_at' => $message->replied_at ? $message->replied_at->toIso8601String() : now()->toIso8601String(),

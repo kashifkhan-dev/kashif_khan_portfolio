@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Project;
-use App\Models\Skill;
-use App\Models\Experience;
-use App\Models\Setting;
-use App\Models\Testimonial;
 use App\Models\Article;
+use App\Models\Experience;
+use App\Models\Project;
+use App\Models\Setting;
+use App\Models\Skill;
+use App\Models\Testimonial;
 
 class LandingService
 {

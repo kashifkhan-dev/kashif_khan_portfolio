@@ -10,7 +10,7 @@
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
             Projects Showcase Manager
           </h1>
-          <p class="text-sm text-neutral-500 dark:text-muted-foreground mt-1">Full control over portfolio projects, tech stack tags, live demos, and hero showcase positioning.</p>
+          <p class="text-sm text-neutral-500 dark:text-muted-foreground mt-1">Full control over portfolio projects, tech stack tags, live demos, and showcase display order.</p>
         </div>
 
         <Link
@@ -34,7 +34,7 @@
           <div class="text-2xl font-bold tracking-tight mt-1 text-emerald-600 dark:text-emerald-400">
             {{ featuredCount }}
           </div>
-          <span class="text-[11px] text-slate-400 dark:text-muted-foreground mt-1 block">Displayed on homepage hero</span>
+          <span class="text-[11px] text-slate-400 dark:text-muted-foreground mt-1 block">Featured in portfolio projects section</span>
         </div>
         <div class="rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-card text-card-foreground p-5 shadow-xs">
           <span class="text-xs font-medium text-slate-500 dark:text-muted-foreground uppercase tracking-wider">Categories</span>
@@ -393,13 +393,51 @@ const searchQuery = ref('');
 const selectedCategoryFilter = ref('all');
 const activeDropdownId = ref(null);
 
-const categoryOptions = [
-  { label: 'All Categories', value: 'all' },
-  { label: 'Fullstack Application', value: 'Fullstack Application' },
-  { label: 'Frontend Interface', value: 'Frontend Interface' },
+const standardCategories = [
+  { label: 'Frontend', value: 'Frontend' },
+  { label: 'Backend', value: 'Backend' },
+  { label: 'Fullstack', value: 'Fullstack' },
   { label: 'Laravel & Vue', value: 'Laravel & Vue' },
-  { label: 'AI Solution', value: 'AI Solution' },
+  { label: 'AI & Machine Learning', value: 'AI' },
+  { label: 'Mobile App', value: 'Mobile' },
+  { label: 'SaaS Platform', value: 'SaaS Platform' },
+  { label: 'Cloud & DevOps', value: 'Cloud & DevOps' },
+  { label: 'API & Microservices', value: 'API & Microservices' },
+  { label: 'E-Commerce', value: 'E-Commerce' },
+  { label: 'UI/UX & Design Systems', value: 'UI/UX & Design Systems' },
+  { label: 'Web3 & Blockchain', value: 'Web3 & Blockchain' },
+  { label: 'Open Source & Tools', value: 'Open Source' },
+  { label: 'Cybersecurity', value: 'Cybersecurity' },
+  { label: 'Data Engineering & Analytics', value: 'Data Engineering' },
+  { label: 'Desktop Application', value: 'Desktop App' },
 ];
+
+const categoryOptions = computed(() => {
+  const options = [{ label: 'All Categories', value: 'all' }];
+  const seen = new Set(['all']);
+  
+  // First include any categories present in current projects
+  (props.projects || []).forEach(p => {
+    if (p.category && !seen.has(p.category)) {
+      seen.add(p.category);
+      const match = standardCategories.find(s => s.value === p.category);
+      options.push({
+        label: match ? match.label : p.category,
+        value: p.category
+      });
+    }
+  });
+
+  // Then append all remaining standard categories
+  standardCategories.forEach(item => {
+    if (!seen.has(item.value)) {
+      seen.add(item.value);
+      options.push(item);
+    }
+  });
+
+  return options;
+});
 
 // Delete Modal State
 const isDeleteModalOpen = ref(false);

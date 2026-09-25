@@ -83,69 +83,69 @@
 
       <!-- Details / Recent Activity Grid -->
       <div class="grid gap-6 grid-cols-1 lg:grid-cols-2">
-        <!-- Recent Messages panel -->
+        <!-- Recent Projects panel -->
         <div class="col-span-1 rounded-xl border bg-card text-card-foreground shadow-sm p-6 space-y-4">
           <div class="flex items-center justify-between border-b pb-4">
             <div class="flex items-center gap-2.5">
               <div class="p-2 rounded-lg bg-muted border border-border text-primary">
-                <Mail class="h-4 w-4" />
+                <FolderGit2 class="h-4 w-4" />
               </div>
               <div>
                 <h3 class="text-base font-bold text-foreground flex items-center gap-2">
-                  <span>Recent Contact Inquiries</span>
+                  <span>Recent Projects</span>
                 </h3>
-                <p class="text-xs text-muted-foreground mt-0.5">Manage client messages & reply via Gmail SMTP.</p>
+                <p class="text-xs text-muted-foreground mt-0.5">Portfolio projects & engineering highlights.</p>
               </div>
             </div>
             <Link
-              :href="route('admin.messages.index')"
+              :href="route('admin.projects.index')"
               class="px-2.5 py-1 rounded-lg border border-border bg-muted hover:bg-muted/80 text-xs font-semibold text-foreground transition-colors flex items-center gap-1.5"
             >
-              <span>View Inbox</span>
+              <span>View All</span>
               <ArrowRight class="h-3 w-3 text-muted-foreground" />
             </Link>
           </div>
 
-          <div v-if="!recent_messages || !recent_messages.length" class="py-12 text-center text-muted-foreground">
-            <Inbox class="h-7 w-7 mx-auto text-muted-foreground/60 mb-2" />
-            <p class="text-xs font-semibold text-foreground">No recent inquiries</p>
-            <p class="text-[11px] text-muted-foreground mt-0.5">New client contact messages will appear here.</p>
+          <div v-if="!recent_projects || !recent_projects.length" class="py-12 text-center text-muted-foreground">
+            <FolderGit2 class="h-7 w-7 mx-auto text-muted-foreground/60 mb-2" />
+            <p class="text-xs font-semibold text-foreground">No projects yet</p>
+            <p class="text-[11px] text-muted-foreground mt-0.5">Your published portfolio projects will appear here.</p>
           </div>
 
           <div v-else class="space-y-2.5">
             <Link
-              v-for="msg in recent_messages"
-              :key="msg.id"
-              :href="route('admin.messages.index')"
+              v-for="project in recent_projects"
+              :key="project.id"
+              :href="route('admin.projects.edit', project.id)"
               class="group flex items-start gap-3 p-3.5 rounded-xl border border-border/60 bg-muted/30 hover:bg-muted/70 transition-all cursor-pointer"
             >
-              <!-- Avatar Circle -->
-              <div class="h-8 w-8 rounded-full bg-muted text-foreground border border-border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 group-hover:border-indigo-500/60 group-hover:text-indigo-400 transition-colors">
-                {{ getSenderInitials(msg.sender_name) }}
+              <!-- Icon Container -->
+              <div class="h-8 w-8 rounded-lg bg-muted text-foreground border border-border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 group-hover:border-indigo-500/60 group-hover:text-indigo-400 transition-colors">
+                <FolderGit2 class="h-4 w-4 text-muted-foreground group-hover:text-indigo-400 transition-colors" />
               </div>
 
-              <!-- Message Details -->
+              <!-- Project Details -->
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-2">
                   <div class="flex items-center gap-2 truncate">
                     <span class="font-bold text-foreground text-xs truncate group-hover:text-indigo-400 transition-colors">
-                      {{ msg.sender_name }}
+                      {{ project.title }}
                     </span>
-                    <span v-if="!msg.is_read" class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/30">
-                      UNREAD
+                    <span v-if="project.is_featured" class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/30">
+                      FEATURED
                     </span>
                   </div>
                   <span class="text-[10px] text-muted-foreground font-mono shrink-0">
-                    {{ formatRelativeDate(msg.created_at) }}
+                    {{ formatRelativeDate(project.created_at) }}
                   </span>
                 </div>
 
-                <p class="text-xs font-semibold text-foreground truncate mt-0.5">
-                  {{ msg.subject || 'No Subject' }}
+                <p class="text-xs font-medium text-muted-foreground truncate mt-0.5">
+                  {{ project.category || 'General' }}
                 </p>
 
                 <p class="text-[11px] text-muted-foreground line-clamp-1 mt-0.5 leading-normal">
-                  {{ msg.body }}
+                  {{ project.summary || project.description }}
                 </p>
               </div>
             </Link>
@@ -177,9 +177,8 @@ import {
   Activity, 
   Download, 
   Loader2,
-  Mail,
-  ArrowRight,
-  Inbox
+  FolderGit2,
+  ArrowRight
 } from 'lucide-vue-next';
 
 import { useToast } from '@/Composables/useToast';
@@ -192,13 +191,6 @@ defineProps({
 
 const isExporting = ref(false);
 const { toast } = useToast();
-
-function getSenderInitials(name) {
-  if (!name) return '??';
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  return name.substring(0, 2).toUpperCase();
-}
 
 function formatRelativeDate(dateStr) {
   if (!dateStr) return '';

@@ -14,7 +14,7 @@ class SettingService
     public function updateSettings(array $settings): void
     {
         foreach ($settings as $key => $value) {
-            Setting::setByKey($key, is_array($value) ? json_encode($value) : (string)$value);
+            Setting::setByKey($key, is_array($value) ? json_encode($value) : (string) $value);
         }
     }
 }

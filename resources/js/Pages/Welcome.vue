@@ -1,772 +1,563 @@
 <template>
-  <GuestLayout :canLogin="canLogin" :settings="settings">
-    <Head title="Kashif Khan - Full-Stack Engineer" />
+  <GuestLayout :canLogin="canLogin" :settings="settings" :hideHeader="true" :hideFooter="true">
+    <Head :title="`${heroDisplayName} - Portfolio`" />
 
-    <!-- 1. HERO SECTION -->
-    <section id="about" class="min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-24 bg-white dark:bg-black transition-colors duration-300">
-      <div class="w-full text-center space-y-8">
-        <!-- Status Pill -->
-        <div class="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-neutral-200 text-sm font-sans font-medium shadow-xs">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
-          <span>{{ settings.availability_status || 'Available for Full-time Roles & Contracts' }}</span>
-        </div>
-
-        <!-- Headline -->
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-slate-900 dark:text-white">
-          <span>{{ settings.hero_title_1 || "Hi, I'm Kashif Khan." }}</span> <br v-if="settings.hero_title_2 || !settings.hero_title_1" />
-          <span class="text-slate-600 dark:text-neutral-300">{{ settings.hero_title_2 || "Full-Stack Web Engineer." }}</span>
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="text-lg sm:text-xl text-slate-600 dark:text-neutral-300 leading-relaxed max-w-3xl mx-auto">
-          {{ settings.hero_subtitle || 'Specializing in React.js, Next.js, Vue 3, Laravel, Tailwind CSS, and modern web applications. Over 5+ years of experience building fast, reliable digital products.' }}
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="pt-4 flex flex-wrap items-center justify-center gap-5">
-          <a
-            :href="settings.hero_cta_primary_link || '#projects'"
-            class="px-8 py-4 rounded-md bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-black font-bold text-base shadow-xl transition-all transform hover:scale-[1.02]"
-          >
-            {{ settings.hero_cta_primary_text || 'View My Projects' }}
-          </a>
-          <a
-            :href="settings.hero_cta_secondary_link || '#contact'"
-            class="px-8 py-4 rounded-md bg-white hover:bg-slate-50 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-neutral-200 font-semibold text-base shadow-xs hover:shadow-sm transition-all"
-          >
-            {{ settings.hero_cta_secondary_text || 'Get in Touch' }}
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. CLEAN MINIMALIST TECH STACK SECTION -->
-    <section id="skills" class="py-16 bg-white dark:bg-black transition-colors duration-300 overflow-hidden relative">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3 mb-10">
-        <h2 class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Technical Capability</h2>
-        <h3 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Skills &amp; Technologies</h3>
-        <p class="text-slate-600 dark:text-neutral-300 text-sm sm:text-base max-w-xl mx-auto">Frameworks, languages, and modern tools I engineer solutions with.</p>
+    <main class="min-h-dvh flex flex-col relative z-10 bg-background text-foreground transition-colors duration-300">
+      <!-- Top Flickering Grid Background (Exact Magic UI Stipple Fade) -->
+      <div class="absolute inset-0 top-0 left-0 right-0 h-[120px] overflow-hidden z-0 pointer-events-none">
+        <FlickeringGrid
+          class="h-full w-full"
+          :squareSize="2"
+          :gridGap="2"
+          style="mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);"
+        />
       </div>
 
-      <!-- Infinite Logo Ticker Ribbon (Borderless Canvas) -->
-      <div class="relative w-full overflow-hidden py-4">
-        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white dark:from-black to-transparent z-10 pointer-events-none"></div>
+      <!-- Main Centered Layout Container matching portfolio/src/app/layout.tsx -->
+      <div class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6 flex flex-col gap-14">
 
-        <div class="animate-marquee space-x-10">
-          <div
-            v-for="(item, idx) in marqueeItems"
-            :key="idx"
-            class="text-slate-700 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white text-base sm:text-lg font-bold font-sans tracking-tight flex items-center space-x-3 shrink-0 transition-colors cursor-default"
-          >
-            <TechIcon :name="item.icon || 'api'" class="w-6 h-6 opacity-90" />
-            <span>{{ item.name }}</span>
-          </div>
-        </div>
-      </div>
-    </section>
+        <!-- 1. HERO SECTION -->
+        <section id="hero">
+          <div class="mx-auto w-full max-w-2xl space-y-6">
+            <div class="gap-2 gap-y-6 flex flex-col md:flex-row justify-between items-start md:items-center">
+              <!-- Left: Greeting, Title & Bio -->
+              <div class="gap-2 flex flex-col order-2 md:order-1 flex-1">
+                <BlurFade :delay="BLUR_FADE_DELAY" :yOffset="8" blur="8px">
+                  <h1 class="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl text-foreground">
+                    Hi, I'm {{ heroFirstName }} 👋
+                  </h1>
+                </BlurFade>
+                <BlurFade :delay="BLUR_FADE_DELAY" :yOffset="8" blur="8px">
+                  <p class="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl font-normal leading-relaxed">
+                    {{ heroBio }}
+                  </p>
+                </BlurFade>
 
-    <!-- 3. PROJECTS SHOWCASE -->
-    <section id="projects" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300">
-      <div class="text-center space-y-4 mb-16">
-        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Portfolio</h2>
-        <h3 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Featured Projects</h3>
-        <p class="text-slate-600 dark:text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">A selection of recent web applications and platforms.</p>
-
-        <!-- Category Filters -->
-        <div class="pt-6 flex flex-wrap items-center justify-center gap-3">
-          <button
-            v-for="cat in portfolioStore.availableCategories"
-            :key="cat"
-            @click="portfolioStore.setProjectCategory(cat)"
-            class="px-5 py-2 rounded-md text-sm font-medium transition-all cursor-pointer"
-            :class="portfolioStore.activeProjectCategory === cat
-              ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-md'
-              : 'bg-white text-slate-700 hover:text-slate-900 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 shadow-xs'"
-          >
-            {{ cat }}
-          </button>
-        </div>
-      </div>
-
-      <!-- Project Grid (Top Curated Projects driven by Admin settings) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div
-          v-for="project in (projects || []).slice(0, Number(settings?.featured_projects_count) || 3)"
-          :key="project.id"
-          class="bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 rounded-md overflow-hidden hover:border-slate-300 dark:hover:border-neutral-700 transition-all flex flex-col justify-between group shadow-sm dark:shadow-lg"
-        >
-          <div>
-            <!-- Image Header -->
-            <Link
-              :href="route('projects.show', project.slug || project.id)"
-              class="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-black cursor-pointer block"
-            >
-              <img
-                :src="project.image_path || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
-                :alt="project.title"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
-              />
-              <div class="absolute top-4 left-4 flex items-center space-x-2">
-                <span
-                  v-if="project.is_featured"
-                  class="px-2.5 py-1 rounded-md bg-slate-900 text-white dark:bg-white dark:text-black text-xs font-bold uppercase"
-                >
-                  Featured
-                </span>
-                <span class="px-2.5 py-1 rounded-md bg-white/90 text-slate-800 dark:bg-black/80 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs">
-                  {{ project.category }}
-                </span>
-              </div>
-            </Link>
-
-            <!-- Content Body -->
-            <div class="p-5 space-y-3">
-              <Link :href="route('projects.show', project.slug || project.id)" class="block">
-                <h4 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors cursor-pointer">
-                  {{ project.title }}
-                </h4>
-              </Link>
-              <p class="text-slate-600 dark:text-neutral-300 text-sm sm:text-base leading-relaxed line-clamp-3">
-                {{ project.summary || project.description }}
-              </p>
-
-              <!-- Tech Pills -->
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span
-                  v-for="(tech, i) in (project.tech_stack || [])"
-                  :key="i"
-                  class="px-2.5 py-1 rounded-md bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-200 text-xs font-mono border border-slate-200 dark:border-neutral-800 shadow-xs"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card Actions / Footer -->
-          <div class="px-5 py-3.5 flex items-center justify-between border-t border-slate-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-950/60 mt-auto">
-            <Link
-              :href="route('projects.show', project.slug || project.id)"
-              class="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-neutral-300 transition-colors flex items-center space-x-1.5 cursor-pointer"
-            >
-              <span>View Details</span>
-              <span>→</span>
-            </Link>
-            <div class="flex items-center space-x-3 text-sm">
-              <a
-                v-if="project.github_url"
-                :href="project.github_url"
-                target="_blank"
-                class="text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white font-mono text-xs flex items-center space-x-1.5 transition-colors"
-              >
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                </svg>
-                <span>GitHub</span>
-              </a>
-              <a
-                v-if="project.demo_url"
-                :href="project.demo_url"
-                target="_blank"
-                class="px-3.5 py-2 rounded-sm bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black font-bold text-xs dark:hover:bg-neutral-200 transition-colors flex items-center space-x-1.5"
-              >
-                <span>Demo</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dedicated /projects Page CTA Link -->
-      <div v-if="(projects || []).length > (Number(settings?.featured_projects_count) || 3)" class="mt-10 text-center">
-        <Link
-          :href="route('projects.index')"
-          class="px-6 py-2.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
-        >
-          <span>Explore All Projects ({{ (projects || []).length }})</span>
-          <span class="group-hover:translate-x-1 transition-transform font-mono">→</span>
-        </Link>
-      </div>
-    </section>
-
-    <!-- 4. NOTION / LINEAR NESTED COLLAPSIBLE EXPERIENCE SECTION -->
-    <section id="experience" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300 border-t border-slate-200/80 dark:border-neutral-800/60">
-      <!-- Section Title -->
-      <div class="mb-10">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Experience</h2>
-      </div>
-
-      <!-- Main Experience Accordion List (Borderless Canvas) -->
-      <div class="space-y-10 divide-y divide-neutral-900">
-        <div
-          v-for="(company, cIdx) in companyExperiences"
-          :key="company.id"
-          :class="{ 'pt-10': cIdx > 0 }"
-          class="space-y-6"
-        >
-          <!-- Company Header -->
-          <div class="flex items-center space-x-3">
-            <!-- Company Logo Badge -->
-            <div
-              class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 shadow-sm"
-              :class="company.logoBg"
-            >
-              <span>{{ company.logoText }}</span>
-            </div>
-
-            <!-- Company Name & Active Status Dot -->
-            <div class="flex items-center space-x-2">
-              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
-                {{ company.company }}
-              </h3>
-              <span
-                v-if="company.isActive"
-                class="w-2.5 h-2.5 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-pulse"
-                title="Current Employer"
-              ></span>
-            </div>
-          </div>
-
-          <!-- Nested Roles Under Company -->
-          <div class="space-y-6 pl-2 sm:pl-4">
-            <div
-              v-for="(role, rIdx) in company.roles"
-              :key="role.id"
-              class="space-y-3 border-l-2 border-slate-200 dark:border-neutral-900 pl-4 sm:pl-6 transition-colors"
-              :class="{ 'border-slate-400 dark:border-neutral-700': role.isOpen }"
-            >
-              <!-- Role Header Row -->
-              <div
-                @click="toggleRole(cIdx, rIdx)"
-                class="flex flex-col sm:flex-row sm:items-center justify-between cursor-pointer group py-1 select-none gap-2 sm:gap-4"
-              >
-                <div class="flex items-center space-x-3">
-                  <!-- Code Icon Badge -->
-                  <div class="w-7 h-7 rounded-md bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:border-slate-300 dark:group-hover:border-neutral-700 text-xs font-mono flex items-center justify-center shrink-0 transition-colors">
-                    <span>&lt;/&gt;</span>
-                  </div>
-
-                  <div>
-                    <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-neutral-200 transition-colors">
-                      {{ role.role }}
-                    </h4>
-                    <p v-if="role.workType" class="text-xs font-mono text-slate-500 dark:text-neutral-400 mt-0.5">
-                      {{ role.workType }}
-                    </p>
-                  </div>
-                </div>
-
-                <!-- Right Side: Date above, Location below, and Collapse Chevron -->
-                <div class="flex items-center justify-between sm:justify-end space-x-3 pl-10 sm:pl-0">
-                  <div class="text-left sm:text-right font-mono">
-                    <div class="text-xs font-semibold text-slate-800 dark:text-neutral-200">
-                      {{ role.period }}
-                    </div>
-                    <div v-if="role.location" class="text-[11px] sm:text-xs text-slate-500 dark:text-neutral-400 mt-0.5">
-                      {{ role.location }}
-                    </div>
-                  </div>
-
-                  <!-- Chevron Collapse Button -->
+                <!-- Resume / CV Action Link -->
+                <BlurFade v-if="resumeUrl" :delay="BLUR_FADE_DELAY * 1.5" :yOffset="8" blur="8px" class="pt-1 flex items-center gap-3">
                   <button
-                    class="p-1.5 text-slate-500 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors cursor-pointer shrink-0"
-                    :aria-label="role.isOpen ? 'Collapse details' : 'Expand details'"
+                    type="button"
+                    @click="openResume"
+                    class="h-8 px-3 rounded-lg border border-border bg-card/80 hover:bg-muted text-foreground text-xs font-semibold inline-flex items-center gap-1.5 shadow-2xs transition-colors group/resume cursor-pointer"
                   >
-                    <svg
-                      class="w-4 h-4 transform transition-transform duration-200"
-                      :class="{ 'rotate-180': role.isOpen }"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
+                    <FileText class="size-3.5 text-muted-foreground group-hover/resume:text-foreground transition-colors" />
+                    <span>Resume / CV</span>
+                    <ArrowUpRight class="size-3 text-muted-foreground group-hover/resume:translate-x-0.5 group-hover/resume:-translate-y-0.5 transition-transform" />
                   </button>
-                </div>
+                </BlurFade>
               </div>
 
-              <!-- Expanded Role Details (Bullet Points & Rich Text Description & Tech Stack Tags) -->
-              <div v-if="role.isOpen" class="pt-2 pb-2 space-y-4">
-                <!-- Rich Text Description (if HTML) -->
-                <div 
-                  v-if="role.rawDescription" 
-                  v-html="role.rawDescription" 
-                  class="prose-experience text-slate-800 dark:text-neutral-200 font-medium"
-                ></div>
-
-                <!-- Bullet Highlights List (if highlights exist) -->
-                <ul 
-                  v-if="role.bullets && role.bullets.length" 
-                  class="space-y-2.5 text-sm text-slate-800 dark:text-neutral-200 font-sans font-medium leading-relaxed pl-2 sm:pl-4 pt-1"
-                >
-                  <li
-                    v-for="(bullet, bIdx) in role.bullets"
-                    :key="bIdx"
-                    class="flex items-start space-x-3 text-slate-800 dark:text-neutral-200"
-                  >
-                    <span class="w-1.5 h-1.5 rounded-full bg-slate-700 dark:bg-neutral-400 mt-2 shrink-0"></span>
-                    <span v-html="bullet"></span>
-                  </li>
-                </ul>
-
-                <!-- Tech Stack Pills -->
-                <div v-if="role.tags && role.tags.length" class="flex flex-wrap gap-2 pt-2">
-                  <span
-                    v-for="(tag, tIdx) in role.tags"
-                    :key="tIdx"
-                    class="px-2.5 py-1 rounded-md bg-white text-slate-700 dark:bg-neutral-900 dark:text-neutral-300 border border-slate-200 dark:border-neutral-800 text-xs font-mono shadow-xs hover:border-slate-300 dark:hover:border-neutral-700 transition-colors"
-                  >
-                    {{ tag }}
+              <!-- Right: Circular Avatar with Ring Border -->
+              <BlurFade :delay="BLUR_FADE_DELAY" class="order-1 md:order-2 shrink-0">
+                <div class="size-24 md:size-32 border border-border rounded-full shadow-lg ring-4 ring-muted overflow-hidden flex items-center justify-center bg-card select-none">
+                  <img
+                    v-if="profileImageUrl && !avatarError"
+                    :src="profileImageUrl"
+                    :alt="heroDisplayName"
+                    class="w-full h-full object-cover"
+                    @error="avatarError = true"
+                  />
+                  <span v-else class="text-2xl md:text-3xl font-bold text-foreground">
+                    {{ userInitials }}
                   </span>
                 </div>
-              </div>
+              </BlurFade>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <!-- 5. CLIENT ENDORSEMENTS & RECOMMENDATIONS CAROUSEL -->
-    <section id="testimonials" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300 border-t border-slate-200/80 dark:border-neutral-800/60 overflow-hidden">
-      <div class="text-center space-y-4 mb-16 max-w-3xl mx-auto">
-        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Recommendations</h2>
-        <h3 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Client Endorsements</h3>
-        <p class="text-slate-600 dark:text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">
-          Feedback from technical directors, product managers, and founders on engineering delivery and leadership.
-        </p>
-      </div>
-
-      <!-- Coverflow Deck Carousel Container -->
-      <div
-        v-if="displayedTestimonials.length"
-        @mouseenter="stopAutoplay"
-        @mouseleave="startAutoplay"
-        @touchstart="handleTouchStart"
-        @touchend="handleTouchEnd"
-        class="relative w-full py-6 sm:py-10 space-y-8 select-none overflow-hidden"
-      >
-        <!-- Background Ambient Rings & Glow (Matches user reference) -->
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <div class="w-[500px] sm:w-[650px] h-[320px] rounded-full bg-gradient-to-r from-blue-600/10 via-indigo-500/10 to-purple-600/10 blur-3xl opacity-70"></div>
-          <div class="absolute w-[400px] sm:w-[480px] h-[400px] sm:h-[480px] rounded-full border border-dashed border-slate-300/40 dark:border-neutral-800/60"></div>
-          <div class="absolute w-[580px] sm:w-[680px] h-[580px] sm:h-[680px] rounded-full border border-dashed border-slate-200/30 dark:border-neutral-800/30"></div>
-        </div>
-
-        <!-- Cards Stage (Stacked overlapping cards) -->
-        <div class="relative w-full h-[400px] sm:h-[380px] flex items-center justify-center">
-          
-          <!-- Floating Left Arrow Button (Desktop / Tablet) -->
-          <button
-            @click="prevTestimonial"
-            class="hidden sm:flex absolute left-2 lg:left-6 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md text-slate-700 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-neutral-800 hover:scale-110 active:scale-95 transition-all shadow-xl items-center justify-center cursor-pointer"
-            title="Previous Endorsement"
-          >
-            <ChevronLeft class="h-5 w-5" />
-          </button>
-
-          <!-- Layered Deck of Cards -->
-          <div
-            v-for="(item, idx) in displayedTestimonials"
-            :key="item.id || idx"
-            @click="onCardClick(idx)"
-            class="absolute top-1/2 left-1/2 w-[86vw] sm:w-[440px] md:w-[480px] lg:w-[500px] h-[360px] sm:h-[350px] rounded-2xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 ease-out shadow-2xl"
-            :style="getCardStyle(idx)"
-            :class="[
-              isCardActive(idx)
-                ? 'border-2 border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 shadow-2xl shadow-indigo-500/10'
-                : 'border border-slate-200/70 dark:border-neutral-800/80 bg-slate-50/90 dark:bg-neutral-950/90 hover:opacity-90 cursor-pointer shadow-lg'
-            ]"
-          >
-            <!-- Watermark Quote Icon in Top Right -->
-            <Quote class="absolute top-4 right-4 h-16 w-16 text-slate-200/50 dark:text-neutral-900/70 pointer-events-none select-none -rotate-6" />
-
-            <!-- Card Top: Rating & Project Reference -->
-            <div class="relative z-10 flex items-center justify-between gap-3">
-              <div class="flex items-center gap-1.5 text-amber-400 bg-amber-400/10 dark:bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/20">
-                <Star
-                  v-for="s in 5"
-                  :key="s"
-                  class="h-3.5 w-3.5"
-                  :class="s <= (item.rating || 5) ? 'fill-amber-400 text-amber-400' : 'text-slate-300 dark:text-neutral-700'"
-                />
-                <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400 ml-0.5">5.0</span>
+        <!-- 2. ABOUT SECTION -->
+        <section id="about">
+          <div class="flex min-h-0 flex-col gap-y-4">
+            <BlurFade :delay="BLUR_FADE_DELAY * 3">
+              <h2 class="text-xl font-bold tracking-tight text-foreground">About</h2>
+            </BlurFade>
+            <BlurFade :delay="BLUR_FADE_DELAY * 4">
+              <div class="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert text-sm sm:text-base">
+                <p v-if="hasHtmlAbout" v-html="aboutText"></p>
+                <p v-else class="whitespace-pre-line">{{ aboutText }}</p>
               </div>
+            </BlurFade>
+          </div>
+        </section>
 
-              <span
-                v-if="item.project_reference"
-                class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-neutral-300 truncate max-w-[200px]"
-                :title="item.project_reference"
+        <!-- 2.5 GITHUB ACTIVITY SECTION -->
+        <BlurFade :delay="BLUR_FADE_DELAY * 4.5">
+          <section id="github-activity">
+            <GitHubHeatmap :githubUrl="githubProfileUrl" :username="githubUsername" />
+          </section>
+        </BlurFade>
+
+        <!-- 3. WORK EXPERIENCE SECTION (Clean Accordion Style from portfolio) -->
+        <section id="work">
+          <div class="flex min-h-0 flex-col gap-y-6">
+            <BlurFade :delay="BLUR_FADE_DELAY * 5">
+              <h2 class="text-xl font-bold tracking-tight text-foreground">Work Experience</h2>
+            </BlurFade>
+
+            <BlurFade :delay="BLUR_FADE_DELAY * 6">
+              <div class="w-full grid gap-4">
+              <div
+                v-for="(company, cIdx) in companyExperiences"
+                :key="company.id || cIdx"
+                class="w-full border-b border-border/60 pb-4 last:border-b-0 last:pb-0"
               >
-                {{ item.project_reference }}
-              </span>
-            </div>
+                <div
+                  v-for="(role, rIdx) in company.roles"
+                  :key="role.id || rIdx"
+                  class="group cursor-pointer"
+                  @click="toggleRole(cIdx, rIdx)"
+                >
+                  <div class="flex items-center gap-x-3 justify-between w-full text-left">
+                    <div class="flex items-center gap-x-3 flex-1 min-w-0">
+                      <!-- Circular Company Avatar -->
+                      <div
+                        class="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden"
+                      >
+                        <img
+                          v-if="company.logo"
+                          :src="company.logo"
+                          :alt="company.company"
+                          class="size-full object-contain rounded-full"
+                          loading="lazy"
+                        />
+                        <span v-else :class="company.logoTextClass || 'text-foreground'">{{ company.logoText }}</span>
+                      </div>
 
-            <!-- Card Body: Quote -->
-            <div class="relative z-10 my-auto py-2">
-              <p class="text-sm sm:text-base font-sans font-medium text-slate-800 dark:text-neutral-100 leading-relaxed line-clamp-5">
-                &ldquo;{{ item.quote }}&rdquo;
-              </p>
-            </div>
+                      <div class="flex-1 min-w-0 gap-0.5 flex flex-col">
+                        <div class="font-semibold leading-none flex items-center gap-2 text-foreground">
+                          <span>{{ company.company }}</span>
+                          <span class="relative inline-flex items-center size-3.5">
+                            <ChevronRight
+                              class="absolute size-3.5 shrink-0 text-muted-foreground stroke-2 transition-transform duration-200"
+                              :class="{ 'rotate-90 text-foreground': role.isOpen, 'group-hover:translate-x-0.5': !role.isOpen }"
+                            />
+                          </span>
+                        </div>
+                        <div class="font-sans text-sm text-muted-foreground mt-0.5">
+                          {{ role.role }}
+                        </div>
+                      </div>
+                    </div>
 
-            <!-- Card Bottom: Client Info -->
-            <div class="relative z-10 pt-4 border-t border-slate-200/70 dark:border-neutral-800/80 flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="w-11 h-11 rounded-full overflow-hidden border-2 border-slate-200 dark:border-neutral-700 bg-slate-200 dark:bg-neutral-800 shrink-0 shadow-xs">
-                  <img
-                    v-if="item.client_avatar"
-                    :src="item.client_avatar"
-                    :alt="item.client_name"
-                    class="w-full h-full object-cover"
-                  />
-                  <div v-else class="w-full h-full flex items-center justify-center font-bold text-xs bg-indigo-600 text-white">
-                    {{ getClientInitials(item.client_name) }}
+                    <!-- Period Right-Aligned -->
+                    <div class="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none select-none">
+                      <span>{{ role.period }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Expandable Role Content -->
+                  <div
+                    v-if="role.isOpen"
+                    class="mt-3 ml-11 md:ml-13 text-xs sm:text-sm text-muted-foreground space-y-2.5"
+                    @click.stop
+                  >
+                    <p v-if="role.rawDescription" v-html="role.rawDescription" class="leading-relaxed"></p>
+
+                    <ul v-else-if="role.bullets && role.bullets.length" class="space-y-1 list-disc list-inside leading-relaxed">
+                      <li v-for="(bullet, bIdx) in role.bullets" :key="bIdx">
+                        {{ bullet }}
+                      </li>
+                    </ul>
+
+                    <!-- Technology Stack Badges -->
+                    <div v-if="role.tags && role.tags.length" class="flex flex-wrap gap-1 pt-1.5">
+                      <span
+                        v-for="tag in role.tags"
+                        :key="tag"
+                        class="text-[10px] font-medium border border-border h-5 px-2 rounded-md bg-muted/60 text-muted-foreground inline-flex items-center"
+                      >
+                        {{ tag }}
+                      </span>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </BlurFade>
+          </div>
+        </section>
 
-                <div class="min-w-0">
-                  <div class="flex items-center gap-1.5">
-                    <h4 class="text-sm font-bold text-slate-900 dark:text-white truncate">
-                      {{ item.client_name }}
-                    </h4>
-                    <a
-                      v-if="item.linkedin_url"
-                      :href="item.linkedin_url"
-                      target="_blank"
-                      @click.stop
-                      class="text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors shrink-0"
-                      title="Verified LinkedIn Recommendation"
-                    >
-                      <Linkedin class="h-3 w-3" />
-                    </a>
+        <!-- 4. EDUCATION SECTION -->
+        <section v-if="educationList && educationList.length" id="education">
+          <div class="flex min-h-0 flex-col gap-y-6">
+            <BlurFade :delay="BLUR_FADE_DELAY * 7">
+              <h2 class="text-xl font-bold tracking-tight text-foreground">Education</h2>
+            </BlurFade>
+
+            <div class="flex flex-col gap-6">
+              <BlurFade
+                v-for="(edu, index) in educationList"
+                :key="edu.id"
+                :delay="BLUR_FADE_DELAY * 8 + index * 0.05"
+              >
+                <div class="flex items-center gap-x-3 justify-between group">
+                  <div class="flex items-center gap-x-3 flex-1 min-w-0">
+                    <div class="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden">
+                      <img
+                        v-if="edu.logo"
+                        :src="edu.logo"
+                        :alt="edu.institution"
+                        class="size-full object-contain rounded-full"
+                        loading="lazy"
+                      />
+                      <span v-else class="text-foreground">{{ edu.logoText }}</span>
+                    </div>
+                    <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+                      <div class="font-semibold leading-none flex items-center gap-2 text-foreground">
+                        <span>{{ edu.institution }}</span>
+                      </div>
+                      <div class="font-sans text-sm text-muted-foreground">
+                        {{ edu.degree }}
+                      </div>
+                    </div>
                   </div>
-                  <p class="text-[11px] text-slate-500 dark:text-neutral-400 truncate">
-                    {{ item.client_role }} <span v-if="item.company">&bull; {{ item.company }}</span>
+                  <div class="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none select-none">
+                    <span>{{ edu.period }}</span>
+                  </div>
+                </div>
+              </BlurFade>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. CERTIFICATIONS SECTION -->
+        <section v-if="certificationList && certificationList.length" id="certifications">
+          <div class="flex min-h-0 flex-col gap-y-6">
+            <BlurFade :delay="BLUR_FADE_DELAY * 8.5">
+              <h2 class="text-xl font-bold tracking-tight text-foreground">Certifications &amp; Training</h2>
+            </BlurFade>
+
+            <div class="flex flex-col gap-6">
+              <BlurFade
+                v-for="(cert, index) in certificationList"
+                :key="cert.id"
+                :delay="BLUR_FADE_DELAY * 8.8 + index * 0.05"
+              >
+                <div class="flex items-center gap-x-3 justify-between group">
+                  <div class="flex items-center gap-x-3 flex-1 min-w-0">
+                    <div class="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden">
+                      <img
+                        v-if="cert.logo"
+                        :src="cert.logo"
+                        :alt="cert.institution"
+                        class="size-full object-contain rounded-full"
+                        loading="lazy"
+                      />
+                      <span v-else class="text-foreground">{{ cert.logoText }}</span>
+                    </div>
+                    <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+                      <div class="font-semibold leading-none flex items-center gap-2 text-foreground">
+                        <span>{{ cert.institution }}</span>
+                      </div>
+                      <div class="font-sans text-sm text-muted-foreground">
+                        {{ cert.title }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none select-none">
+                    <span>{{ cert.period }}</span>
+                  </div>
+                </div>
+              </BlurFade>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. SKILLS SECTION (Clean Badges from portfolio) -->
+        <section id="skills">
+          <div class="flex min-h-0 flex-col gap-y-4">
+            <BlurFade :delay="BLUR_FADE_DELAY * 9">
+              <h2 class="text-xl font-bold tracking-tight text-foreground">Skills</h2>
+            </BlurFade>
+
+            <div class="flex flex-wrap gap-2">
+              <BlurFade
+                v-for="(skill, id) in visibleSkills"
+                :key="skill.name"
+                :delay="BLUR_FADE_DELAY * 10 + id * 0.05"
+              >
+                <div
+                  class="border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2 hover:bg-muted/40 transition-colors"
+                >
+                  <TechIcon v-if="skill.icon" :name="skill.icon" size="size-4" class="rounded overflow-hidden object-contain shrink-0" />
+                  <span class="text-foreground text-sm font-medium">{{ skill.name }}</span>
+                </div>
+              </BlurFade>
+            </div>
+
+            <!-- Show more / Show less toggle -->
+            <div v-if="displaySkills.length > 12" class="pt-1">
+              <button
+                type="button"
+                @click="showAllSkills = !showAllSkills"
+                class="text-xs font-medium text-muted-foreground hover:text-foreground underline underline-offset-4 cursor-pointer transition-colors"
+              >
+                {{ showAllSkills ? 'Show less' : 'Show more...' }}
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. PROJECTS SECTION (Exact Divider with Badge & Cards from portfolio) -->
+        <section id="projects">
+          <div class="flex min-h-0 flex-col gap-y-8">
+            <BlurFade :delay="BLUR_FADE_DELAY * 11">
+              <!-- Header with Linear-Gradient Divider -->
+              <div class="flex flex-col gap-y-4 items-center justify-center">
+                <div class="flex items-center w-full">
+                  <div class="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+                  <div class="border border-border bg-primary z-10 rounded-xl px-4 py-1 shadow-xs">
+                    <span class="text-primary-foreground text-sm font-medium">My Projects</span>
+                  </div>
+                  <div class="flex-1 h-px bg-gradient-to-l from-transparent via-border to-transparent"></div>
+                </div>
+
+                <div class="flex flex-col gap-y-3 items-center justify-center text-center">
+                  <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
+                    Check out my latest work
+                  </h2>
+                  <p class="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed text-balance max-w-lg">
+                    I've worked on a variety of projects, from simple websites to complex web applications. Here are a few of my favorites.
                   </p>
                 </div>
               </div>
+            </BlurFade>
 
-              <div class="hidden sm:flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-900/60 shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span>Verified</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Floating Right Arrow Button (Desktop / Tablet) -->
-          <button
-            @click="nextTestimonial"
-            class="hidden sm:flex absolute right-2 lg:right-6 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md text-slate-700 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-neutral-800 hover:scale-110 active:scale-95 transition-all shadow-xl items-center justify-center cursor-pointer"
-            title="Next Endorsement"
-          >
-            <ChevronRight class="h-5 w-5" />
-          </button>
-        </div>
-
-        <!-- Bottom Controls: Prev/Next for mobile + Dots Indicator & Counter -->
-        <div class="flex items-center justify-center gap-3 pt-2">
-          <!-- Mobile Prev Button -->
-          <button
-            @click="prevTestimonial"
-            class="sm:hidden w-8 h-8 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 text-slate-700 dark:text-neutral-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-95"
-            title="Previous Endorsement"
-          >
-            <ChevronLeft class="h-4 w-4" />
-          </button>
-
-          <!-- Animated Indicator Dots -->
-          <div class="flex items-center gap-2">
-            <button
-              v-for="(item, idx) in displayedTestimonials"
-              :key="idx"
-              @click="currentTestimonialIndex = idx"
-              class="h-2 rounded-full transition-all duration-300 cursor-pointer"
-              :class="currentTestimonialIndex === idx 
-                ? 'w-8 bg-slate-900 dark:bg-white shadow-xs' 
-                : 'w-2 bg-slate-300 dark:bg-neutral-800 hover:bg-slate-400 dark:hover:bg-neutral-600'"
-              :title="`Jump to endorsement ${idx + 1}`"
-            />
-          </div>
-
-          <!-- Counter Pill -->
-          <span class="text-xs font-mono font-medium text-slate-400 dark:text-neutral-500 select-none">
-            0{{ currentTestimonialIndex + 1 }} / 0{{ displayedTestimonials.length }}
-          </span>
-
-          <!-- Mobile Next Button -->
-          <button
-            @click="nextTestimonial"
-            class="sm:hidden w-8 h-8 rounded-full border border-slate-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 text-slate-700 dark:text-neutral-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-95"
-            title="Next Endorsement"
-          >
-            <ChevronRight class="h-4 w-4" />
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. LATEST TECHNICAL ARTICLES & CASE STUDIES -->
-    <section id="articles" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300 border-t border-slate-200/80 dark:border-neutral-800/60">
-      <div class="text-center space-y-4 mb-16 max-w-3xl mx-auto">
-        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400">Technical Articles</h2>
-        <h3 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Engineering Notes &amp; Case Studies</h3>
-        <p class="text-slate-600 dark:text-neutral-300 text-base sm:text-lg max-w-lg mx-auto">
-          In-depth architectural writeups and software optimization benchmarks.
-        </p>
-      </div>
-
-      <!-- Articles Grid -->
-      <div v-if="displayedArticles.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <article
-          v-for="article in displayedArticles"
-          :key="article.id"
-          class="rounded-md border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden shadow-xs hover:border-slate-300 dark:hover:border-neutral-700 hover:shadow-md transition-all flex flex-col justify-between group"
-        >
-          <div>
-            <!-- Thumbnail -->
-            <div class="w-full h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-900 relative">
-              <img
-                v-if="article.cover_image"
-                :src="article.cover_image"
-                :alt="article.title"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div v-else class="w-full h-full flex items-center justify-center text-slate-400 dark:text-neutral-600">
-                <BookOpen class="h-8 w-8" />
-              </div>
-            </div>
-
-            <!-- Content -->
-            <div class="p-6 space-y-3">
-              <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-neutral-400">
-                <span class="flex items-center gap-1">
-                  <Clock class="h-3 w-3" />
-                  <span>{{ article.read_time || 5 }} min read</span>
-                </span>
-                <span>{{ formatArticleDate(article.published_at) }}</span>
-              </div>
-
-              <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                <Link :href="route('articles.show', article.slug)">
-                  {{ article.title }}
-                </Link>
-              </h3>
-
-              <p class="text-xs sm:text-sm text-slate-600 dark:text-neutral-400 line-clamp-3 leading-relaxed">
-                {{ article.excerpt }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Card Footer -->
-          <div class="p-6 pt-0 space-y-3 border-t border-slate-100 dark:border-neutral-900/80">
-            <div v-if="article.tags && article.tags.length" class="flex flex-wrap gap-1 pt-3">
-              <span
-                v-for="t in article.tags.slice(0, 3)"
-                :key="t"
-                class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-neutral-900 border border-slate-200/60 dark:border-neutral-800 text-slate-600 dark:text-neutral-400"
+            <!-- 2-Column Grid of Project Cards matching portfolio/src/components/project-card.tsx -->
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-[800px] mx-auto auto-rows-fr w-full">
+              <BlurFade
+                v-for="(project, id) in displayedProjects"
+                :key="project.id"
+                :delay="BLUR_FADE_DELAY * 12 + id * 0.05"
+                class="h-full"
               >
-                {{ t }}
-              </span>
+                <div
+                  class="flex flex-col h-full border border-border bg-card rounded-xl overflow-hidden hover:ring-2 hover:ring-muted/50 transition-all duration-200 group"
+                >
+                  <!-- Thumbnail / Media with Live Badges -->
+                  <div class="relative shrink-0 w-full aspect-video overflow-hidden bg-muted">
+                    <img
+                      :src="project.image_path || project.image_url || getProjectFallbackImage(project)"
+                      :alt="project.title"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      @error="onProjectImgError"
+                    />
+
+                    <!-- Top Right Live Website / Source Badges -->
+                    <div class="absolute top-2 right-2 flex flex-wrap gap-1.5">
+                      <a
+                        v-if="getProjectDemoUrl(project)"
+                        :href="getProjectDemoUrl(project)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-1 text-[11px] font-semibold bg-black/80 text-white hover:bg-black px-2 py-0.5 rounded-md backdrop-blur-xs shadow-xs"
+                      >
+                        <Globe class="size-3" />
+                        <span>Live</span>
+                      </a>
+                      <a
+                        v-if="getProjectGithubUrl(project)"
+                        :href="getProjectGithubUrl(project)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-1 text-[11px] font-semibold bg-black/80 text-white hover:bg-black px-2 py-0.5 rounded-md backdrop-blur-xs shadow-xs"
+                      >
+                        <FolderGit2 class="size-3" />
+                        <span>Source</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Card Body -->
+                  <div class="p-5 flex flex-col gap-2.5 flex-1">
+                    <div class="flex items-start justify-between gap-2">
+                      <div class="flex flex-col gap-0.5">
+                        <h3 class="font-semibold text-foreground text-sm sm:text-base">
+                          {{ project.title }}
+                        </h3>
+                        <time v-if="project.date || project.period" class="text-xs text-muted-foreground tabular-nums">
+                          {{ project.date || project.period }}
+                        </time>
+                      </div>
+                    </div>
+
+                    <p class="text-xs flex-1 text-muted-foreground leading-relaxed line-clamp-3">
+                      {{ project.summary || project.short_description || project.description }}
+                    </p>
+
+                    <!-- Tech Stack Outline Badges -->
+                    <div class="flex flex-wrap gap-1 mt-auto pt-2">
+                      <span
+                        v-for="tag in getProjectTags(project)"
+                        :key="tag"
+                        class="text-[11px] font-medium border border-border h-6 w-fit px-2 rounded-md bg-muted/40 text-muted-foreground inline-flex items-center"
+                      >
+                        {{ tag }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </BlurFade>
             </div>
 
-            <Link
-              :href="route('articles.show', article.slug)"
-              class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors pt-1"
-            >
-              <span>Read Full Article</span>
-              <ArrowRight class="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </article>
-      </div>
-
-      <!-- Explore Hub CTA -->
-      <div class="mt-12 text-center">
-        <Link
-          :href="route('articles.index')"
-          class="px-6 py-3 rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-bold text-xs sm:text-sm shadow-lg transition-all inline-flex items-center space-x-2 cursor-pointer group hover:scale-105 transform"
-        >
-          <span>Explore All Articles &amp; Case Studies</span>
-          <span class="group-hover:translate-x-1 transition-transform font-mono">→</span>
-        </Link>
-      </div>
-    </section>
-
-    <!-- 7. CREATIVE 2-COLUMN EXECUTIVE CONTACT SECTION -->
-    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white dark:bg-black transition-colors duration-300">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-        
-        <!-- LEFT COLUMN: Engaging Contact Pitch & Info -->
-        <div class="lg:col-span-6 space-y-8">
-          <div class="space-y-4">
-            <h2 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-              {{ settings.contact_headline_title || "Let's build something extraordinary together." }}
-            </h2>
-            <p class="text-slate-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed">
-              {{ settings.contact_subtitle || "Have a project in mind, a software engineering role to discuss, or just want to talk tech? Drop a message or connect directly." }}
-            </p>
-          </div>
-
-          <!-- Contact Cards -->
-          <div class="space-y-3 pt-1 max-w-md">
-            <!-- Email Item -->
-            <a
-              :href="`mailto:${settings.contact_email || 'kashifkhan.dev@gmail.com'}`"
-              class="p-4 rounded-md bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 flex items-center space-x-4 transition-all group w-full shadow-xs"
-            >
-              <div class="w-10 h-10 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="text-xs font-sans font-semibold text-slate-500 dark:text-neutral-400 uppercase tracking-wider">Direct Email</div>
-                <div class="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-sans group-hover:text-indigo-600 dark:group-hover:text-neutral-200 transition-colors">
-                  {{ settings.contact_email || 'kashifkhan.dev@gmail.com' }}
-                </div>
-              </div>
-            </a>
-
-            <!-- Availability & Location Item -->
-            <div class="p-4 rounded-md bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 flex items-center space-x-4 w-full shadow-xs">
-              <div class="w-10 h-10 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-xs">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-              </div>
-              <div>
-                <div class="text-xs font-sans font-semibold text-slate-500 dark:text-neutral-400 uppercase tracking-wider">Location &amp; Work</div>
-                <div class="text-sm font-bold text-slate-900 dark:text-white">
-                  {{ settings.contact_location || 'Worldwide (Remote / On-site)' }}
-                </div>
-              </div>
+            <!-- Show All / Show Less Projects Button -->
+            <div v-if="projects && projects.length > 6" class="text-center pt-2">
+              <button
+                @click="showAllProjects = !showAllProjects"
+                class="px-4 py-2 text-xs font-semibold rounded-xl border border-border bg-card text-foreground hover:bg-muted transition-all cursor-pointer shadow-xs"
+              >
+                {{ showAllProjects ? 'Show Less' : `View All Projects (${projects.length})` }}
+              </button>
             </div>
           </div>
+        </section>
 
-          <!-- Response Guarantee Pill -->
-          <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-md bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-xs font-sans font-medium text-slate-800 dark:text-neutral-200 shadow-xs">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
-            <span>{{ settings.contact_response_time || 'Typical Response Time: < 24 Hours' }}</span>
-          </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Clean Compact Message Form -->
-        <div class="lg:col-span-6">
-          <div class="bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 p-6 sm:p-8 rounded-md space-y-6 shadow-sm dark:shadow-xl w-full">
-            <div>
-              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                {{ settings.contact_form_title || 'Send a Message' }}
-              </h3>
-            </div>
-
-            <form @submit.prevent="submitContactForm" class="space-y-5">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Your Name</label>
-                  <input
-                    v-model="form.sender_name"
-                    type="text"
-                    required
-                    placeholder="John Doe"
-                    class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
-                  />
+        <!-- 7. ARTICLES & CMS SECTION (Clean Timeline/Publication Style) -->
+        <section v-if="articles && articles.length" id="articles">
+          <div class="flex min-h-0 flex-col gap-y-8">
+            <BlurFade :delay="BLUR_FADE_DELAY * 13">
+              <div class="flex flex-col gap-y-4 items-center justify-center">
+                <div class="flex items-center w-full">
+                  <div class="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+                  <div class="border border-border bg-primary z-10 rounded-xl px-4 py-1 shadow-xs">
+                    <span class="text-primary-foreground text-sm font-medium">Articles</span>
+                  </div>
+                  <div class="flex-1 h-px bg-gradient-to-l from-transparent via-border to-transparent"></div>
                 </div>
-                <div>
-                  <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Your Email</label>
-                  <input
-                    v-model="form.sender_email"
-                    type="email"
-                    required
-                    placeholder="john@example.com"
-                    class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
-                  />
+
+                <div class="flex flex-col gap-y-3 items-center justify-center text-center">
+                  <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
+                    Latest Writings & Engineering Notes
+                  </h2>
                 </div>
               </div>
+            </BlurFade>
 
-              <div>
-                <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Subject</label>
-                <input
-                  v-model="form.subject"
-                  type="text"
-                  placeholder="Project Inquiry"
-                  class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
+            <div class="flex flex-col gap-3">
+              <BlurFade
+                v-for="(article, id) in articles"
+                :key="article.id"
+                :delay="BLUR_FADE_DELAY * 13.5 + id * 0.05"
+              >
+                <Link
+                  :href="route('blog.show', article.slug || article.id)"
+                  class="flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:border-muted-foreground/30 transition-all group"
+                >
+                  <div class="flex flex-col gap-1 min-w-0 flex-1 pr-4">
+                    <h3 class="font-semibold text-sm sm:text-base text-foreground group-hover:text-blue-500 transition-colors truncate">
+                      {{ article.title }}
+                    </h3>
+                    <p v-if="article.excerpt" class="text-xs text-muted-foreground line-clamp-1">
+                      {{ article.excerpt }}
+                    </p>
+                  </div>
+                  <div class="flex items-center gap-3 shrink-0">
+                    <span v-if="article.published_at || article.created_at" class="text-xs text-muted-foreground tabular-nums">
+                      {{ formatDate(article.published_at || article.created_at) }}
+                    </span>
+                    <ArrowUpRight class="size-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  </div>
+                </Link>
+              </BlurFade>
+            </div>
+
+            <div class="flex justify-center mt-2">
+              <Link
+                :href="route('blog.index')"
+                class="text-sm font-medium text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors group"
+              >
+                <span>View all posts</span>
+                <ChevronRight class="size-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. FLOATING TESTIMONIALS SECTION (Infinite Marquee with 5-Stars & Avatars) -->
+        <BlurFade :delay="BLUR_FADE_DELAY * 14">
+          <section id="testimonials" class="w-full">
+            <FloatingTestimonials :testimonials="testimonials" />
+          </section>
+        </BlurFade>
+
+        <!-- 9. CONTACT SECTION (Exact Card & Flickering Grid from portfolio/src/components/section/contact-section.tsx) -->
+        <BlurFade :delay="BLUR_FADE_DELAY * 16">
+          <section id="contact">
+            <div class="border border-border rounded-xl p-8 sm:p-10 relative bg-card text-center">
+              <!-- Floating Pill Badge on Top Edge -->
+              <div class="absolute -top-3.5 border border-border bg-primary z-10 rounded-xl px-4 py-1 left-1/2 -translate-x-1/2 shadow-xs select-none">
+                <span class="text-primary-foreground text-sm font-medium">Contact</span>
+              </div>
+
+              <!-- Flickering Grid Background -->
+              <div class="absolute inset-0 top-0 left-0 right-0 h-1/2 rounded-xl overflow-hidden pointer-events-none">
+                <FlickeringGrid
+                  class="h-full w-full"
+                  :squareSize="2"
+                  :gridGap="2"
+                  style="mask-image: linear-gradient(to bottom, black, transparent); -webkit-mask-image: linear-gradient(to bottom, black, transparent);"
                 />
               </div>
 
-              <div>
-                <label class="block text-xs font-sans font-medium text-slate-700 dark:text-neutral-300 mb-1.5 uppercase tracking-wider">Message</label>
-                <textarea
-                  v-model="form.body"
-                  rows="4"
-                  required
-                  placeholder="Your message..."
-                  class="w-full px-4 py-2.5 rounded-md bg-white dark:bg-black border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-slate-900 dark:focus:border-white transition-colors"
-                ></textarea>
+              <div class="relative flex flex-col items-center gap-4 text-center z-10">
+                <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-foreground">
+                  {{ contactHeadlineTitle }}
+                </h2>
+
+                <p v-if="formattedContactSubtitle" v-html="formattedContactSubtitle" class="mx-auto max-w-lg text-muted-foreground text-balance text-sm sm:text-base leading-relaxed"></p>
+
+                <p v-else class="mx-auto max-w-lg text-muted-foreground text-balance text-sm sm:text-base leading-relaxed">
+                  Wanna chat? Let's
+                  <a
+                    :href="calMeetingUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-blue-500 hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm font-medium"
+                  >
+                    schedule a meet!
+                  </a>
+                  or drop an
+                  <a
+                    :href="`mailto:${contactEmail}`"
+                    class="text-blue-500 hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm font-medium"
+                  >
+                    email
+                  </a>. I will be ignoring all soliciting.
+                </p>
               </div>
-
-              <button
-                type="submit"
-                :disabled="isSubmitting || form.processing"
-                class="w-full py-3.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-75 flex items-center justify-center space-x-2 shadow-md cursor-pointer"
-              >
-                <!-- Inline Spinner Icon -->
-                <svg
-                  v-if="isSubmitting || form.processing"
-                  class="animate-spin h-4 w-4 text-black shrink-0"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-
-                <span v-if="isSubmitting || form.processing">Transmitting Message...</span>
-                <span v-else>{{ settings.contact_submit_btn_text || 'Send Message' }}</span>
-              </button>
-            </form>
-          </div>
-        </div>
+            </div>
+          </section>
+        </BlurFade>
 
       </div>
-    </section>
+    </main>
 
-    <!-- Modal Popup -->
-    <ProjectModal
-      :isOpen="portfolioStore.isProjectModalOpen"
-      :project="portfolioStore.selectedProject"
-      @close="portfolioStore.closeProjectModal()"
-    />
+    <!-- Floating Bottom Navigation Dock (Exact navbar.tsx from portfolio) -->
+    <MagicDock :settings="settings" />
   </GuestLayout>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import axios from 'axios';
+import { ref, computed } from 'vue';
+import { Head, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import ProjectModal from '@/Components/ProjectModal.vue';
+import FlickeringGrid from '@/Components/FlickeringGrid.vue';
+import BlurFade from '@/Components/BlurFade.vue';
+import MagicDock from '@/Components/MagicDock.vue';
+import FloatingTestimonials from '@/Components/FloatingTestimonials.vue';
 import TechIcon from '@/Components/TechIcon.vue';
+import GitHubHeatmap from '@/Components/GitHubHeatmap.vue';
 import { usePortfolioStore } from '@/stores/usePortfolioStore';
-import { useToast } from '@/Composables/useToast';
 import {
-  Star,
-  Quote,
-  ChevronLeft,
+  ArrowUpRight,
   ChevronRight,
-  Clock,
-  BookOpen,
-  ArrowRight,
-  Linkedin,
+  Globe,
+  FolderGit2,
+  FileText,
 } from 'lucide-vue-next';
 
-const isSubmitting = ref(false);
-const { toast } = useToast();
+const BLUR_FADE_DELAY = 0.04;
 
 const props = defineProps({
   projects: Array,
@@ -778,85 +569,119 @@ const props = defineProps({
   canLogin: Boolean,
 });
 
+const avatarError = ref(false);
+const showAllProjects = ref(false);
+const showAllSkills = ref(false);
+
+const githubProfileUrl = computed(() => {
+  return props.settings?.github_url || 'https://github.com/KashifKhan456';
+});
+
+const githubUsername = computed(() => {
+  const url = githubProfileUrl.value;
+  const parts = url.split('/').filter(Boolean);
+  return parts[parts.length - 1] || 'KashifKhan456';
+});
+
+const resumeUrl = computed(() => {
+  return props.settings?.resume_url && props.settings.resume_url !== '#' ? props.settings.resume_url : '';
+});
+
 const portfolioStore = usePortfolioStore();
 
-function openModal(project) {
-  portfolioStore.openProjectModal(project);
+function openResume() {
+  if (resumeUrl.value) {
+    portfolioStore.openResumeModal(resumeUrl.value, `${heroDisplayName.value} — Resume / CV`);
+  }
 }
 
-// Master Fallback Tech Stack
-const fullTechStack = [
-  { name: 'React.js', icon: 'react' },
-  { name: 'Next.js', icon: 'next' },
-  { name: 'Vue.js 3', icon: 'vue' },
-  { name: 'Laravel 11', icon: 'laravel' },
-  { name: 'Tailwind CSS', icon: 'tailwind' },
-  { name: 'TypeScript', icon: 'typescript' },
-  { name: 'Inertia.js', icon: 'inertia' },
-  { name: 'Node.js', icon: 'node' },
-  { name: 'PHP 8.2+', icon: 'php' },
-  { name: 'MySQL', icon: 'mysql' },
-  { name: 'Docker', icon: 'docker' },
-  { name: 'Git & GitHub', icon: 'git' },
-  { name: 'Vite', icon: 'vite' },
-  { name: 'REST & GraphQL', icon: 'api' },
-];
-
-// Active Skills from database or fallback stack
-const activeSkillsList = computed(() => {
-  if (props.skills && props.skills.length > 0) {
-    return props.skills.map(s => ({
-      id: s.id,
-      name: s.name,
-      icon: s.icon ? s.icon.toLowerCase() : 'api',
-      category: s.category || 'General',
-      proficiency: s.proficiency,
-    }));
-  }
-  return fullTechStack;
+// ----------------------------------------------------------------------
+// Hero Section Information
+// ----------------------------------------------------------------------
+const heroDisplayName = computed(() => {
+  let name = props.settings?.hero_title_1 || 'Kashif Khan';
+  name = name.replace(/^(hey|hi|hello),?\s*(i'm|i am)?\s*/i, '').trim();
+  return name || 'Kashif Khan';
 });
 
-const marqueeItems = computed(() => [
-  ...activeSkillsList.value,
-  ...activeSkillsList.value,
-  ...activeSkillsList.value
-]);
-
-const groupedSkills = computed(() => {
-  if (props.skills && props.skills.length > 0) {
-    return props.skills.reduce((acc, skill) => {
-      const cat = skill.category || 'General';
-      if (!acc[cat]) acc[cat] = [];
-      acc[cat].push(skill);
-      return acc;
-    }, {});
-  }
-  return {};
+const heroFirstName = computed(() => {
+  const parts = heroDisplayName.value.split(/\s+/);
+  return parts[0] || 'Kashif';
 });
 
-// Notion / Linear Style Nested Collapsible Experience Data
+const userInitials = computed(() => {
+  const parts = heroDisplayName.value.split(/\s+/);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+  return heroDisplayName.value.substring(0, 2).toUpperCase() || 'KK';
+});
+
+const profileImageUrl = computed(() => {
+  return props.settings?.avatar_url || props.settings?.profile_image || '';
+});
+
+const heroBio = computed(() => {
+  return (
+    props.settings?.hero_subtitle ||
+    props.settings?.hero_title_2 ||
+    'Full Stack Software Engineer building scalable web applications, API integrations, and robust platforms using Laravel, Vue.js, React, Node.js, and modern AI automation tools.'
+  );
+});
+
+const defaultAbout = 'Full Stack Software Engineer with deep expertise in architecting and shipping scalable, high-performance web applications, cloud infrastructure, and modern AI automation platforms. In the past, <a href="#education" class="text-foreground font-medium underline underline-offset-4 hover:text-blue-500 transition-colors">I pursued a degree in software engineering</a>, and <a href="#work" class="text-foreground font-medium underline underline-offset-4 hover:text-blue-500 transition-colors">developed production platforms at multiple technology companies</a>.';
+
+const aboutText = computed(() => {
+  return props.settings?.about_text || props.settings?.bio || defaultAbout;
+});
+
+const hasHtmlAbout = computed(() => {
+  return typeof aboutText.value === 'string' && /<[a-z][\s\S]*>/i.test(aboutText.value);
+});
+
+const contactHeadlineTitle = computed(() => {
+  return props.settings?.contact_headline_title || 'Get in Touch';
+});
+
+const contactSubtitle = computed(() => {
+  return props.settings?.contact_subtitle || '';
+});
+
+
+const formattedContactSubtitle = computed(() => {
+  if (!contactSubtitle.value) return '';
+  let text = contactSubtitle.value;
+
+  const calLink = `<a href="${calMeetingUrl.value}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline underline-offset-4 font-medium">schedule a meet!</a>`;
+  const emailLink = `<a href="mailto:${contactEmail.value}" class="text-blue-500 hover:underline underline-offset-4 font-medium">email</a>`;
+
+  text = text.replace(/\{cal\}/gi, calLink);
+  text = text.replace(/\{email\}/gi, emailLink);
+
+  return text;
+});
+
+// ----------------------------------------------------------------------
+// Work Experience Data & Dynamic DB Integration
+// ----------------------------------------------------------------------
 const defaultExperiences = [
   {
     id: 'meshsq',
     company: 'Meshsq Pvt Ltd',
     logoText: 'MP',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-cyan-400',
-    isActive: true,
     roles: [
       {
         id: 'meshsq-dev',
         role: 'Full Stack Developer',
         workType: 'Full-time',
         location: 'Rawalpindi, Pakistan',
-        employmentType: 'Rawalpindi, Pakistan • Full-time',
-        period: 'April 20, 2026 – Present',
-        isOpen: true,
+        period: 'April 2026 – Present',
+        isOpen: false,
         bullets: [
           'Contributing to the development of DocHyve, a full-stack web application built with Laravel, React.js, and Tailwind CSS.',
-          'Developing and maintaining scalable backend functionality using Laravel, including RESTful APIs, business logic, database operations, and application integrations.',
-          'Building responsive and reusable frontend components with React.js and Tailwind CSS, focusing on usability, performance, and maintainable UI architecture.',
-          'Collaborating with the development team to analyze requirements, implement new features, troubleshoot issues, and continuously improve the DocHyve platform.',
-          'Following clean coding practices, Git-based development workflows, code reviews, and established software engineering standards to deliver reliable and maintainable solutions.'
+          'Developing and maintaining scalable backend functionality using Laravel, including RESTful APIs, business logic, and integrations.',
+          'Building responsive and reusable frontend components with React.js and Tailwind CSS focusing on usability and performance.',
+          'Following clean coding practices, Git workflows, and software engineering standards.'
         ],
         tags: ['Laravel', 'React.js', 'Tailwind CSS', 'RESTful APIs', 'Git']
       }
@@ -866,26 +691,20 @@ const defaultExperiences = [
     id: 'goritmi',
     company: 'Goritmi Pvt Ltd',
     logoText: 'GP',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-indigo-400',
-    isActive: false,
     roles: [
       {
         id: 'goritmi-lead',
         role: 'Senior Software Developer | Team Lead',
         workType: 'Full-time',
         location: 'Peshawar, Pakistan',
-        employmentType: 'Peshawar, Pakistan • Full-time',
-        period: 'Sept 1, 2025 – 1 April, 2026',
+        period: 'Sept 2025 – April 2026',
         isOpen: false,
         bullets: [
-          'Led a cross-functional development team in architecting and delivering a scalable, high-performance EPOS System using Laravel, Vue.js, and Tailwind CSS.',
-          'Architected and implemented key modules, including POS order management, cashier and shift tracking, promotions and discounts, automated receipt printing, customer display interface, real-time inventory synchronization, and automated X and Z reports.',
-          'Built real-time customer view and live order updates, enhancing user engagement and operational efficiency.',
-          'Integrated third-party services including Stripe, SendGrid, and AWS S3 to enhance system functionality and reliability.',
-          'Optimized database performance through efficient indexing, caching, and query tuning, while enforcing clean architecture and modular coding practices to ensure long-term maintainability.',
-          'Collaborated with stakeholders and internal teams to define product requirements, manage sprints, and deliver critical features on schedule, improving business operations and user experience.'
+          'Led a cross-functional team in architecting and delivering a scalable, high-performance EPOS System using Laravel, Vue.js, and Tailwind CSS.',
+          'Architected POS order management, cashier/shift tracking, promotions, automated receipt printing, and real-time inventory synchronization.',
+          'Integrated third-party services including Stripe, SendGrid, and AWS S3 for enhanced system reliability.'
         ],
-        tags: ['Laravel', 'Vue.js', 'Tailwind CSS', 'Stripe', 'SendGrid', 'AWS S3', 'EPOS System', 'RESTful APIs']
+        tags: ['Laravel', 'Vue.js', 'Tailwind CSS', 'Stripe', 'SendGrid', 'AWS S3']
       }
     ]
   },
@@ -893,23 +712,20 @@ const defaultExperiences = [
     id: 'cloud-rexpo',
     company: 'Cloud Rexpo',
     logoText: 'CR',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-emerald-400',
-    isActive: false,
     roles: [
       {
         id: 'rexpo-dev',
         role: 'Laravel Developer',
         workType: 'Full-time',
         location: 'Rawalpindi, Pakistan',
-        employmentType: 'Rawalpindi, Pakistan • Full-time',
-        period: 'May, 2025 – 30 Aug, 2025',
+        period: 'May 2025 – Aug 2025',
         isOpen: false,
         bullets: [
           'Contributed to the development of a Real Estate CRM System built with Laravel.',
-          'Collaborated with senior developers to debug complex issues, refactor legacy code, and integrate additional modules, including Stripe payment integration, Google Calendar, AWS for image upload, SendGrid, and Gmail Inbox.',
-          'Engineered a secure user role-based access control (RBAC) system and introduced real-time notifications, improving operational transparency and reducing response time for user actions.'
+          'Refactored legacy code and integrated Stripe payment integration, Google Calendar, and AWS S3.',
+          'Engineered a secure role-based access control (RBAC) system with real-time notifications.'
         ],
-        tags: ['Laravel', 'Stripe', 'Google Calendar', 'AWS S3', 'SendGrid', 'RBAC', 'RESTful APIs']
+        tags: ['Laravel', 'Stripe', 'Google Calendar', 'AWS S3', 'SendGrid', 'RBAC']
       }
     ]
   },
@@ -917,26 +733,20 @@ const defaultExperiences = [
     id: 'techinn360',
     company: 'Techinn360',
     logoText: 'TI',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-amber-400',
-    isActive: false,
     roles: [
       {
         id: 'techinn-dev',
         role: 'Full Stack Developer',
         workType: 'Full-time',
         location: 'Rawalpindi, Pakistan',
-        employmentType: 'Rawalpindi, Pakistan • Full-time',
-        period: 'June, 2024 – May 2025',
+        period: 'June 2024 – May 2025',
         isOpen: false,
         bullets: [
-          'Leveraged full-stack expertise (Laravel, Vue.js, React) to architect, develop, and implement diverse web applications, including a UAE-based Automotive E-Commerce Platform serving customers across the UAE and the wider GCC region (Oman, Saudi Arabia, Bahrain, Kuwait, Qatar) with a 168+ product catalog, a Real-Time Speed Auction Application, and a Spartan Learning Management System.',
-          'Achieved a 93 Accessibility, 96 Best Practices, and 100 SEO score (Google Lighthouse) on the Automotive E-Commerce Platform, ensuring compliance with Web Content Accessibility Guidelines (WCAG) 2.2 and improving accessibility for users.',
-          'Applied Test-Driven Development (TDD) practices to deliver high-quality, maintainable, and reliable code.',
-          'Enhanced team collaboration and streamlined development workflows by adopting Agile methodologies, including Scrum, resulting in more efficient software delivery and better adaptation to project needs.',
-          'Effectively analyzed complex technical challenges, such as optimizing application performance for high traffic, integrating systems, and implementing robust state management solutions in complex UIs, and implemented creative and efficient solutions, contributing to the successful development and deployment of applications.',
-          'Ensured code quality and resolved issues through thorough debugging, comprehensive testing, and adherence to established best practices.'
+          'Leveraged full-stack expertise (Laravel, Vue.js, React) to build an Automotive E-Commerce Platform serving customers across the GCC region.',
+          'Achieved 93 Accessibility, 96 Best Practices, and 100 SEO score on Google Lighthouse.',
+          'Applied Test-Driven Development (TDD) and Agile/Scrum methodologies for high-quality software delivery.'
         ],
-        tags: ['Laravel', 'Vue.js', 'React', 'TDD', 'Agile/Scrum', 'WCAG 2.2', 'SEO', 'E-Commerce']
+        tags: ['Laravel', 'Vue.js', 'React', 'TDD', 'Agile/Scrum', 'SEO', 'E-Commerce']
       }
     ]
   },
@@ -944,92 +754,22 @@ const defaultExperiences = [
     id: 'tritech',
     company: 'TriTech Soft Solutions',
     logoText: 'TS',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-rose-400',
-    isActive: false,
     roles: [
       {
         id: 'tritech-dev',
         role: 'Junior Laravel Developer',
         workType: 'Full-time',
         location: 'Mardan, Pakistan',
-        employmentType: 'Mardan, Pakistan • Full-time',
-        period: 'March, 2023 – June 2024',
+        period: 'March 2023 – June 2024',
         isOpen: false,
         bullets: [
-          'Worked extensively with databases, JavaScript, React.js, Vue.js, and Laravel to develop and maintain dynamic web applications, implementing efficient backend logic and robust database management practices.',
-          'Developed and maintained RESTful APIs for a CRM System, showcasing strong backend logic experience transferable to Laravel’s MVC structure and API resources.',
-          'Utilized Git version control for seamless collaboration with team members, effectively organizing modifications and tracking task assignments.'
+          'Developed and maintained RESTful APIs for CRM Systems using Laravel and Vue.js.',
+          'Managed MySQL databases, query optimization, and Git version control collaboration.'
         ],
         tags: ['Laravel', 'JavaScript', 'React.js', 'Vue.js', 'RESTful APIs', 'Git', 'MySQL']
       }
     ]
-  },
-  {
-    id: 'nftp',
-    company: 'National Freelancing Training Program (NFTP)',
-    logoText: 'NF',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-sky-400',
-    isActive: false,
-    roles: [
-      {
-        id: 'nftp-trainee',
-        role: 'Full Stack Training',
-        workType: 'Full-time',
-        location: 'Mardan, Pakistan',
-        employmentType: 'Mardan, Pakistan • Full-time',
-        period: 'Dec 09, 2022 – March 2023',
-        isOpen: false,
-        bullets: [
-          'Completed comprehensive freelancing and software development training, focusing on industry-standard tools and practices.',
-          'Developed practical skills in areas such as full-stack development, project management, and client communication.'
-        ],
-        tags: ['Full Stack Development', 'JavaScript', 'PHP', 'Freelancing', 'Project Management']
-      }
-    ]
-  },
-  {
-    id: 'uet-mardan',
-    company: 'University of Engineering and Technology Mardan',
-    logoText: 'UE',
-    logoBg: 'bg-neutral-900 border border-neutral-800 text-purple-400',
-    isActive: false,
-    roles: [
-      {
-        id: 'uet-degree',
-        role: 'Bachelor of Computer Software Engineering',
-        workType: 'Degree',
-        location: 'Mardan, Pakistan',
-        employmentType: 'Mardan, Pakistan • Degree',
-        period: 'Oct, 2020 – June 2024',
-        isOpen: false,
-        bullets: [
-          'Bachelor of Computer Software Engineering with core focus on Software Architecture, Data Structures, Relational Database Systems, and Object-Oriented Software Design.',
-          'Studied modern web technologies, distributed applications, and engineering best practices.'
-        ],
-        tags: ['Software Engineering', 'Algorithms', 'Databases', 'Git', 'Web Development']
-      }
-    ]
   }
-];
-
-const companyExperiences = ref(defaultExperiences);
-
-const badgeColors = [
-  'bg-neutral-900 border border-neutral-800 text-cyan-400',
-  'bg-neutral-900 border border-neutral-800 text-indigo-400',
-  'bg-neutral-900 border border-neutral-800 text-emerald-400',
-  'bg-neutral-900 border border-neutral-800 text-amber-400',
-  'bg-neutral-900 border border-neutral-800 text-rose-400',
-  'bg-neutral-900 border border-neutral-800 text-sky-400',
-  'bg-neutral-900 border border-neutral-800 text-purple-400',
-];
-
-// Known technology keywords for auto-tagging
-const knownTechs = [
-  'Laravel', 'Vue.js', 'Vue 3', 'Tailwind CSS', 'React.js', 'React', 'Next.js', 
-  'TypeScript', 'JavaScript', 'Node.js', 'PHP', 'MySQL', 'PostgreSQL', 'Redis', 
-  'Docker', 'AWS S3', 'AWS', 'Stripe', 'SendGrid', 'Inertia.js', 'WebSockets', 
-  'RESTful APIs', 'GraphQL', 'Git', 'Vite', 'Express', 'Microservices'
 ];
 
 function extractTechTags(exp) {
@@ -1042,317 +782,257 @@ function extractTechTags(exp) {
     }
   }
   if (Array.isArray(techs) && techs.length) return techs;
-
-  // Strict rule: If no technologies entered in Admin, show NOTHING on frontend!
   return [];
 }
 
-// Dynamically bind DB experiences if provided from Laravel
+function isEducationExp(exp) {
+  const c = (exp.company || '').toLowerCase();
+  const r = (exp.role || exp.title || '').toLowerCase();
+  const t = (exp.type || '').toLowerCase();
+  return t === 'education' || c.includes('university') || c.includes('college') || r.includes('bachelor') || r.includes('degree');
+}
+
+function isCertificationExp(exp) {
+  const c = (exp.company || '').toLowerCase();
+  const r = (exp.role || exp.title || '').toLowerCase();
+  const t = (exp.type || '').toLowerCase();
+  return t === 'certification' || c.includes('nftp') || c.includes('training') || c.includes('freelancing') || r.includes('certification') || r.includes('training');
+}
+
+const companyExperiences = ref(defaultExperiences);
+
 if (props.experiences && props.experiences.length) {
-  const dbCompanies = props.experiences.map((exp, idx) => {
-    const logoInitials = exp.company
-      ? exp.company.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
-      : 'EXP';
-      
-    // Handle highlights array or string
-    let highlightsArr = [];
-    if (Array.isArray(exp.highlights)) {
-      highlightsArr = exp.highlights;
-    } else if (typeof exp.highlights === 'string' && exp.highlights.trim()) {
-      try {
-        highlightsArr = JSON.parse(exp.highlights);
-      } catch (e) {
-        highlightsArr = exp.highlights.split(',').map(s => s.trim()).filter(Boolean);
-      }
-    }
+  const workItems = props.experiences.filter(exp => !isEducationExp(exp) && !isCertificationExp(exp));
+  if (workItems.length) {
+    companyExperiences.value = workItems.map((exp, idx) => {
+      const logoInitials = exp.company
+        ? exp.company.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
+        : 'EXP';
 
-    const hasHtml = exp.description && /<[a-z][\s\S]*>/i.test(exp.description);
-    const tagsList = extractTechTags(exp);
-
-    // Format location + work type (e.g. "Peshawar • Remote")
-    let empType = exp.location || '';
-    if (exp.work_type) {
-      empType = empType ? `${empType} • ${exp.work_type}` : exp.work_type;
-    }
-    if (!empType) empType = 'Full-time';
-
-    return {
-      id: exp.id || `db-exp-${idx}`,
-      company: exp.company || 'Company Name',
-      logoText: logoInitials,
-      logoBg: badgeColors[idx % badgeColors.length],
-      isActive: idx === 0,
-      roles: [
-        {
-          id: `role-${exp.id || idx}`,
-          role: exp.role || exp.title || 'Software Engineer',
-          workType: exp.work_type || 'Full-time',
-          location: exp.location || '',
-          employmentType: empType,
-          period: exp.period || '2024 — Present',
-          isOpen: idx === 0,
-          rawDescription: hasHtml ? exp.description : null,
-          bullets: highlightsArr.length 
-            ? highlightsArr 
-            : (!hasHtml && exp.description ? exp.description.split('. ').map(b => b.trim()).filter(Boolean) : []),
-          tags: tagsList
+      let highlightsArr = [];
+      if (Array.isArray(exp.highlights)) {
+        highlightsArr = exp.highlights;
+      } else if (typeof exp.highlights === 'string' && exp.highlights.trim()) {
+        try {
+          highlightsArr = JSON.parse(exp.highlights);
+        } catch (e) {
+          highlightsArr = exp.highlights.split(',').map(s => s.trim()).filter(Boolean);
         }
-      ]
-    };
-  });
-  companyExperiences.value = dbCompanies;
+      }
+
+      const hasHtml = exp.description && /<[a-z][\s\S]*>/i.test(exp.description);
+      const tagsList = extractTechTags(exp);
+
+      return {
+        id: exp.id || `db-exp-${idx}`,
+        company: exp.company || 'Company Name',
+        logo: exp.logo || null,
+        logoText: logoInitials,
+        roles: [
+          {
+            id: `role-${exp.id || idx}`,
+            role: exp.role || exp.title || 'Software Engineer',
+            workType: exp.work_type || 'Full-time',
+            location: exp.location || '',
+            period: exp.period || '2024 — Present',
+            isOpen: false,
+            rawDescription: hasHtml ? exp.description : null,
+            bullets: highlightsArr.length
+              ? highlightsArr
+              : (!hasHtml && exp.description ? exp.description.split('. ').map(b => b.trim()).filter(Boolean) : []),
+            tags: tagsList
+          }
+        ]
+      };
+    });
+  }
 }
 
 function toggleRole(companyIdx, roleIdx) {
-  companyExperiences.value[companyIdx].roles[roleIdx].isOpen = !companyExperiences.value[companyIdx].roles[roleIdx].isOpen;
-}
-
-const form = useForm({
-  sender_name: '',
-  sender_email: '',
-  subject: '',
-  body: '',
-});
-
-const showAllProjects = ref(false);
-
-const filteredProjects = computed(() => {
-  if (portfolioStore.activeProjectCategory === 'All') {
-    return props.projects || [];
+  const comp = companyExperiences.value[companyIdx];
+  if (comp && comp.roles && comp.roles[roleIdx]) {
+    comp.roles[roleIdx].isOpen = !comp.roles[roleIdx].isOpen;
   }
-  return (props.projects || []).filter(p => p.category === portfolioStore.activeProjectCategory);
-});
-
-const displayedProjects = computed(() => {
-  if (showAllProjects.value) {
-    return filteredProjects.value;
-  }
-  return filteredProjects.value.slice(0, 3);
-});
-
-function submitContactForm() {
-  form.post(route('contact.store'), {
-    preserveScroll: true,
-    onSuccess: () => {
-      form.reset();
-      toast({
-        title: 'Message Sent Successfully!',
-        description: 'Thank you for reaching out. Your message has been received.',
-        type: 'success',
-      });
-    },
-    onError: (errors) => {
-      toast({
-        title: 'Form Error',
-        description: Object.values(errors)[0] || 'Please check your inputs and try again.',
-        type: 'error',
-      });
-    },
-  });
 }
 
 // ----------------------------------------------------------------------
-// Testimonials Carousel Logic
+// Education Section Data
 // ----------------------------------------------------------------------
-const fallbackTestimonials = [
+const defaultEducation = [
   {
-    client_name: 'Sarah Jenkins',
-    client_role: 'VP of Engineering',
-    company: 'CloudScale Networks',
-    quote: 'Kashif transformed our legacy admin portal into a lightning-fast Inertia + Vue 3 architecture. His attention to design systems, UX subtleties, and backend query optimization reduced our page load times by over 60%.',
-    rating: 5,
-    project_reference: 'Nexus SaaS Telemetry Dashboard',
-    linkedin_url: 'https://linkedin.com',
-  },
-  {
-    client_name: 'David Sterling',
-    client_role: 'Founder & CEO',
-    company: 'AeroSwift Digital',
-    quote: 'Working with Kashif on the 3D product visualizer was a breath of fresh air. He merged Three.js WebGL rendering with a buttery-smooth Tailwind UI that blew our executive board away. Delivered ahead of schedule with zero friction.',
-    rating: 5,
-    project_reference: 'AeroSwift 3D Product Customizer',
-    linkedin_url: 'https://linkedin.com',
-  },
+    id: 'uet-mardan',
+    institution: 'University of Engineering and Technology Mardan',
+    degree: 'Bachelor of Computer Software Engineering',
+    period: '2020 – 2024',
+    logoText: 'UET',
+    description: 'Specialized in Software Architecture, Relational Databases, Algorithms, and Object-Oriented Software Design.'
+  }
 ];
 
-const displayedTestimonials = computed(() => {
-  if (props.testimonials && props.testimonials.length > 0) {
-    return props.testimonials;
-  }
-  return fallbackTestimonials;
-});
-
-const currentTestimonialIndex = ref(0);
-
-const currentTestimonial = computed(() => {
-  const list = displayedTestimonials.value;
-  if (!list.length) return null;
-  return list[currentTestimonialIndex.value % list.length];
-});
-
-function nextTestimonial() {
-  if (!displayedTestimonials.value.length) return;
-  currentTestimonialIndex.value = (currentTestimonialIndex.value + 1) % displayedTestimonials.value.length;
-}
-
-function prevTestimonial() {
-  if (!displayedTestimonials.value.length) return;
-  currentTestimonialIndex.value = (currentTestimonialIndex.value - 1 + displayedTestimonials.value.length) % displayedTestimonials.value.length;
-}
-
-function isCardActive(index) {
-  const n = displayedTestimonials.value.length;
-  if (!n) return false;
-  return (currentTestimonialIndex.value % n) === index;
-}
-
-function onCardClick(index) {
-  if (currentTestimonialIndex.value !== index) {
-    currentTestimonialIndex.value = index;
-  }
-}
-
-function getCardStyle(index) {
-  const n = displayedTestimonials.value.length;
-  if (!n) return {};
-  if (n === 1) {
-    return {
-      transform: 'translate(-50%, -50%) scale(1)',
-      zIndex: 30,
-      opacity: 1,
-      pointerEvents: 'auto',
-    };
-  }
-
-  // Calculate shortest circular difference from active card
-  let diff = (index - (currentTestimonialIndex.value % n)) % n;
-  if (diff > n / 2) diff -= n;
-  if (diff < -n / 2) diff += n;
-
-  // Active Center Card
-  if (diff === 0) {
-    return {
-      transform: 'translate(-50%, -50%) scale(1)',
-      zIndex: 30,
-      opacity: 1,
-      pointerEvents: 'auto',
-    };
-  }
-
-  // Immediate Left Card
-  if (diff === -1) {
-    return {
-      transform: 'translate(calc(-50% - 46%), -50%) scale(0.9)',
-      zIndex: 20,
-      opacity: 0.72,
-      pointerEvents: 'auto',
-    };
-  }
-
-  // Immediate Right Card
-  if (diff === 1) {
-    return {
-      transform: 'translate(calc(-50% + 46%), -50%) scale(0.9)',
-      zIndex: 20,
-      opacity: 0.72,
-      pointerEvents: 'auto',
-    };
-  }
-
-  // Outer Left Card
-  if (diff === -2) {
-    return {
-      transform: 'translate(calc(-50% - 84%), -50%) scale(0.8)',
-      zIndex: 10,
-      opacity: 0.35,
-      pointerEvents: 'auto',
-    };
-  }
-
-  // Outer Right Card
-  if (diff === 2) {
-    return {
-      transform: 'translate(calc(-50% + 84%), -50%) scale(0.8)',
-      zIndex: 10,
-      opacity: 0.35,
-      pointerEvents: 'auto',
-    };
-  }
-
-  // Far Away Cards (Fade out completely)
-  const xOffset = diff > 0 ? '110%' : '-110%';
-  return {
-    transform: `translate(calc(-50% + ${xOffset}), -50%) scale(0.7)`,
-    zIndex: 0,
-    opacity: 0,
-    pointerEvents: 'none',
-  };
-}
-
-let touchStartX = 0;
-function handleTouchStart(e) {
-  if (e.touches && e.touches[0]) {
-    touchStartX = e.touches[0].clientX;
-  }
-}
-
-function handleTouchEnd(e) {
-  if (e.changedTouches && e.changedTouches[0]) {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (diff > 40) {
-      nextTestimonial();
-    } else if (diff < -40) {
-      prevTestimonial();
+const educationList = computed(() => {
+  if (props.experiences && props.experiences.length) {
+    const eduItems = props.experiences.filter(exp => isEducationExp(exp));
+    if (eduItems.length) {
+      return eduItems.map((exp, idx) => ({
+        id: exp.id || `edu-${idx}`,
+        institution: exp.company || 'University of Engineering and Technology Mardan',
+        degree: exp.role || exp.title || 'Bachelor of Computer Software Engineering',
+        period: exp.period || '2020 – 2024',
+        logo: exp.logo || null,
+        logoText: exp.company ? exp.company.split(' ').map(w => w[0]).join('').substring(0, 3).toUpperCase() : 'UET',
+        description: exp.description || ''
+      }));
     }
   }
-}
-
-let autoplayTimer = null;
-
-function startAutoplay() {
-  stopAutoplay();
-  autoplayTimer = setInterval(() => {
-    nextTestimonial();
-  }, 7000);
-}
-
-function stopAutoplay() {
-  if (autoplayTimer) {
-    clearInterval(autoplayTimer);
-    autoplayTimer = null;
-  }
-}
-
-function getClientInitials(name) {
-  if (!name) return 'KK';
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) {
-    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  }
-  return name.substring(0, 2).toUpperCase();
-}
-
-onMounted(() => {
-  startAutoplay();
-});
-
-onUnmounted(() => {
-  stopAutoplay();
+  return defaultEducation;
 });
 
 // ----------------------------------------------------------------------
-// Articles Section Logic
+// Certifications & Training Section Data
 // ----------------------------------------------------------------------
-const displayedArticles = computed(() => {
-  return (props.articles && props.articles.length > 0) ? props.articles.slice(0, 3) : [];
+const defaultCertifications = [
+  {
+    id: 'nftp',
+    institution: 'National Freelancing Training Program (NFTP)',
+    title: 'Full Stack Development Certification & Training',
+    period: 'Dec 09, 2022 – March 2023',
+    logoText: 'NFTP',
+    description: 'Completed industry-aligned full-stack web software training, agile project delivery, PHP, and JavaScript.'
+  }
+];
+
+const certificationList = computed(() => {
+  if (props.experiences && props.experiences.length) {
+    const certItems = props.experiences.filter(exp => isCertificationExp(exp));
+    if (certItems.length) {
+      return certItems.map((exp, idx) => ({
+        id: exp.id || `cert-${idx}`,
+        institution: exp.company || 'National Freelancing Training Program (NFTP)',
+        title: exp.role || exp.title || 'Full Stack Training Certification',
+        period: exp.period || 'Dec 09, 2022 – March 2023',
+        logo: exp.logo || null,
+        logoText: exp.company ? exp.company.split(' ').map(w => w[0]).join('').substring(0, 4).toUpperCase() : 'NFTP',
+        description: exp.description || ''
+      }));
+    }
+  }
+  return defaultCertifications;
 });
 
-function formatArticleDate(dateStr) {
+// ----------------------------------------------------------------------
+// Skills Badges Data
+// ----------------------------------------------------------------------
+const defaultSkills = [
+  { name: 'Laravel', icon: 'laravel' },
+  { name: 'Vue.js', icon: 'vue' },
+  { name: 'React', icon: 'react' },
+  { name: 'TypeScript', icon: 'typescript' },
+  { name: 'JavaScript', icon: 'javascript' },
+  { name: 'PHP', icon: 'php' },
+  { name: 'Node.js', icon: 'node' },
+  { name: 'Next.js', icon: 'next' },
+  { name: 'Inertia.js', icon: 'inertia' },
+  { name: 'Tailwind CSS', icon: 'tailwind' },
+  { name: 'PostgreSQL', icon: 'postgres' },
+  { name: 'MySQL', icon: 'mysql' },
+  { name: 'Docker', icon: 'docker' },
+  { name: 'Redis', icon: 'redis' },
+  { name: 'AWS S3', icon: 'aws' },
+  { name: 'Git/GitHub', icon: 'git' },
+];
+
+const displaySkills = computed(() => {
+  if (props.skills && props.skills.length > 0) {
+    return props.skills.map(s => {
+      let iconName = (s.icon || s.name || '').toLowerCase();
+      if (iconName.includes('server') || iconName.includes('php') || iconName.includes('laravel')) iconName = 'laravel';
+      else if (iconName.includes('vue')) iconName = 'vue';
+      else if (iconName.includes('react')) iconName = 'react';
+      else if (iconName.includes('tailwind')) iconName = 'tailwind';
+      else if (iconName.includes('database') || iconName.includes('sql')) iconName = 'mysql';
+      else if (iconName.includes('docker')) iconName = 'docker';
+      else if (iconName.includes('git')) iconName = 'git';
+      else if (iconName.includes('node')) iconName = 'node';
+      else if (iconName.includes('js') || iconName.includes('javascript')) iconName = 'javascript';
+      else if (iconName.includes('ts') || iconName.includes('typescript')) iconName = 'typescript';
+      else if (iconName.includes('next')) iconName = 'next';
+      else if (iconName.includes('inertia')) iconName = 'inertia';
+      else if (iconName.includes('aws')) iconName = 'aws';
+      else if (iconName.includes('redis')) iconName = 'redis';
+      return {
+        name: s.name || s.title,
+        icon: iconName,
+      };
+    });
+  }
+  return defaultSkills;
+});
+
+const visibleSkills = computed(() => {
+  if (showAllSkills.value) return displaySkills.value;
+  return displaySkills.value.slice(0, 12);
+});
+
+// ----------------------------------------------------------------------
+// Projects Data
+// ----------------------------------------------------------------------
+const displayedProjects = computed(() => {
+  const list = props.projects || [];
+  if (showAllProjects.value) return list;
+  return list.slice(0, 6);
+});
+
+function getProjectTags(project) {
+  const stack = project.tech_stack || project.technologies;
+  if (Array.isArray(stack)) {
+    return stack.slice(0, 5);
+  }
+  if (typeof stack === 'string') {
+    try {
+      const parsed = JSON.parse(stack);
+      if (Array.isArray(parsed)) return parsed.slice(0, 5);
+    } catch (e) {
+      return stack.split(',').map(s => s.trim()).filter(Boolean).slice(0, 5);
+    }
+  }
+  if (project.category) return [project.category];
+  return ['Full Stack'];
+}
+
+function getProjectDemoUrl(project) {
+  return project.demo_url || project.live_url || project.url || '';
+}
+
+function getProjectGithubUrl(project) {
+  return project.github_url || project.repo_url || '';
+}
+
+function getProjectFallbackImage(project) {
+  return 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80';
+}
+
+function onProjectImgError(e) {
+  if (e.target) {
+    e.target.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80';
+  }
+}
+
+
+
+function formatDate(dateStr) {
   if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
+
+// ----------------------------------------------------------------------
+// Contact Section Data
+// ----------------------------------------------------------------------
+const calMeetingUrl = computed(() => {
+  return props.settings?.cal_url || props.settings?.booking_url || 'https://cal.com/kashif-khan';
+});
+
+const contactEmail = computed(() => {
+  return props.settings?.contact_email || 'kashifkhannee@gmail.com';
+});
 </script>

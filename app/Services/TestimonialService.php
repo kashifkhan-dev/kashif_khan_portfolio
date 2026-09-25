@@ -28,7 +28,7 @@ class TestimonialService
     {
         if (isset($data['avatar_file']) && $data['avatar_file'] instanceof UploadedFile) {
             $path = $data['avatar_file']->store('testimonials', 'public');
-            $data['client_avatar'] = '/storage/' . $path;
+            $data['client_avatar'] = '/storage/'.$path;
         }
         unset($data['avatar_file']);
 
@@ -43,7 +43,7 @@ class TestimonialService
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $data['avatar_file']->store('testimonials', 'public');
-            $data['client_avatar'] = '/storage/' . $path;
+            $data['client_avatar'] = '/storage/'.$path;
         }
         unset($data['avatar_file']);
 
@@ -62,6 +62,6 @@ class TestimonialService
 
     public function toggleActive(Testimonial $testimonial): bool
     {
-        return $testimonial->update(['is_active' => !$testimonial->is_active]);
+        return $testimonial->update(['is_active' => ! $testimonial->is_active]);
     }
 }

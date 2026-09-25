@@ -51,6 +51,72 @@
             <span>Experience Details</span>
           </div>
 
+          <!-- Logo Uploader Row -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-900/40">
+            <div 
+              class="relative group size-16 rounded-full border-2 border-dashed border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 flex items-center justify-center shrink-0 overflow-hidden shadow-xs cursor-pointer" 
+              @click="triggerFileInput"
+              title="Click to upload logo"
+            >
+              <img v-if="logoPreview" :src="logoPreview" alt="Logo preview" class="w-full h-full object-contain p-1 rounded-full" />
+              <div v-else class="flex flex-col items-center justify-center text-slate-400 dark:text-neutral-500">
+                <Building v-if="form.type !== 'education'" class="size-6 text-slate-400 group-hover:scale-110 transition-transform" />
+                <GraduationCap v-else class="size-6 text-slate-400 group-hover:scale-110 transition-transform" />
+              </div>
+              <!-- Hover overlay -->
+              <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white select-none">
+                <UploadCloud class="size-4 mb-0.5" />
+                <span class="text-[9px] font-bold uppercase tracking-wider">{{ logoPreview ? 'Change' : 'Upload' }}</span>
+              </div>
+            </div>
+
+            <input
+              ref="logoFileInputRef"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="handleLogoChange"
+            />
+
+            <div class="space-y-1.5 flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-slate-900 dark:text-neutral-100">
+                  {{ form.type === 'education' ? 'Institution Logo' : (form.type === 'certification' ? 'Program / Academy Logo' : 'Company Logo') }}
+                </span>
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    @click="showUrlInput = !showUrlInput"
+                    class="text-[11px] font-medium text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                  >
+                    {{ showUrlInput ? 'Hide URL' : 'Use Image URL' }}
+                  </button>
+                  <button
+                    v-if="logoPreview"
+                    type="button"
+                    @click="removeLogo"
+                    class="text-[11px] font-medium text-rose-500 hover:text-rose-600 hover:underline cursor-pointer ml-1"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 dark:text-neutral-400">
+                Upload a square PNG, SVG, or JPG logo (Max 5MB). If empty, initials will be generated automatically.
+              </p>
+              <!-- URL Input fallback if opened -->
+              <div v-if="showUrlInput" class="pt-1">
+                <input
+                  v-model="form.logo"
+                  type="text"
+                  placeholder="https://example.com/logo.png"
+                  class="w-full h-8 px-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white"
+                  @input="handleUrlInput"
+                />
+              </div>
+            </div>
+          </div>
+
           <!-- Line 1: Company, Role & Category Type (3 Columns) -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
             <!-- Company / Institution -->
@@ -236,7 +302,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ShadcnSelect from '@/Components/ShadcnSelect.vue';
 import ShadcnDatePicker from '@/Components/ShadcnDatePicker.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
-import { ArrowLeft, Briefcase, FileText, Save, Loader2 } from 'lucide-vue-next';
+import { ArrowLeft, Briefcase, FileText, Save, Loader2, UploadCloud, Building, GraduationCap, X } from 'lucide-vue-next';
 import { useToast } from '@/Composables/useToast';
 
 const { toast } = useToast();
@@ -246,6 +312,43 @@ const technologiesInput = ref('');
 const startPeriod = ref('');
 const endPeriod = ref('');
 const isCurrent = ref(false);
+
+const logoFileInputRef = ref(null);
+const logoPreview = ref('');
+const showUrlInput = ref(false);
+
+function triggerFileInput() {
+  logoFileInputRef.value?.click();
+}
+
+function handleLogoChange(e) {
+  const file = e.target.files?.[0];
+  if (file) {
+    form.logo_file = file;
+    form.logo = '';
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      logoPreview.value = event.target?.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function handleUrlInput() {
+  if (form.logo) {
+    logoPreview.value = form.logo;
+    form.logo_file = null;
+  }
+}
+
+function removeLogo() {
+  form.logo = '';
+  form.logo_file = null;
+  logoPreview.value = '';
+  if (logoFileInputRef.value) {
+    logoFileInputRef.value.value = '';
+  }
+}
 
 watch(isCurrent, (val) => {
   if (val) {
@@ -258,6 +361,8 @@ watch(isCurrent, (val) => {
 const form = useForm({
   company: '',
   role: '',
+  logo: '',
+  logo_file: null,
   period: '',
   location: '',
   work_type: 'Remote',
@@ -269,7 +374,8 @@ const form = useForm({
 
 const typeOptions = [
   { value: 'work', label: 'Work Experience' },
-  { value: 'education', label: 'Education / Certification' },
+  { value: 'education', label: 'Education' },
+  { value: 'certification', label: 'Certification & Training' },
 ];
 
 const workTypeOptions = [

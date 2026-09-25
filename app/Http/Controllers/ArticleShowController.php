@@ -39,6 +39,19 @@ class ArticleShowController extends Controller
             $this->articleService->incrementViews($article);
         }
 
+        $allPublished = Article::where('is_published', true)
+            ->orderBy('published_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $currentIndex = $allPublished->search(fn ($item) => $item->id === $article->id);
+        $previousArticle = ($currentIndex !== false && $currentIndex > 0)
+            ? $allPublished->get($currentIndex - 1)
+            : null;
+        $nextArticle = ($currentIndex !== false && $currentIndex < $allPublished->count() - 1)
+            ? $allPublished->get($currentIndex + 1)
+            : null;
+
         $relatedArticles = Article::where('id', '!=', $article->id)
             ->where('is_published', true)
             ->orderBy('published_at', 'desc')
@@ -49,6 +62,8 @@ class ArticleShowController extends Controller
 
         return Inertia::render('Articles/Show', [
             'article' => $article,
+            'previousArticle' => $previousArticle,
+            'nextArticle' => $nextArticle,
             'relatedArticles' => $relatedArticles,
             'settings' => $settings,
         ]);

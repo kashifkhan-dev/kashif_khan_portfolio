@@ -23,8 +23,17 @@ class HeroController extends Controller
 
     public function update(UpdateHeroRequest $request)
     {
-        $this->settingService->updateSettings($request->validated());
+        $data = $request->validated();
 
-        return redirect()->back()->with('success', 'Hero section content updated successfully!');
+        if ($request->hasFile('avatar_file')) {
+            $file = $request->file('avatar_file');
+            $path = $file->store('avatars', 'public');
+            $data['avatar_url'] = '/storage/' . $path;
+        }
+        unset($data['avatar_file']);
+
+        $this->settingService->updateSettings($data);
+
+        return redirect()->route('admin.hero.index')->with('success', 'Hero section content updated successfully!');
     }
 }

@@ -15,6 +15,7 @@ class InquiryReplyMail extends Mailable
     use Queueable, SerializesModels;
 
     public Message $inquiryMessage;
+
     public string $replyContent;
 
     /**
@@ -31,7 +32,7 @@ class InquiryReplyMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $subject = $this->inquiryMessage->subject ? 'Re: ' . $this->inquiryMessage->subject : 'Re: Portfolio Inquiry Response';
+        $subject = $this->inquiryMessage->subject ? 'Re: '.$this->inquiryMessage->subject : 'Re: Portfolio Inquiry Response';
 
         $address = (string) (config('mail.from.address') ?? env('MAIL_FROM_ADDRESS') ?? 'kashifkhannee@gmail.com');
         $name = (string) (config('mail.from.name') ?? env('MAIL_FROM_NAME') ?? 'Kashif Khan');

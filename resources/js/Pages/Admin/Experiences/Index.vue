@@ -10,7 +10,7 @@
           <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
             Experience Timeline
           </h1>
-          <p class="text-sm text-slate-500 dark:text-muted-foreground mt-1">Manage employment career timeline and education history.</p>
+          <p class="text-sm text-slate-500 dark:text-muted-foreground mt-1">Manage employment career timeline, certifications, and education history.</p>
         </div>
 
         <Link
@@ -37,12 +37,18 @@
           >
             <!-- Top Row: Role, Organization & Actions -->
             <div class="flex items-start justify-between gap-3">
-              <div class="space-y-1 min-w-0 flex-1">
-                <h4 class="font-bold text-slate-900 dark:text-white text-sm tracking-tight truncate">{{ exp.role }}</h4>
-                <div class="flex items-center gap-2 flex-wrap text-xs text-slate-600 dark:text-neutral-300 font-semibold">
-                  <span class="text-slate-800 dark:text-neutral-200">{{ exp.company }}</span>
-                  <span class="text-slate-400 dark:text-neutral-500">•</span>
-                  <span class="text-slate-500 dark:text-neutral-400 font-normal text-[11px]">{{ exp.period }}</span>
+              <div class="flex items-start gap-3 min-w-0 flex-1">
+                <div class="size-9 rounded-full border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs mt-0.5">
+                  <img v-if="exp.logo" :src="exp.logo" :alt="exp.company" class="w-full h-full object-contain p-0.5 rounded-full" />
+                  <span v-else class="text-[10px] font-bold text-slate-600 dark:text-neutral-300">{{ getLogoInitials(exp.company) }}</span>
+                </div>
+                <div class="space-y-1 min-w-0 flex-1">
+                  <h4 class="font-bold text-slate-900 dark:text-white text-sm tracking-tight truncate">{{ exp.role }}</h4>
+                  <div class="flex items-center gap-2 flex-wrap text-xs text-slate-600 dark:text-neutral-300 font-semibold">
+                    <span class="text-slate-800 dark:text-neutral-200">{{ exp.company }}</span>
+                    <span class="text-slate-400 dark:text-neutral-500">•</span>
+                    <span class="text-slate-500 dark:text-neutral-400 font-normal text-[11px]">{{ exp.period }}</span>
+                  </div>
                 </div>
               </div>
 
@@ -124,7 +130,15 @@
                   <h4 class="font-bold text-slate-900 dark:text-white text-sm group-hover:text-black dark:group-hover:text-neutral-100 transition-colors">{{ exp.role }}</h4>
                   <div class="text-xs text-slate-500 dark:text-neutral-400 leading-relaxed line-clamp-2 max-w-2xl mt-1 prose prose-slate dark:prose-invert" v-html="exp.description"></div>
                 </td>
-                <td class="py-4 px-4 font-semibold text-slate-800 dark:text-neutral-200 text-sm align-middle">{{ exp.company }}</td>
+                <td class="py-4 px-4 align-middle">
+                  <div class="flex items-center gap-3">
+                    <div class="size-8 rounded-full border border-slate-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+                      <img v-if="exp.logo" :src="exp.logo" :alt="exp.company" class="w-full h-full object-contain p-0.5 rounded-full" />
+                      <span v-else class="text-[10px] font-bold text-slate-600 dark:text-neutral-300">{{ getLogoInitials(exp.company) }}</span>
+                    </div>
+                    <span class="font-semibold text-slate-800 dark:text-neutral-200 text-sm">{{ exp.company }}</span>
+                  </div>
+                </td>
                 <td class="py-4 px-4 font-sans text-slate-500 dark:text-neutral-400 text-xs whitespace-nowrap align-middle">{{ exp.period }}</td>
                 <td class="py-5 px-4 align-middle">
                   <span 
@@ -208,6 +222,15 @@ const props = defineProps({
 });
 
 const { toast } = useToast();
+
+function getLogoInitials(name) {
+  if (!name) return 'EX';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+}
 
 const activeDropdownId = ref(null);
 

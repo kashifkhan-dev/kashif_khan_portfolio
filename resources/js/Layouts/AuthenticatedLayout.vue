@@ -141,12 +141,6 @@
               title="Notifications"
             >
               <Bell class="h-4 w-4" />
-              <span 
-                v-if="$page.props.unreadInquiriesCount > 0"
-                class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[9px] font-black text-white shadow-sm animate-pulse"
-              >
-                {{ $page.props.unreadInquiriesCount > 9 ? '9+' : $page.props.unreadInquiriesCount }}
-              </span>
             </button>
 
             <!-- Notifications Dropdown Menu -->
@@ -156,51 +150,16 @@
             >
               <div class="flex items-center justify-between px-1 pb-2 border-b border-neutral-200 dark:border-neutral-800/80">
                 <div class="flex items-center gap-2">
-                  <Mail class="h-3.5 w-3.5 text-indigo-500 dark:text-indigo-400" />
+                  <Bell class="h-3.5 w-3.5 text-indigo-500 dark:text-indigo-400" />
                   <span class="font-bold text-xs text-neutral-900 dark:text-white">Notifications</span>
-                  <span v-if="$page.props.unreadInquiriesCount > 0" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/80">
-                    {{ $page.props.unreadInquiriesCount }} unread
-                  </span>
                 </div>
-                
-                <button 
-                  v-if="$page.props.unreadInquiriesCount > 0"
-                  @click="markAllNotificationsRead" 
-                  class="text-[10px] font-semibold text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors cursor-pointer"
-                >
-                  Mark all as read
-                </button>
-              </div>
-
-              <!-- Real Inquiry Notifications List -->
-              <div v-if="$page.props.unreadInquiries && $page.props.unreadInquiries.length" class="space-y-1.5 max-h-72 overflow-y-auto pr-0.5">
-                <Link
-                  v-for="inquiry in $page.props.unreadInquiries"
-                  :key="inquiry.id"
-                  :href="route('admin.messages.index')"
-                  @click="showNotifications = false"
-                  class="flex flex-col gap-1 p-2.5 rounded-md bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900/60 dark:hover:bg-neutral-900 border border-neutral-200 dark:border-neutral-800/80 transition-colors text-xs group cursor-pointer"
-                >
-                  <div class="flex justify-between items-center gap-2">
-                    <span class="font-bold text-neutral-900 dark:text-white text-xs truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {{ inquiry.sender_name }}
-                    </span>
-                    <span class="text-[10px] text-neutral-500 font-mono shrink-0">
-                      {{ formatRelativeTime(inquiry.created_at) }}
-                    </span>
-                  </div>
-                  <p class="text-[11px] text-neutral-600 dark:text-neutral-400 leading-snug line-clamp-2">
-                    <span class="font-semibold text-neutral-800 dark:text-neutral-300">{{ inquiry.subject || 'No Subject' }}</span>
-                    — {{ inquiry.body }}
-                  </p>
-                </Link>
               </div>
 
               <!-- Empty Notification State -->
-              <div v-else class="py-6 text-center">
+              <div class="py-6 text-center">
                 <CheckCircle2 class="h-8 w-8 mx-auto text-neutral-400 dark:text-neutral-600 mb-2" />
                 <p class="text-sm font-bold text-neutral-900 dark:text-white">All caught up!</p>
-                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-medium">No new unread client inquiries.</p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-medium">No new notifications.</p>
               </div>
             </div>
           </div>
@@ -527,7 +486,6 @@ const searchActions = computed(() => [
   { title: 'Client Testimonials', desc: 'Manage client endorsements & recommendations', routeName: 'admin.testimonials.index', icon: Quote },
   { title: 'Skills Matrix', desc: 'Manage tech stack icons ticker & proficiency', routeName: 'admin.skills.index', icon: Cpu },
   { title: 'Experience Timeline', desc: 'Career background & work milestones', routeName: 'admin.experiences.index', icon: Briefcase },
-  { title: 'Inquiries Inbox', desc: 'Manage client messages & Gmail replies', routeName: 'admin.messages.index', icon: Mail },
   { title: 'Settings', desc: 'Social links, resume URL & portfolio stats', routeName: 'admin.settings.index', icon: SettingsIcon },
 ]);
 
@@ -546,12 +504,7 @@ function navigateSearch(action) {
 }
 
 function markAllNotificationsRead() {
-  router.patch(route('admin.messages.mark-all-read'), {}, {
-    preserveScroll: true,
-    onSuccess: () => {
-      showNotifications.value = false;
-    }
-  });
+  showNotifications.value = false;
 }
 
 function formatRelativeTime(dateStr) {
@@ -598,28 +551,26 @@ const userInitials = computed(() => {
 
 const currentRouteTitle = computed(() => {
   if (route().current('admin.dashboard')) return 'Admin Dashboard';
-  if (route().current('admin.hero.*')) return 'Hero Section Editor';
+  if (route().current('admin.hero.*')) return 'Hero & About Editor';
   if (route().current('admin.contact.*')) return 'Contact Section Manager';
   if (route().current('admin.projects.*')) return 'Projects Manager';
   if (route().current('admin.articles.*')) return 'Articles CMS';
   if (route().current('admin.testimonials.*')) return 'Client Testimonials';
   if (route().current('admin.skills.*')) return 'Skills Matrix';
   if (route().current('admin.experiences.*')) return 'Experience Timeline';
-  if (route().current('admin.messages.*')) return 'Inquiries Inbox';
   if (route().current('admin.settings.*')) return 'Settings';
   return 'Dashboard';
 });
 
 const navItems = computed(() => [
   { name: 'Dashboard', route: route('admin.dashboard'), active: route().current('admin.dashboard'), icon: LayoutDashboard },
-  { name: 'Hero Section', route: route('admin.hero.index'), active: route().current('admin.hero.*'), icon: Sparkles },
+  { name: 'Hero & About', route: route('admin.hero.index'), active: route().current('admin.hero.*'), icon: Sparkles },
   { name: 'Contact Section', route: route('admin.contact.index'), active: route().current('admin.contact.*'), icon: MessageSquare },
   { name: 'Projects Manager', route: route('admin.projects.index'), active: route().current('admin.projects.*'), icon: FolderGit2 },
   { name: 'Articles CMS', route: route('admin.articles.index'), active: route().current('admin.articles.*'), icon: BookOpen },
   { name: 'Testimonials', route: route('admin.testimonials.index'), active: route().current('admin.testimonials.*'), icon: Quote },
   { name: 'Skills Matrix', route: route('admin.skills.index'), active: route().current('admin.skills.*'), icon: Cpu },
   { name: 'Experience Timeline', route: route('admin.experiences.index'), active: route().current('admin.experiences.*'), icon: Briefcase },
-  { name: 'Inquiries Inbox', route: route('admin.messages.index'), active: route().current('admin.messages.*'), icon: Mail },
   { name: 'Settings', route: route('admin.settings.index'), active: route().current('admin.settings.*'), icon: SettingsIcon },
 ]);
 </script>
