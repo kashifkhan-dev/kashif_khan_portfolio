@@ -8,7 +8,7 @@
       <meta v-if="project.image_path" property="og:image" :content="project.image_path" />
     </Head>
 
-    <main class="min-h-dvh flex flex-col relative z-10 bg-background text-foreground transition-colors duration-300">
+    <main class="min-h-dvh flex flex-col relative z-10 bg-background text-foreground transition-colors duration-300 w-full overflow-x-hidden">
       <!-- Top Flickering Grid Background (Exact Stipple Fade from portfolio) -->
       <div class="absolute inset-0 top-0 left-0 right-0 h-[120px] overflow-hidden z-0 pointer-events-none">
         <FlickeringGrid
@@ -20,11 +20,11 @@
       </div>
 
       <!-- Main Centered Layout Container matching Articles/Show.vue -->
-      <div class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6 flex flex-col w-full">
-        <section id="project-detail">
+      <div class="relative z-10 w-full max-w-2xl min-w-0 mx-auto py-8 sm:py-16 md:py-24 pb-36 sm:pb-44 px-4 sm:px-6 flex flex-col">
+        <section id="project-detail" class="w-full min-w-0 max-w-full">
           
           <!-- Back to Projects Button -->
-          <BlurFade :delay="BLUR_FADE_DELAY">
+          <BlurFade :delay="BLUR_FADE_DELAY" class-name="w-full min-w-0 max-w-full">
             <div class="flex justify-start gap-4 items-center">
               <Link
                 :href="route('projects.index')"
@@ -38,7 +38,7 @@
           </BlurFade>
 
           <!-- Project Header & Meta -->
-          <BlurFade :delay="BLUR_FADE_DELAY * 2">
+          <BlurFade :delay="BLUR_FADE_DELAY * 2" class-name="w-full min-w-0 max-w-full">
             <div class="flex flex-col gap-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span
@@ -52,7 +52,7 @@
                 </span>
               </div>
 
-              <h1 class="title font-semibold text-3xl md:text-4xl tracking-tighter leading-tight text-foreground">
+              <h1 class="title font-semibold text-2xl sm:text-3xl md:text-4xl tracking-tighter leading-tight text-foreground break-words">
                 {{ project.title }}
               </h1>
 
@@ -97,7 +97,7 @@
           </BlurFade>
 
           <!-- Main Cover Image -->
-          <BlurFade :delay="BLUR_FADE_DELAY * 2.5">
+          <BlurFade :delay="BLUR_FADE_DELAY * 2.5" class-name="w-full min-w-0 max-w-full">
             <div
               v-if="project.image_path"
               class="mb-8 rounded-xl overflow-hidden border border-border bg-muted aspect-video shadow-xs"
@@ -107,9 +107,9 @@
           </BlurFade>
 
           <!-- Project Description / Case Study Body -->
-          <BlurFade :delay="BLUR_FADE_DELAY * 3">
+          <BlurFade :delay="BLUR_FADE_DELAY * 3" class-name="w-full min-w-0 max-w-full">
             <article
-              class="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert prose-headings:text-foreground prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:border prose-pre:border-border prose-pre:bg-muted/50"
+              class="prose prose-sm sm:prose-base max-w-full min-w-0 w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert prose-headings:text-foreground prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 break-words"
               v-html="project.description || project.summary || '<p>No detailed overview provided for this project.</p>'"
             ></article>
 
@@ -126,7 +126,7 @@
           </BlurFade>
 
           <!-- Related Projects -->
-          <BlurFade v-if="relatedProjects && relatedProjects.length" :delay="BLUR_FADE_DELAY * 4">
+          <BlurFade v-if="relatedProjects && relatedProjects.length" :delay="BLUR_FADE_DELAY * 4" class-name="w-full min-w-0 max-w-full">
             <div class="mt-12 pt-8 border-t border-border/60 space-y-4">
               <div class="flex items-center justify-between">
                 <h3 class="text-sm font-semibold text-foreground">More Projects</h3>
@@ -194,3 +194,80 @@ defineProps({
   settings: Object,
 });
 </script>
+
+<style scoped>
+:deep(.prose) {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+:deep(.prose pre) {
+  max-width: 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0.875rem 1rem !important;
+  border-radius: 0.75rem !important;
+  background-color: hsl(var(--muted) / 0.6) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+:deep(.prose pre code) {
+  display: block !important;
+  width: max-content !important;
+  min-width: 100% !important;
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.8rem !important;
+  line-height: 1.6 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+:deep(.prose code:not(pre code)) {
+  word-break: break-word !important;
+  white-space: normal !important;
+  font-size: 0.825em !important;
+  padding: 0.15rem 0.35rem !important;
+  border-radius: 0.375rem !important;
+  background-color: hsl(var(--muted)) !important;
+  color: hsl(var(--foreground)) !important;
+  border: 1px solid hsl(var(--border) / 0.6) !important;
+}
+
+:deep(.prose img) {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 0.75rem !important;
+}
+
+:deep(.prose table) {
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Custom sleek scrollbar for code blocks on mobile and desktop */
+:deep(.prose pre::-webkit-scrollbar) {
+  height: 6px;
+}
+:deep(.prose pre::-webkit-scrollbar-track) {
+  background: transparent;
+}
+:deep(.prose pre::-webkit-scrollbar-thumb) {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 9999px;
+}
+:deep(.prose pre::-webkit-scrollbar-thumb:hover) {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+</style>

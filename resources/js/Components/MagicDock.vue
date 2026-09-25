@@ -1,10 +1,10 @@
 <template>
-  <div class="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 select-none">
+  <div class="pointer-events-none fixed inset-x-0 bottom-2 sm:bottom-4 z-50 flex justify-center px-2 sm:px-4 select-none">
     <nav
       ref="dockContainerRef"
       @mousemove="onMouseMove"
       @mouseleave="onMouseLeave"
-      class="dock-nav-entrance z-50 pointer-events-auto relative h-14 p-2 w-fit mx-auto flex items-end justify-center gap-2 rounded-full border border-border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5 transition-colors overflow-visible"
+      class="dock-nav-entrance z-50 pointer-events-auto relative h-12 sm:h-14 p-1 sm:p-2 w-fit max-w-[calc(100vw-16px)] mx-auto flex items-end justify-center gap-1 sm:gap-2 rounded-full border border-border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5 transition-colors overflow-visible"
       aria-label="Dock Navigation"
     >
       <!-- 1. Home -->
@@ -13,13 +13,11 @@
           ref="icon0Ref"
           href="/"
           @click="handleHomeClick"
-          style="width: 40px; height: 40px;"
           class="dock-item"
           aria-label="Home"
         >
           <div
             ref="inner0Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none"
           >
             <svg class="size-full stroke-[1.8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -40,13 +38,11 @@
           ref="icon1Ref"
           href="/blog"
           @click="handleBlogClick"
-          style="width: 40px; height: 40px;"
           class="dock-item"
           aria-label="Blog"
         >
           <div
             ref="inner1Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none"
           >
             <svg class="size-full stroke-[1.8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -67,7 +63,7 @@
       </div>
 
       <!-- Separator 1 -->
-      <div class="h-6 m-auto w-px bg-border shrink-0 self-center"></div>
+      <div class="h-5 sm:h-6 m-auto w-px bg-border shrink-0 self-center"></div>
 
       <!-- 3. GitHub -->
       <div class="relative group flex items-end justify-center">
@@ -76,13 +72,11 @@
           :href="settings?.github_url || 'https://github.com/KashifKhan456'"
           target="_blank"
           rel="noopener noreferrer"
-          style="width: 40px; height: 40px;"
           class="dock-item"
           aria-label="GitHub"
         >
           <div
             ref="inner2Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none"
           >
             <svg class="size-full fill-current" viewBox="0 0 24 24">
@@ -104,13 +98,11 @@
           :href="settings?.linkedin_url || 'https://linkedin.com/in/kashifkhan'"
           target="_blank"
           rel="noopener noreferrer"
-          style="width: 40px; height: 40px;"
           class="dock-item"
           aria-label="LinkedIn"
         >
           <div
             ref="inner3Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none"
           >
             <svg class="size-full fill-current" viewBox="0 0 24 24">
@@ -132,13 +124,11 @@
           :href="settings?.twitter_url || 'https://x.com/kashifkhan'"
           target="_blank"
           rel="noopener noreferrer"
-          style="width: 40px; height: 40px;"
           class="dock-item"
           aria-label="Twitter"
         >
           <div
             ref="inner4Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none"
           >
             <svg class="size-full fill-current" viewBox="0 0 24 24">
@@ -159,13 +149,11 @@
           ref="icon5Ref"
           :href="settings?.resume_url || '#'"
           @click="handleResumeClick"
-          style="width: 40px; height: 40px;"
           class="dock-item cursor-pointer"
           aria-label="Resume / CV"
         >
           <div
             ref="inner5Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none text-foreground"
           >
             <svg class="size-full stroke-[1.8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -185,7 +173,7 @@
       </div>
 
       <!-- Separator 2 -->
-      <div class="h-6 m-auto w-px bg-border shrink-0 self-center"></div>
+      <div class="h-5 sm:h-6 m-auto w-px bg-border shrink-0 self-center"></div>
 
       <!-- 7. Theme Toggle -->
       <div class="relative group flex items-end justify-center">
@@ -193,13 +181,11 @@
           ref="icon6Ref"
           type="button"
           @click="handleToggleTheme"
-          style="width: 40px; height: 40px;"
           class="dock-item cursor-pointer"
           :aria-label="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
         >
           <div
             ref="inner6Ref"
-            style="width: 20px; height: 20px;"
             class="flex items-center justify-center pointer-events-none"
           >
             <svg class="size-full stroke-[1.8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -245,6 +231,20 @@ const DEFAULT_DISTANCE = 100;
 const BASE_SIZE = 40;
 const ICON_SIZE_RATIO = 0.5;
 
+function getBaseSize() {
+  if (typeof window !== 'undefined' && window.innerWidth < 640) {
+    return 34;
+  }
+  return 40;
+}
+
+function getMaxMagnification() {
+  if (typeof window !== 'undefined' && window.innerWidth < 640) {
+    return 48;
+  }
+  return 60;
+}
+
 // Exact roots of 0.1*r^2 + 12*r + 150 = 0: r1 = -14.174243, r2 = -105.825757
 const LAMBDA_1 = -14.174243;
 const LAMBDA_2 = -105.825757;
@@ -271,7 +271,7 @@ const NUM_ICONS = 7;
 
 // Physics state for each icon: current size and velocity
 const springs = Array.from({ length: NUM_ICONS }, () => ({
-  current: BASE_SIZE,
+  current: 40,
   velocity: 0,
 }));
 
@@ -313,14 +313,16 @@ function updatePhysics(now) {
   const innerEls = getInnerRefs();
   let isMoving = false;
 
+  const currentBase = getBaseSize();
+  const currentMaxMag = getMaxMagnification();
+
   for (let i = 0; i < NUM_ICONS; i++) {
     const el = iconEls[i];
     const sp = springs[i];
     if (!el) continue;
 
     // Linear transform matching reference:
-    // useTransform(distanceCalc, [-distance, 0, distance], [BASE_SIZE, magnification, BASE_SIZE])
-    let target = BASE_SIZE;
+    let target = currentBase;
     if (mouseX !== Infinity) {
       const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
@@ -328,11 +330,11 @@ function updatePhysics(now) {
 
       if (dist < DEFAULT_DISTANCE) {
         const factor = 1 - dist / DEFAULT_DISTANCE;
-        target = BASE_SIZE + (DEFAULT_MAGNIFICATION - BASE_SIZE) * factor;
+        target = currentBase + (currentMaxMag - currentBase) * factor;
       }
     }
 
-    target = Math.max(BASE_SIZE, Math.min(DEFAULT_MAGNIFICATION, target));
+    target = Math.max(currentBase, Math.min(currentMaxMag, target));
 
     // Exact closed-form ODE analytical solution for overdamped Framer Motion spring:
     // y(t) = C1 * e^(r1 * t) + C2 * e^(r2 * t)
@@ -352,8 +354,8 @@ function updatePhysics(now) {
     sp.current = target + y1;
     sp.velocity = v1;
 
-    // Guaranteed physical bounds: strictly between 40px and 60px
-    sp.current = Math.max(BASE_SIZE, Math.min(DEFAULT_MAGNIFICATION, sp.current));
+    // Guaranteed physical bounds
+    sp.current = Math.max(currentBase, Math.min(currentMaxMag, sp.current));
 
     if (Math.abs(sp.current - target) > 0.05 || Math.abs(sp.velocity) > 0.1) {
       isMoving = true;
@@ -448,26 +450,36 @@ function handleResumeClick(e) {
   }
 }
 
-onMounted(() => {
-  // Ensure all icons start with exact clean default dimensions
+function applySizes() {
+  const base = getBaseSize();
   const iconEls = getIconRefs();
   const innerEls = getInnerRefs();
+  springs.forEach(sp => {
+    sp.current = base;
+    sp.velocity = 0;
+  });
   iconEls.forEach(el => {
     if (el) {
-      el.style.width = `${BASE_SIZE}px`;
-      el.style.height = `${BASE_SIZE}px`;
+      el.style.width = `${base}px`;
+      el.style.height = `${base}px`;
     }
   });
   innerEls.forEach(inner => {
     if (inner) {
-      const iconPx = Math.round(BASE_SIZE * ICON_SIZE_RATIO);
+      const iconPx = Math.round(base * ICON_SIZE_RATIO);
       inner.style.width = `${iconPx}px`;
       inner.style.height = `${iconPx}px`;
     }
   });
+}
+
+onMounted(() => {
+  applySizes();
+  window.addEventListener('resize', applySizes);
 });
 
 onUnmounted(() => {
+  window.removeEventListener('resize', applySizes);
   if (animFrameId) {
     cancelAnimationFrame(animFrameId);
     animFrameId = null;
@@ -490,8 +502,10 @@ onUnmounted(() => {
   backdrop-filter: blur(24px);
   cursor: pointer;
   flex-shrink: 0;
-  min-width: 40px;
-  min-height: 40px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
   max-width: 60px;
   max-height: 60px;
   box-sizing: border-box;
@@ -499,6 +513,15 @@ onUnmounted(() => {
               color 150ms ease,
               border-color 150ms ease;
   will-change: width, height;
+}
+
+@media (min-width: 640px) {
+  .dock-item {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
 }
 
 .dock-item:hover {
