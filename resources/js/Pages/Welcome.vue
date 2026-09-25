@@ -14,21 +14,21 @@
       </div>
 
       <!-- Main Centered Layout Container matching portfolio/src/app/layout.tsx -->
-      <div class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6 flex flex-col gap-14">
+      <div class="relative z-10 w-full max-w-2xl min-w-0 mx-auto py-8 sm:py-16 md:py-24 pb-28 sm:pb-32 px-4 sm:px-6 flex flex-col gap-10 sm:gap-14 overflow-hidden">
 
         <!-- 1. HERO SECTION -->
-        <section id="hero">
+        <section id="hero" class="w-full min-w-0">
           <div class="mx-auto w-full max-w-2xl space-y-6">
-            <div class="gap-2 gap-y-6 flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div class="gap-4 sm:gap-2 gap-y-6 flex flex-col md:flex-row justify-between items-start md:items-center">
               <!-- Left: Greeting, Title & Bio -->
-              <div class="gap-2 flex flex-col order-2 md:order-1 flex-1">
+              <div class="gap-2.5 flex flex-col order-2 md:order-1 flex-1 min-w-0">
                 <BlurFade :delay="BLUR_FADE_DELAY" :yOffset="8" blur="8px">
-                  <h1 class="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl text-foreground">
+                  <h1 class="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl text-foreground text-balance">
                     Hi, I'm {{ heroFirstName }} 👋
                   </h1>
                 </BlurFade>
                 <BlurFade :delay="BLUR_FADE_DELAY" :yOffset="8" blur="8px">
-                  <p class="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl font-normal leading-relaxed">
+                  <p class="text-muted-foreground max-w-[600px] text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed text-pretty break-words">
                     {{ heroBio }}
                   </p>
                 </BlurFade>
@@ -49,7 +49,7 @@
 
               <!-- Right: Circular Avatar with Ring Border -->
               <BlurFade :delay="BLUR_FADE_DELAY" class="order-1 md:order-2 shrink-0">
-                <div class="size-24 md:size-32 border border-border rounded-full shadow-lg ring-4 ring-muted overflow-hidden flex items-center justify-center bg-card select-none">
+                <div class="size-20 sm:size-24 md:size-32 border border-border rounded-full shadow-lg ring-4 ring-muted overflow-hidden flex items-center justify-center bg-card select-none">
                   <img
                     v-if="profileImageUrl && !avatarError"
                     :src="profileImageUrl"
@@ -57,7 +57,7 @@
                     class="w-full h-full object-cover"
                     @error="avatarError = true"
                   />
-                  <span v-else class="text-2xl md:text-3xl font-bold text-foreground">
+                  <span v-else class="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">
                     {{ userInitials }}
                   </span>
                 </div>
@@ -67,13 +67,13 @@
         </section>
 
         <!-- 2. ABOUT SECTION -->
-        <section id="about">
-          <div class="flex min-h-0 flex-col gap-y-4">
+        <section id="about" class="w-full min-w-0">
+          <div class="flex min-h-0 flex-col gap-y-3 sm:gap-y-4">
             <BlurFade :delay="BLUR_FADE_DELAY * 3">
               <h2 class="text-xl font-bold tracking-tight text-foreground">About</h2>
             </BlurFade>
             <BlurFade :delay="BLUR_FADE_DELAY * 4">
-              <div class="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert text-sm sm:text-base">
+              <div class="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert text-xs sm:text-sm md:text-base break-words">
                 <p v-if="hasHtmlAbout" v-html="aboutText"></p>
                 <p v-else class="whitespace-pre-line">{{ aboutText }}</p>
               </div>
@@ -83,13 +83,13 @@
 
         <!-- 2.5 GITHUB ACTIVITY SECTION -->
         <BlurFade :delay="BLUR_FADE_DELAY * 4.5">
-          <section id="github-activity">
+          <section id="github-activity" class="w-full min-w-0 max-w-full overflow-hidden">
             <GitHubHeatmap :githubUrl="githubProfileUrl" :username="githubUsername" />
           </section>
         </BlurFade>
 
         <!-- 3. WORK EXPERIENCE SECTION (Clean Accordion Style from portfolio) -->
-        <section id="work">
+        <section id="work" class="w-full min-w-0">
           <div class="flex min-h-0 flex-col gap-y-6">
             <BlurFade :delay="BLUR_FADE_DELAY * 5">
               <h2 class="text-xl font-bold tracking-tight text-foreground">Work Experience</h2>
@@ -108,11 +108,11 @@
                   class="group cursor-pointer"
                   @click="toggleRole(cIdx, rIdx)"
                 >
-                  <div class="flex items-center gap-x-3 justify-between w-full text-left">
-                    <div class="flex items-center gap-x-3 flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-x-3 w-full text-left">
+                    <div class="flex items-start gap-x-3 flex-1 min-w-0">
                       <!-- Circular Company Avatar -->
                       <div
-                        class="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden"
+                        class="size-8 sm:size-9 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden mt-0.5"
                       >
                         <img
                           v-if="company.logo"
@@ -124,24 +124,28 @@
                         <span v-else :class="company.logoTextClass || 'text-foreground'">{{ company.logoText }}</span>
                       </div>
 
-                      <div class="flex-1 min-w-0 gap-0.5 flex flex-col">
-                        <div class="font-semibold leading-none flex items-center gap-2 text-foreground">
+                      <div class="flex-1 min-w-0 flex flex-col">
+                        <div class="font-semibold text-sm sm:text-base leading-snug flex items-center gap-1.5 text-foreground flex-wrap">
                           <span>{{ company.company }}</span>
-                          <span class="relative inline-flex items-center size-3.5">
+                          <span class="relative inline-flex items-center size-3.5 shrink-0">
                             <ChevronRight
                               class="absolute size-3.5 shrink-0 text-muted-foreground stroke-2 transition-transform duration-200"
                               :class="{ 'rotate-90 text-foreground': role.isOpen, 'group-hover:translate-x-0.5': !role.isOpen }"
                             />
                           </span>
                         </div>
-                        <div class="font-sans text-sm text-muted-foreground mt-0.5">
+                        <div class="font-sans text-xs sm:text-sm text-muted-foreground mt-0.5 leading-normal">
                           {{ role.role }}
+                        </div>
+                        <!-- Period on mobile: cleanly placed below role -->
+                        <div class="sm:hidden text-[11px] tabular-nums text-muted-foreground/80 mt-1 select-none">
+                          {{ role.period }}
                         </div>
                       </div>
                     </div>
 
-                    <!-- Period Right-Aligned -->
-                    <div class="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none select-none">
+                    <!-- Period Right-Aligned for Desktop / Tablet -->
+                    <div class="hidden sm:block text-xs tabular-nums text-muted-foreground text-right shrink-0 select-none pt-0.5">
                       <span>{{ role.period }}</span>
                     </div>
                   </div>
@@ -149,7 +153,7 @@
                   <!-- Expandable Role Content -->
                   <div
                     v-if="role.isOpen"
-                    class="mt-3 ml-11 md:ml-13 text-xs sm:text-sm text-muted-foreground space-y-2.5"
+                    class="mt-3 ml-0 sm:ml-11 md:ml-13 text-xs sm:text-sm text-muted-foreground space-y-2.5 break-words"
                     @click.stop
                   >
                     <p v-if="role.rawDescription" v-html="role.rawDescription" class="leading-relaxed"></p>
@@ -179,7 +183,7 @@
         </section>
 
         <!-- 4. EDUCATION SECTION -->
-        <section v-if="educationList && educationList.length" id="education">
+        <section v-if="educationList && educationList.length" id="education" class="w-full min-w-0">
           <div class="flex min-h-0 flex-col gap-y-6">
             <BlurFade :delay="BLUR_FADE_DELAY * 7">
               <h2 class="text-xl font-bold tracking-tight text-foreground">Education</h2>
@@ -191,9 +195,9 @@
                 :key="edu.id"
                 :delay="BLUR_FADE_DELAY * 8 + index * 0.05"
               >
-                <div class="flex items-center gap-x-3 justify-between group">
-                  <div class="flex items-center gap-x-3 flex-1 min-w-0">
-                    <div class="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden">
+                <div class="flex items-start justify-between gap-x-3 group">
+                  <div class="flex items-start gap-x-3 flex-1 min-w-0">
+                    <div class="size-8 sm:size-9 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden mt-0.5">
                       <img
                         v-if="edu.logo"
                         :src="edu.logo"
@@ -203,16 +207,21 @@
                       />
                       <span v-else class="text-foreground">{{ edu.logoText }}</span>
                     </div>
-                    <div class="flex-1 min-w-0 flex flex-col gap-0.5">
-                      <div class="font-semibold leading-none flex items-center gap-2 text-foreground">
-                        <span>{{ edu.institution }}</span>
+                    <div class="flex-1 min-w-0 flex flex-col">
+                      <div class="font-semibold text-sm sm:text-base leading-snug text-foreground">
+                        {{ edu.institution }}
                       </div>
-                      <div class="font-sans text-sm text-muted-foreground">
+                      <div class="font-sans text-xs sm:text-sm text-muted-foreground mt-0.5 leading-normal">
                         {{ edu.degree }}
+                      </div>
+                      <!-- Period on mobile: cleanly placed below degree -->
+                      <div class="sm:hidden text-[11px] tabular-nums text-muted-foreground/80 mt-1 select-none">
+                        {{ edu.period }}
                       </div>
                     </div>
                   </div>
-                  <div class="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none select-none">
+                  <!-- Period on Desktop / Tablet -->
+                  <div class="hidden sm:block text-xs tabular-nums text-muted-foreground text-right shrink-0 select-none pt-0.5">
                     <span>{{ edu.period }}</span>
                   </div>
                 </div>
@@ -222,7 +231,7 @@
         </section>
 
         <!-- 5. CERTIFICATIONS SECTION -->
-        <section v-if="certificationList && certificationList.length" id="certifications">
+        <section v-if="certificationList && certificationList.length" id="certifications" class="w-full min-w-0">
           <div class="flex min-h-0 flex-col gap-y-6">
             <BlurFade :delay="BLUR_FADE_DELAY * 8.5">
               <h2 class="text-xl font-bold tracking-tight text-foreground">Certifications &amp; Training</h2>
@@ -234,9 +243,9 @@
                 :key="cert.id"
                 :delay="BLUR_FADE_DELAY * 8.8 + index * 0.05"
               >
-                <div class="flex items-center gap-x-3 justify-between group">
-                  <div class="flex items-center gap-x-3 flex-1 min-w-0">
-                    <div class="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden">
+                <div class="flex items-start justify-between gap-x-3 group">
+                  <div class="flex items-start gap-x-3 flex-1 min-w-0">
+                    <div class="size-8 sm:size-9 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-card flex items-center justify-center font-bold text-xs shrink-0 select-none overflow-hidden mt-0.5">
                       <img
                         v-if="cert.logo"
                         :src="cert.logo"
@@ -246,16 +255,21 @@
                       />
                       <span v-else class="text-foreground">{{ cert.logoText }}</span>
                     </div>
-                    <div class="flex-1 min-w-0 flex flex-col gap-0.5">
-                      <div class="font-semibold leading-none flex items-center gap-2 text-foreground">
-                        <span>{{ cert.institution }}</span>
+                    <div class="flex-1 min-w-0 flex flex-col">
+                      <div class="font-semibold text-sm sm:text-base leading-snug text-foreground">
+                        {{ cert.institution }}
                       </div>
-                      <div class="font-sans text-sm text-muted-foreground">
-                        {{ cert.title }}
+                      <div class="font-sans text-xs sm:text-sm text-muted-foreground mt-0.5 leading-normal">
+                        {{ cert.title || cert.degree }}
+                      </div>
+                      <!-- Period on mobile: cleanly placed below -->
+                      <div class="sm:hidden text-[11px] tabular-nums text-muted-foreground/80 mt-1 select-none">
+                        {{ cert.period }}
                       </div>
                     </div>
                   </div>
-                  <div class="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none select-none">
+                  <!-- Period on Desktop / Tablet -->
+                  <div class="hidden sm:block text-xs tabular-nums text-muted-foreground text-right shrink-0 select-none pt-0.5">
                     <span>{{ cert.period }}</span>
                   </div>
                 </div>
@@ -483,8 +497,8 @@
 
         <!-- 9. CONTACT SECTION (Exact Card & Flickering Grid from portfolio/src/components/section/contact-section.tsx) -->
         <BlurFade :delay="BLUR_FADE_DELAY * 16">
-          <section id="contact">
-            <div class="border border-border rounded-xl p-8 sm:p-10 relative bg-card text-center">
+          <section id="contact" class="w-full min-w-0 pt-2">
+            <div class="border border-border rounded-xl pt-9 pb-6 px-5 sm:pt-12 sm:pb-8 sm:px-8 md:pt-14 md:pb-10 md:px-10 relative bg-card text-center min-w-0 overflow-visible">
               <!-- Floating Pill Badge on Top Edge -->
               <div class="absolute -top-3.5 border border-border bg-primary z-10 rounded-xl px-4 py-1 left-1/2 -translate-x-1/2 shadow-xs select-none">
                 <span class="text-primary-foreground text-sm font-medium">Contact</span>
@@ -500,14 +514,14 @@
                 />
               </div>
 
-              <div class="relative flex flex-col items-center gap-4 text-center z-10">
-                <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-foreground">
+              <div class="relative flex flex-col items-center gap-3 sm:gap-4 text-center z-10 min-w-0">
+                <h2 class="text-2xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-foreground text-balance">
                   {{ contactHeadlineTitle }}
                 </h2>
 
-                <p v-if="formattedContactSubtitle" v-html="formattedContactSubtitle" class="mx-auto max-w-lg text-muted-foreground text-balance text-sm sm:text-base leading-relaxed"></p>
+                <p v-if="formattedContactSubtitle" v-html="formattedContactSubtitle" class="mx-auto max-w-lg text-muted-foreground text-balance text-xs sm:text-base leading-relaxed break-words"></p>
 
-                <p v-else class="mx-auto max-w-lg text-muted-foreground text-balance text-sm sm:text-base leading-relaxed">
+                <p v-else class="mx-auto max-w-lg text-muted-foreground text-balance text-xs sm:text-base leading-relaxed break-words">
                   Wanna chat? Let's
                   <a
                     :href="calMeetingUrl"

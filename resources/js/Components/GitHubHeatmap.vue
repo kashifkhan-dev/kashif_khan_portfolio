@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col gap-y-4 w-full">
+  <div class="flex flex-col gap-y-3 sm:gap-y-4 w-full min-w-0 max-w-full overflow-hidden">
     <!-- Header -->
-    <div class="flex items-center justify-between">
-      <h2 class="text-xl font-bold tracking-tight text-foreground">GitHub Activity</h2>
+    <div class="flex items-center justify-between min-w-0">
+      <h2 class="text-xl font-bold tracking-tight text-foreground truncate">GitHub Activity</h2>
       <a
         v-if="githubUrl"
         :href="githubUrl"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 font-mono group"
+        class="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 font-mono group shrink-0"
       >
         <span>@{{ githubUsername }}</span>
         <svg class="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -18,9 +18,9 @@
     </div>
 
     <!-- Heatmap Container without heavy border/card, directly matching screenshot -->
-    <div ref="heatmapRef" class="w-full relative group">
-      <!-- Scrollable Wrapper for smaller screens -->
-      <div class="w-full overflow-x-auto pb-1 no-scrollbar">
+    <div ref="heatmapRef" class="w-full min-w-0 max-w-full relative group overflow-hidden">
+      <!-- Scrollable Wrapper for smaller screens with smooth touch scrolling -->
+      <div class="w-full min-w-0 max-w-full overflow-x-auto pb-2 no-scrollbar touch-pan-x">
         <div class="min-w-[620px] sm:min-w-full flex flex-col">
           <!-- Months Row positioned above columns -->
           <div class="relative h-4 w-full text-[11px] font-mono text-muted-foreground mb-1 select-none">
@@ -55,10 +55,10 @@
       </div>
 
       <!-- Bottom Metric & Legend -->
-      <div class="flex items-center justify-between pt-3 text-[11px] font-mono text-muted-foreground">
-        <span>{{ totalContributions.toLocaleString() }} contributions in the last year</span>
+      <div class="flex flex-col xs:flex-row xs:items-center justify-between gap-2 pt-2 text-[11px] font-mono text-muted-foreground">
+        <span class="truncate">{{ totalContributions.toLocaleString() }} contributions in the last year</span>
 
-        <div class="flex items-center gap-1.5 select-none">
+        <div class="flex items-center gap-1.5 select-none shrink-0 self-start xs:self-auto">
           <span>Less</span>
           <div class="flex gap-1 items-center">
             <span class="size-2.5 rounded-[2px] bg-[#ebedf0] dark:bg-[#161b22]"></span>

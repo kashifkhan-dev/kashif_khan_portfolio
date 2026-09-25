@@ -14,8 +14,8 @@
       </div>
 
       <!-- Main Centered Layout Container matching portfolio/src/app/blog/page.tsx -->
-      <div class="relative z-10 max-w-2xl mx-auto py-12 pb-28 sm:py-24 px-6 flex flex-col w-full">
-        <section id="blog">
+      <div class="relative z-10 w-full max-w-2xl min-w-0 mx-auto py-8 sm:py-16 md:py-24 pb-36 sm:pb-40 px-4 sm:px-6 flex flex-col">
+        <section id="blog" class="w-full min-w-0">
           <!-- Page Header -->
           <BlurFade :delay="BLUR_FADE_DELAY">
             <div class="mb-8">

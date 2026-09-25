@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full">
+  <div class="relative w-full min-w-0 max-w-full overflow-hidden">
     <!-- Header with Linear-Gradient Divider & Badge matching portfolio style -->
     <div class="flex flex-col gap-y-4 items-center justify-center mb-6">
       <div class="flex items-center w-full">
@@ -10,29 +10,29 @@
         <div class="flex-1 h-px bg-gradient-to-l from-transparent via-border to-transparent"></div>
       </div>
 
-      <div class="flex flex-col gap-y-2 items-center justify-center text-center">
-        <h2 class="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-foreground uppercase">
+      <div class="flex flex-col gap-y-2 items-center justify-center text-center px-2">
+        <h2 class="text-xl sm:text-3xl md:text-4xl font-bold tracking-tighter text-foreground uppercase">
           TRUSTED BY INDUSTRY LEADERS
         </h2>
-        <p class="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
+        <p class="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto text-balance">
           See what our clients and colleagues have to say about their experience working with me.
         </p>
       </div>
     </div>
 
     <!-- Floating Marquee Track Constrained Strictly to Portfolio Content Width -->
-    <div class="relative w-full overflow-hidden py-1 space-y-3.5">
+    <div class="relative w-full min-w-0 max-w-full overflow-hidden py-1 space-y-3.5">
       <!-- Gradient Fades on Left & Right Edges -->
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-20"></div>
-      <div class="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-background via-background/80 to-transparent z-20"></div>
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-20"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-20 bg-gradient-to-l from-background via-background/80 to-transparent z-20"></div>
 
       <!-- ROW 1: Floating Left -->
-      <div class="flex overflow-hidden">
-        <div class="flex gap-4 shrink-0 marquee-track animate-marquee-left">
+      <div class="flex overflow-hidden w-full min-w-0">
+        <div class="flex gap-3 sm:gap-4 shrink-0 marquee-track animate-marquee-left">
           <div
             v-for="(item, idx) in row1Doubled"
             :key="`row1-${item.id || idx}`"
-            class="testimonial-card w-[270px] sm:w-[310px] shrink-0 rounded-xl border border-border/80 bg-card p-4 sm:p-5 flex flex-col justify-between select-none transition-all duration-300 hover:border-neutral-600/70 hover:shadow-xl relative overflow-hidden group"
+            class="testimonial-card w-[240px] sm:w-[290px] md:w-[310px] shrink-0 rounded-xl border border-border/80 bg-card p-4 sm:p-5 flex flex-col justify-between select-none transition-all duration-300 hover:border-neutral-600/70 hover:shadow-xl relative overflow-hidden group"
           >
             <!-- Card Grid Pattern Texture -->
             <div class="absolute inset-0 card-grid-pattern pointer-events-none opacity-40"></div>
@@ -89,12 +89,12 @@
       </div>
 
       <!-- ROW 2: Floating Right (Reverse Direction) -->
-      <div class="flex overflow-hidden">
-        <div class="flex gap-4 shrink-0 marquee-track animate-marquee-right">
+      <div class="flex overflow-hidden w-full min-w-0">
+        <div class="flex gap-3 sm:gap-4 shrink-0 marquee-track animate-marquee-right">
           <div
             v-for="(item, idx) in row2Doubled"
             :key="`row2-${item.id || idx}`"
-            class="testimonial-card w-[270px] sm:w-[310px] shrink-0 rounded-xl border border-border/80 bg-card p-4 sm:p-5 flex flex-col justify-between select-none transition-all duration-300 hover:border-neutral-600/70 hover:shadow-xl relative overflow-hidden group"
+            class="testimonial-card w-[240px] sm:w-[290px] md:w-[310px] shrink-0 rounded-xl border border-border/80 bg-card p-4 sm:p-5 flex flex-col justify-between select-none transition-all duration-300 hover:border-neutral-600/70 hover:shadow-xl relative overflow-hidden group"
           >
             <!-- Card Grid Pattern Texture -->
             <div class="absolute inset-0 card-grid-pattern pointer-events-none opacity-40"></div>
