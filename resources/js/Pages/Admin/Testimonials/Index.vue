@@ -169,11 +169,11 @@
     <Teleport to="body">
       <div
         v-if="isModalOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/60 backdrop-blur-xs overflow-y-auto"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/50 dark:bg-black/80 backdrop-blur-xs overflow-y-auto"
         @click.self="closeModal"
         @keydown.esc="closeModal"
       >
-        <div class="relative w-full max-w-2xl rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl overflow-hidden my-auto">
+        <div class="relative w-full max-w-[700px] rounded-[8px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl overflow-hidden my-auto">
           <!-- Modal Header -->
           <div class="px-6 py-4 border-b border-slate-200 dark:border-neutral-800 flex items-center justify-between bg-white dark:bg-neutral-950">
             <div class="flex items-center gap-3">
@@ -200,9 +200,9 @@
           </div>
 
           <!-- Form Body -->
-          <form @submit.prevent="submitModalForm" class="p-6 space-y-5 max-h-[calc(85vh-130px)] overflow-y-auto">
+          <form @submit.prevent="submitModalForm" class="p-6 space-y-4 max-h-[calc(85vh-120px)] overflow-y-auto">
             <!-- SECTION 1: Client Profile Header & Avatar -->
-            <div class="p-4 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 space-y-3.5 shadow-2xs">
+            <div class="p-4 rounded-[6px] border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 space-y-3 shadow-2xs">
               <div class="flex items-start gap-4">
                 <!-- Avatar Upload Slot -->
                 <div class="flex flex-col items-center gap-1.5 shrink-0">
@@ -273,7 +273,7 @@
                           v-model="form.client_name"
                           type="text"
                           placeholder="e.g., Sarah Jenkins"
-                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                          class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
                           :class="{ 'border-red-500': form.errors.client_name }"
                         />
                       </div>
@@ -291,7 +291,7 @@
                           v-model="form.client_role"
                           type="text"
                           placeholder="e.g., VP of Engineering"
-                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                          class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
                         />
                       </div>
                     </div>
@@ -309,7 +309,7 @@
                           v-model="form.company"
                           type="text"
                           placeholder="e.g., CloudScale Networks"
-                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                          class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
                         />
                       </div>
                     </div>
@@ -325,7 +325,7 @@
                           v-model="form.linkedin_url"
                           type="text"
                           placeholder="https://linkedin.com/in/..."
-                          class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                          class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
                         />
                       </div>
                     </div>
@@ -348,7 +348,7 @@
             </div>
 
             <!-- SECTION 2: Project Reference & Interactive Star Rating -->
-            <div class="space-y-4">
+            <div class="space-y-3.5">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
                 <!-- Project Reference -->
                 <div class="space-y-1">
@@ -361,7 +361,7 @@
                       v-model="form.project_reference"
                       type="text"
                       placeholder="e.g., Nexus SaaS Dashboard"
-                      class="w-full h-9 pl-10 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
+                      class="w-full h-9 pl-9 pr-3 rounded-[6px] border border-slate-300 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 text-xs text-slate-900 dark:text-neutral-50 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 dark:focus:border-neutral-500"
                     />
                   </div>
                 </div>
@@ -388,7 +388,7 @@
                         :title="`Rate ${star} Stars`"
                       >
                         <Star
-                          class="h-4.5 w-4.5 transition-colors"
+                          class="h-4 w-4 transition-colors"
                           :class="star <= (hoverRating || form.rating)
                             ? 'fill-amber-400 text-amber-400'
                             : 'text-slate-200 dark:text-neutral-700'"
@@ -472,7 +472,7 @@
               <button
                 type="submit"
                 :disabled="form.processing"
-                class="h-9 px-5 rounded-[6px] bg-slate-900 text-white dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:bg-slate-800 transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                class="h-9 px-5 rounded-[6px] bg-slate-900 text-white dark:bg-neutral-50 dark:text-neutral-900 text-xs font-bold hover:bg-slate-800 dark:hover:bg-neutral-200 transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                 <Save v-else class="h-4 w-4" />
