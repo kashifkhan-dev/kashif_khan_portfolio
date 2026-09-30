@@ -76,3 +76,4 @@ npm run dev
 ```
 
 Visit `http://127.0.0.1:8000` to view the public portfolio, or navigate to `/login` to access the Admin Panel.
+
